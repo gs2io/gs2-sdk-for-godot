@@ -1,0 +1,45 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+class_name Gs2EnhanceMaterial
+extends RefCounted
+
+
+var material_item_set_id = null
+var count = null
+
+
+func with_material_item_set_id(v) -> Gs2EnhanceMaterial:
+    material_item_set_id = v
+    return self
+
+
+func with_count(v) -> Gs2EnhanceMaterial:
+    count = v
+    return self
+
+
+static func from_dict(data) -> Gs2EnhanceMaterial:
+    if data == null:
+        return null
+    var ret = Gs2EnhanceMaterial.new()
+    ret.material_item_set_id = null if data.get("materialItemSetId") == null else str(data.get("materialItemSetId"))
+    ret.count = null if data.get("count") == null else int(data.get("count"))
+    return ret
+
+
+func to_dict() -> Dictionary:
+    var ret = {}
+    ret["materialItemSetId"] = material_item_set_id
+    ret["count"] = count
+    return ret

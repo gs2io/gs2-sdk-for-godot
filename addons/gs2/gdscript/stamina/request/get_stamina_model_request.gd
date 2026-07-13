@@ -1,0 +1,45 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+class_name Gs2StaminaGetStaminaModelRequest
+extends Gs2Request
+
+
+var namespace_name = null
+var stamina_name = null
+
+
+func with_namespace_name(v) -> Gs2StaminaGetStaminaModelRequest:
+    namespace_name = v
+    return self
+
+
+func with_stamina_name(v) -> Gs2StaminaGetStaminaModelRequest:
+    stamina_name = v
+    return self
+
+
+static func from_dict(data) -> Gs2StaminaGetStaminaModelRequest:
+    if data == null:
+        return null
+    var ret = Gs2StaminaGetStaminaModelRequest.new()
+    ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
+    ret.stamina_name = null if data.get("staminaName") == null else str(data.get("staminaName"))
+    return ret
+
+
+func to_dict() -> Dictionary:
+    var ret = {}
+    ret["namespaceName"] = namespace_name
+    ret["staminaName"] = stamina_name
+    return ret

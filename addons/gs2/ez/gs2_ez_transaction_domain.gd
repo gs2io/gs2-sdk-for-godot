@@ -1,0 +1,37 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+
+## Ez 層のトランザクション待機。Unity SDK の EzTransactionDomain に相当する。
+class_name Gs2EzTransactionDomain
+extends RefCounted
+
+
+var _domain: Gs2TransactionDomain
+var transaction_id: Variant:
+    get:
+        return null if _domain == null else _domain.transaction_id
+
+
+func _init(domain: Gs2TransactionDomain):
+    _domain = domain
+
+
+## トランザクションの完了を待つ。
+## all = false: このトランザクションのみ待ち、後続があれば result に返す
+## all = true: 後続のトランザクションも含めてすべて待つ (result = null)
+func wait(all: bool = false) -> Gs2AsyncResult:
+    var result = await _domain.wait(all)
+    if result.error != null:
+        return result
+    return Gs2AsyncResult.new(null if result.result == null else Gs2EzTransactionDomain.new(result.result), null)

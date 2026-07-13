@@ -1,0 +1,45 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+class_name Gs2Money2DepositByStampSheetRequest
+extends Gs2Request
+
+
+var stamp_sheet = null
+var key_id = null
+
+
+func with_stamp_sheet(v) -> Gs2Money2DepositByStampSheetRequest:
+    stamp_sheet = v
+    return self
+
+
+func with_key_id(v) -> Gs2Money2DepositByStampSheetRequest:
+    key_id = v
+    return self
+
+
+static func from_dict(data) -> Gs2Money2DepositByStampSheetRequest:
+    if data == null:
+        return null
+    var ret = Gs2Money2DepositByStampSheetRequest.new()
+    ret.stamp_sheet = null if data.get("stampSheet") == null else str(data.get("stampSheet"))
+    ret.key_id = null if data.get("keyId") == null else str(data.get("keyId"))
+    return ret
+
+
+func to_dict() -> Dictionary:
+    var ret = {}
+    ret["stampSheet"] = stamp_sheet
+    ret["keyId"] = key_id
+    return ret

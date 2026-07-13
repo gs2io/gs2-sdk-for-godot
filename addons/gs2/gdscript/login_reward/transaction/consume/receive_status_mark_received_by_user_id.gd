@@ -1,0 +1,53 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+# deny overwrite
+class_name Gs2LoginRewardReceiveStatusMarkReceivedByUserIdExecutable
+extends RefCounted
+
+
+static func is_executable(
+    item,
+    request: Gs2LoginRewardMarkReceivedByUserIdRequest
+) -> bool:
+    return true
+
+
+static func speculative_execution(
+    item,
+    request: Gs2LoginRewardMarkReceivedByUserIdRequest
+):
+    # diff --- start
+    #push_warning("Speculative execution not supported on this action: Gs2LoginReward:MarkReceivedByUserId")
+    #return item.get_script().from_dict(item.to_dict())
+    # diff --- end
+    # diff +++ start
+    var clone = item.get_script().from_dict(item.to_dict())
+    var step_number = request.step_number if request.step_number != null else 0
+    var received_steps = item.received_steps if item.received_steps != null else []
+    if step_number < received_steps.size() and received_steps[step_number]:
+        return clone
+    while received_steps.size() <= step_number:
+        received_steps.append(false)
+    received_steps[step_number] = true
+    item.received_steps = received_steps
+    return clone
+    # diff +++ end
+
+
+static func rate(
+    request: Gs2LoginRewardMarkReceivedByUserIdRequest,
+    rate_value
+) -> Gs2LoginRewardMarkReceivedByUserIdRequest:
+    push_error("not supported rate action Gs2LoginReward:MarkReceivedByUserId")
+    return request
