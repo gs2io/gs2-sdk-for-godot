@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2MissionWebSocketClient
 var _rest_client: Gs2MissionRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2MissionWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2MissionRestClient.new(connection.rest_session)
 
 
@@ -116,7 +114,7 @@ func delete_counter(game_session, namespace_name, counter_name) -> Gs2AsyncResul
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.counter_name = counter_name
-        return await _web_socket_client.delete_counter(request)
+        return await _rest_client.delete_counter(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -129,7 +127,7 @@ func get_counter(game_session, namespace_name, counter_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.counter_name = counter_name
-        return await _web_socket_client.get_counter(request)
+        return await _rest_client.get_counter(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -157,7 +155,7 @@ func reset_counter(game_session, namespace_name, counter_name, scopes) -> Gs2Asy
         request.access_token = game_session.access_token.token
         request.counter_name = counter_name
         request.scopes = null if scopes == null else scopes.map(func(v): return null if v == null else v.to_model())
-        return await _web_socket_client.reset_counter(request)
+        return await _rest_client.reset_counter(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2MatchmakingWebSocketClient
 var _rest_client: Gs2MatchmakingRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2MatchmakingWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2MatchmakingRestClient.new(connection.rest_session)
 
 
@@ -127,7 +125,7 @@ func get_rating_model(namespace_name, rating_name) -> Gs2AsyncResult:
         var request = Gs2MatchmakingGetRatingModelRequest.new()
         request.namespace_name = namespace_name
         request.rating_name = rating_name
-        return await _web_socket_client.get_rating_model(request)
+        return await _rest_client.get_rating_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -151,7 +149,7 @@ func get_rating(game_session, namespace_name, rating_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.rating_name = rating_name
-        return await _web_socket_client.get_rating(request)
+        return await _rest_client.get_rating(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -196,7 +194,7 @@ func vote(namespace_name, ballot_body, ballot_signature, game_results = null, ke
         request.ballot_signature = ballot_signature
         request.game_results = null if game_results == null else game_results.map(func(v): return null if v == null else v.to_model())
         request.key_id = key_id
-        return await _web_socket_client.vote(request)
+        return await _rest_client.vote(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -210,7 +208,7 @@ func vote_multiple(namespace_name, signed_ballots = null, game_results = null, k
         request.signed_ballots = null if signed_ballots == null else signed_ballots.map(func(v): return null if v == null else v.to_model())
         request.game_results = null if game_results == null else game_results.map(func(v): return null if v == null else v.to_model())
         request.key_id = key_id
-        return await _web_socket_client.vote_multiple(request)
+        return await _rest_client.vote_multiple(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -224,7 +222,7 @@ func get_joined_season_gathering(game_session, namespace_name, season_name, seas
         request.season_name = season_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_joined_season_gathering(request)
+        return await _rest_client.get_joined_season_gathering(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -278,7 +276,7 @@ func get_season_model(namespace_name, season_name) -> Gs2AsyncResult:
         var request = Gs2MatchmakingGetSeasonModelRequest.new()
         request.namespace_name = namespace_name
         request.season_name = season_name
-        return await _web_socket_client.get_season_model(request)
+        return await _rest_client.get_season_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

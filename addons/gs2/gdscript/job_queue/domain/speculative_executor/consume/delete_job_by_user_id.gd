@@ -21,7 +21,7 @@ static func action() -> String:
 
 # 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
-    gs2,
+    gs2: Gs2Domain,
     access_token,
     request: Gs2JobQueueDeleteJobByUserIdRequest
 ) -> Gs2AsyncResult:

@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2LotteryWebSocketClient
 var _rest_client: Gs2LotteryRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2LotteryWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2LotteryRestClient.new(connection.rest_session)
 
 
@@ -84,7 +82,7 @@ func get_lottery_model(namespace_name, lottery_name) -> Gs2AsyncResult:
         var request = Gs2LotteryGetLotteryModelRequest.new()
         request.namespace_name = namespace_name
         request.lottery_name = lottery_name
-        return await _web_socket_client.get_lottery_model(request)
+        return await _rest_client.get_lottery_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

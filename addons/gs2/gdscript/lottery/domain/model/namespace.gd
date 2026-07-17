@@ -408,6 +408,22 @@ func lottery_model_master(
     )
 
 
+func drawn_prizes() -> Gs2LotteryDescribeDrawnPrizesIterator:
+    return Gs2LotteryDescribeDrawnPrizesIterator.new(_gs2, namespace_name)
+
+
+func subscribe_drawn_prizes(callback: Callable) -> int:
+    return Gs2LotteryDrawnPrizeCache.list_subscribe(
+        _gs2.cache, namespace_name, null, callback
+    )
+
+
+func unsubscribe_drawn_prizes(callback_id: int) -> void:
+    Gs2LotteryDrawnPrizeCache.list_unsubscribe(
+        _gs2.cache, namespace_name, null, callback_id
+    )
+
+
 func model() -> Gs2AsyncResult:
     var pair = Gs2LotteryNamespaceCache.get_cache(
         _gs2.cache,
@@ -431,22 +447,6 @@ func invalidate() -> void:
         _gs2.cache,
         namespace_name,
         null
-    )
-
-
-func drawn_prizes() -> Gs2LotteryDescribeDrawnPrizesIterator:
-    return Gs2LotteryDescribeDrawnPrizesIterator.new(_gs2, namespace_name)
-
-
-func subscribe_drawn_prizes(callback: Callable) -> int:
-    return Gs2LotteryDrawnPrizeCache.list_subscribe(
-        _gs2.cache, namespace_name, null, callback
-    )
-
-
-func unsubscribe_drawn_prizes(callback_id: int) -> void:
-    Gs2LotteryDrawnPrizeCache.list_unsubscribe(
-        _gs2.cache, namespace_name, null, callback_id
     )
 
 

@@ -82,7 +82,8 @@ func wait(all: bool = false) -> Gs2AsyncResult:
             await Gs2Domain.yield_frame()
             continue
         if model_result.result == null:
-            await Gs2Domain.yield_frame()
+            domain.invalidate()
+            await Gs2Domain.wait_ms(Gs2Constant.RETRY_WAIT)
             if access_token != null:
                 var dispatch_result = await Gs2JobQueue.dispatch(gs2, access_token)
                 if dispatch_result.error != null:

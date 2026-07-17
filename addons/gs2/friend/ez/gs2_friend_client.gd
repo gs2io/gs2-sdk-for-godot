@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2FriendWebSocketClient
 var _rest_client: Gs2FriendRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2FriendWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2FriendRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_profile(game_session, namespace_name) -> Gs2AsyncResult:
         var request = Gs2FriendGetProfileRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_profile(request)
+        return await _rest_client.get_profile(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -43,7 +41,7 @@ func get_public_profile(namespace_name, user_id) -> Gs2AsyncResult:
         var request = Gs2FriendGetPublicProfileRequest.new()
         request.namespace_name = namespace_name
         request.user_id = user_id
-        return await _web_socket_client.get_public_profile(request)
+        return await _rest_client.get_public_profile(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -58,7 +56,7 @@ func update_profile(game_session, namespace_name, public_profile = null, followe
         request.public_profile = public_profile
         request.follower_profile = follower_profile
         request.friend_profile = friend_profile
-        return await _web_socket_client.update_profile(request)
+        return await _rest_client.update_profile(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -86,7 +84,7 @@ func follow(game_session, namespace_name, target_user_id) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.follow(request)
+        return await _rest_client.follow(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -100,7 +98,7 @@ func get_follow_user(game_session, namespace_name, target_user_id, with_profile 
         request.access_token = game_session.access_token.token
         request.with_profile = with_profile
         request.target_user_id = target_user_id
-        return await _web_socket_client.get_follow(request)
+        return await _rest_client.get_follow(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -113,7 +111,7 @@ func unfollow(game_session, namespace_name, target_user_id) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.unfollow(request)
+        return await _rest_client.unfollow(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -126,7 +124,7 @@ func delete_friend(game_session, namespace_name, target_user_id) -> Gs2AsyncResu
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.delete_friend(request)
+        return await _rest_client.delete_friend(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -155,7 +153,7 @@ func get_friend(game_session, namespace_name, target_user_id, with_profile = nul
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
         request.with_profile = with_profile
-        return await _web_socket_client.get_friend(request)
+        return await _rest_client.get_friend(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -168,7 +166,7 @@ func delete_request(game_session, namespace_name, target_user_id) -> Gs2AsyncRes
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.delete_request(request)
+        return await _rest_client.delete_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -193,7 +191,7 @@ func get_send_request(game_session, namespace_name, target_user_id) -> Gs2AsyncR
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.get_send_request(request)
+        return await _rest_client.get_send_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -206,7 +204,7 @@ func send_request(game_session, namespace_name, target_user_id) -> Gs2AsyncResul
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.send_request(request)
+        return await _rest_client.send_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -219,7 +217,7 @@ func accept(game_session, namespace_name, from_user_id) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.from_user_id = from_user_id
-        return await _web_socket_client.accept_request(request)
+        return await _rest_client.accept_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -244,7 +242,7 @@ func get_receive_request(game_session, namespace_name, from_user_id) -> Gs2Async
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.from_user_id = from_user_id
-        return await _web_socket_client.get_receive_request(request)
+        return await _rest_client.get_receive_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -257,7 +255,7 @@ func reject(game_session, namespace_name, from_user_id) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.from_user_id = from_user_id
-        return await _web_socket_client.reject_request(request)
+        return await _rest_client.reject_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

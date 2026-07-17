@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2BuffWebSocketClient
 var _rest_client: Gs2BuffRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2BuffWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2BuffRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_buff_entry_model(namespace_name, buff_entry_name) -> Gs2AsyncResult:
         var request = Gs2BuffGetBuffEntryModelRequest.new()
         request.namespace_name = namespace_name
         request.buff_entry_name = buff_entry_name
-        return await _web_socket_client.get_buff_entry_model(request)
+        return await _rest_client.get_buff_entry_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

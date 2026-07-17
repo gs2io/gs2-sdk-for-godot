@@ -24,6 +24,7 @@ signal auto_run_transaction_notification(
 
 
 static var _completed_stamp_sheets: Array = []
+static var _completed_transactions: Array = []
 
 
 var _gs2: Gs2Domain
@@ -150,6 +151,8 @@ func handle_notification(
         var notification: Gs2DistributorAutoRunStampSheetNotification = Gs2DistributorAutoRunStampSheetNotification.from_dict(data)
         if notification == null:
             return
+        namespace_(notification.namespace_name).user(notification.user_id) \
+            .stamp_sheet_result(notification.transaction_id).invalidate()
         _completed_stamp_sheets.append(notification)
         auto_run_stamp_sheet_notification.emit(notification)
         return
@@ -157,27 +160,61 @@ func handle_notification(
         var notification: Gs2DistributorAutoRunTransactionNotification = Gs2DistributorAutoRunTransactionNotification.from_dict(data)
         if notification == null:
             return
-        _completed_stamp_sheets.append(notification)
+        namespace_(notification.namespace_name).user(notification.user_id) \
+            .transaction_result(notification.transaction_id).invalidate()
+        _completed_transactions.append(notification)
         auto_run_transaction_notification.emit(notification)
         return
     pass
 
 
 static func dispatch(
-    gs2: Gs2Domain,
+    gs2,
     access_token
 ) -> Gs2AsyncResult:
-    if _completed_stamp_sheets.size() == 0:
+    if _completed_stamp_sheets.size() == 0 and _completed_transactions.size() == 0:
         return Gs2AsyncResult.new(null, null)
-    var copied = _completed_stamp_sheets.duplicate()
-    _completed_stamp_sheets.clear()
+    var copied = []
+    for v in _completed_stamp_sheets:
+        if v != null and v.user_id == access_token.user_id:
+            copied.append(v)
+    for v in copied:
+        _completed_stamp_sheets.erase(v)
     for completed_stamp_sheet in copied:
         var auto_run = Gs2AutoStampSheetAccessTokenDomain.new(
             gs2,
             access_token,
-            completed_stamp_sheet.transaction_id
+            completed_stamp_sheet.transaction_id,
+            completed_stamp_sheet.namespace_name
         )
+        Gs2Distributor.new(gs2).namespace_(
+            completed_stamp_sheet.namespace_name
+        ).access_token(access_token).stamp_sheet_result(
+            completed_stamp_sheet.transaction_id
+        ).invalidate()
         var run_result = await auto_run.run()
+        if run_result.error != null and not (run_result.error is Gs2NotFoundException):
+            return run_result
+    copied = []
+    for v in _completed_transactions:
+        if v != null and v.user_id == access_token.user_id:
+            copied.append(v)
+    for v in copied:
+        _completed_transactions.erase(v)
+    for completed_transaction in copied:
+        var auto_run = Gs2AutoTransactionDomain.new(
+            gs2,
+            access_token,
+            null,
+            completed_transaction.transaction_id,
+            completed_transaction.namespace_name
+        )
+        Gs2Distributor.new(gs2).namespace_(
+            completed_transaction.namespace_name
+        ).access_token(access_token).transaction_result(
+            completed_transaction.transaction_id
+        ).invalidate()
+        var run_result = await auto_run.wait()
         if run_result.error != null and not (run_result.error is Gs2NotFoundException):
             return run_result
     return Gs2AsyncResult.new(null, null)

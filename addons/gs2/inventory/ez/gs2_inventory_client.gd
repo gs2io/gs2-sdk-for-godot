@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2InventoryWebSocketClient
 var _rest_client: Gs2InventoryRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2InventoryWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2InventoryRestClient.new(connection.rest_session)
 
 
@@ -55,7 +53,7 @@ func get_item_model(namespace_name, inventory_name, item_name) -> Gs2AsyncResult
         request.namespace_name = namespace_name
         request.inventory_name = inventory_name
         request.item_name = item_name
-        return await _web_socket_client.get_item_model(request)
+        return await _rest_client.get_item_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -80,7 +78,7 @@ func get_inventory(game_session, namespace_name, inventory_name) -> Gs2AsyncResu
         request.namespace_name = namespace_name
         request.inventory_name = inventory_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_inventory(request)
+        return await _rest_client.get_inventory(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -191,7 +189,7 @@ func get_simple_item_model(namespace_name, inventory_name, item_name) -> Gs2Asyn
         request.namespace_name = namespace_name
         request.inventory_name = inventory_name
         request.item_name = item_name
-        return await _web_socket_client.get_simple_item_model(request)
+        return await _rest_client.get_simple_item_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -231,7 +229,7 @@ func get_simple_item(game_session, namespace_name, inventory_name, item_name) ->
         request.inventory_name = inventory_name
         request.item_name = item_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_simple_item(request)
+        return await _rest_client.get_simple_item(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -297,7 +295,7 @@ func get_big_item_model(namespace_name, inventory_name, item_name) -> Gs2AsyncRe
         request.namespace_name = namespace_name
         request.inventory_name = inventory_name
         request.item_name = item_name
-        return await _web_socket_client.get_big_item_model(request)
+        return await _rest_client.get_big_item_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -324,7 +322,7 @@ func consume_big_item(game_session, namespace_name, inventory_name, item_name, c
         request.item_name = item_name
         request.access_token = game_session.access_token.token
         request.consume_count = null if consume_count == null else str(consume_count)
-        return await _web_socket_client.consume_big_item(request)
+        return await _rest_client.consume_big_item(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -338,7 +336,7 @@ func get_big_item(game_session, namespace_name, inventory_name, item_name) -> Gs
         request.inventory_name = inventory_name
         request.item_name = item_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_big_item(request)
+        return await _rest_client.get_big_item(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

@@ -17,5 +17,5 @@ class_name Gs2AutoStampSheetAccessTokenDomain
 extends Gs2AutoStampSheetDomain
 
 
-func _init(gs2_, access_token_, transaction_id_):
-    super._init(gs2_, access_token_, null, transaction_id_)
+func _init(gs2_, access_token_, transaction_id_, namespace_name_ = null):
+    super._init(gs2_, access_token_, null, transaction_id_, namespace_name_)

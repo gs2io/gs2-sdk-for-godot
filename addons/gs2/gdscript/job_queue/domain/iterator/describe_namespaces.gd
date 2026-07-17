@@ -16,17 +16,17 @@ class_name Gs2JobQueueDescribeNamespacesIterator
 extends RefCounted
 
 
-static var fetch_size = null
+static var fetch_size: Variant = null
 
-var _gs2
-var _client
-var name_prefix = null
-var _page_token = null
-var _last = false
+var _gs2: Gs2Domain
+var _client: Gs2JobQueueRestClient
+var name_prefix: Variant = null
+var _page_token: Variant = null
+var _last: bool = false
 
 
 func _init(
-    gs2,
+    gs2: Gs2Domain,
     client,
     name_prefix_ = null
 ):

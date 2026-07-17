@@ -23,6 +23,10 @@ signal disconnected
 
 static var ENDPOINT_HOST: String = "wss://gateway-ws.{region}.gen2.gs2io.com"
 
+## サーバーやプロキシによるアイドルタイムアウトで接続が切断されないよう、
+## WebSocketPeer 組み込みの ping/pong ハートビートを送信する間隔(秒)
+const HEARTBEAT_INTERVAL_SEC: float = 30.0
+
 var credential: Gs2Credential
 var region: String = Gs2Region.AP_NORTHEAST_1
 
@@ -43,6 +47,12 @@ func is_open() -> bool:
     return _socket != null and _socket.get_ready_state() == WebSocketPeer.STATE_OPEN
 
 
+## 接続が生きていることを示す (実際の ping/pong ハートビートは
+## WebSocketPeer.heartbeat_interval によって自動送信される)
+func ping() -> bool:
+    return is_open()
+
+
 ## 接続してプロジェクトトークンを取得する
 func open() -> Gs2AsyncResult:
     while _opening:
@@ -51,6 +61,7 @@ func open() -> Gs2AsyncResult:
         return Gs2AsyncResult.new(null, null)
     _opening = true
     _socket = WebSocketPeer.new()
+    _socket.set_heartbeat_interval(HEARTBEAT_INTERVAL_SEC)
     var err = _socket.connect_to_url(ENDPOINT_HOST.replace("{region}", region))
     if err != OK:
         _socket = null

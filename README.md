@@ -1,104 +1,125 @@
 # GS2 SDK for Godot
 
-Game Server Services (https://gs2.io) を Godot 4 (GDScript) から利用するための SDK です。
+[Game Server Services (GS2)](https://gs2.io/) を Godot から利用するための SDK です。[GS2 SDK for GDScript](https://github.com/gs2io/gs2-gdscript-sdk) の低レベル API に加えて、ゲーム向けの認証、ゲームセッション、キャッシュ、サーバープッシュ通知を扱う高レベル API を提供します。
 
-gs2-sdk-for-unity に相当する、ゲーム内から利用しやすい簡易インターフェース (Ez レイヤー) を提供します。
-低レベル API クライアント (gs2-gdscript-sdk 相当) も同梱しています。
+高レベルのドメイン API は、サービスごとに `Gs2EzDomain.account`、`Gs2EzDomain.inbox`、`Gs2EzDomain.inventory` のようにアクセスできます。
 
-## 構成
+## 動作条件
 
-```
-addons/gs2/
-  gdscript/                 gs2-gdscript-sdk（開発ツリーではシンボリックリンク）
-    core/                   コアランタイム
-    {service}/              低レベル API クライアント
-  ez/                       エンジン向けレイヤーのコア
-    gs2_connection.gd       接続・再認証リトライ
-    gs2_game_session.gd     ゲームセッション (アクセストークン管理)
-    gs2_account_authenticator.gd  GS2-Account による認証
-    guild_game_session.gd   Guild アクセストークンのセッション管理
-    gs2_guild_guild_authenticator.gd  GS2-Guild Assume による認証
-  {service}/                サービスごとの Godot 生成コード
-    ez/                     簡易インターフェース
-      model/ result/ gs2_{service}_client.gd
-```
+- Godot Engine 4.7 以降
+- GS2 のプロジェクトとクレデンシャル
 
-`gdscript` 以下と `{service}/ez` 以下のコードは [gs2-sdk-gen](https://github.com/gs2io/gs2-sdk-gen) によって生成されています。直接編集しないでください。公開パッケージではシンボリックリンクを展開し、GDScript SDK を同梱します。
+GS2 を初めて利用する場合は、[GS2 のセットアップ](https://docs.gs2.io/ja/get_start/tutorial/setup_gs2/) を先に完了してください。
 
-## 使い方
+## インストール
+
+1. [リリース一覧](https://github.com/gs2io/gs2-sdk-for-godot/releases) から利用するバージョンをダウンロードして展開します。
+2. `addons/gs2` ディレクトリを Godot プロジェクトの `addons/gs2` にコピーします。
+3. Godot Editor でプロジェクトを開き直し、スクリプトのインポートが完了するまで待ちます。
+
+低レベルの GDScript SDK は `addons/gs2/gdscript` に同梱されています。GS2 SDK for GDScript を別途インストールする必要はありません。
+
+## クイックスタート
+
+次の例は、匿名アカウントを作成してログインし、GS2-Inbox のメッセージ一覧を取得します。事前に GS2-Account、GS2-Key、GS2-Inbox の各リソースを作成してください。
 
 ```gdscript
-# 初期化
-var credential = Gs2BasicCredential.new("クライアントID", "クライアントシークレット")
-var connection = Gs2Connection.new(credential, Gs2Region.AP_NORTHEAST_1)
+extends Node
 
-# ログイン
-var authenticator = Gs2AccountAuthenticator.new(
-    "アカウントネームスペース名",
-    "暗号鍵GRN",
-)
-var game_session = Gs2GameSession.new(authenticator, connection, "ユーザーID", "パスワード")
-var login_result = await game_session.login()
-if login_result.error != null:
-    push_error(str(login_result.error))
-    return
+const ACCOUNT_NAMESPACE_NAME := "account-namespace"
+const ENCRYPTION_KEY_GRN := "grn:gs2:...:key:...:key"
+const INBOX_NAMESPACE_NAME := "inbox-namespace"
 
-# API 呼び出し (例: GS2-Inbox のメッセージ一覧)
-var inbox = Gs2InboxClient.new(connection)
-var result = await inbox.list(game_session, "ネームスペース名")
-if result.error != null:
-    push_error(str(result.error))
-    return
-for message in result.result.items:
-    print(message.name)
+var connection: Gs2Connection
+var game_session: Gs2GameSession
+var ez: Gs2EzDomain
+
+
+func _ready() -> void:
+    var credential := Gs2BasicCredential.new(
+        "your-client-id",
+        "your-client-secret",
+    )
+    connection = Gs2Connection.new(
+        credential,
+        Gs2Region.AP_NORTHEAST_1,
+    )
+    ez = Gs2EzDomain.new(connection)
+
+    var create_result: Gs2AsyncResult = await ez.account \
+        .namespace_(ACCOUNT_NAMESPACE_NAME) \
+        .create()
+    if create_result.error != null:
+        push_error(str(create_result.error))
+        return
+
+    var model_result: Gs2AsyncResult = await create_result.result.model()
+    if model_result.error != null:
+        push_error(str(model_result.error))
+        return
+    var account: Gs2AccountEzAccount = model_result.result
+
+    var authenticator := Gs2AccountAuthenticator.new(
+        ACCOUNT_NAMESPACE_NAME,
+        ENCRYPTION_KEY_GRN,
+    )
+    game_session = Gs2GameSession.new(
+        authenticator,
+        connection,
+        account.user_id,
+        account.password,
+    )
+    var login_result: Gs2AsyncResult = await game_session.login()
+    if login_result.error != null:
+        push_error(str(login_result.error))
+        return
+
+    var messages_result: Gs2AsyncResult = await ez.inbox \
+        .namespace_(INBOX_NAMESPACE_NAME) \
+        .me(game_session) \
+        .messages() \
+        .load()
+    if messages_result.error != null:
+        push_error(str(messages_result.error))
+        return
+
+    for message in messages_result.result:
+        print(message.name)
 ```
 
-- すべての API は `await` で呼び出し、`Gs2AsyncResult` (`result` / `error`) を返します。GDScript には例外がないため、`error` の null チェックでハンドリングしてください。
-- アクセストークンの期限切れ (`UnauthorizedException`) は `Gs2Connection.run` が自動的に再認証してリトライします。
+通信を行うメソッドは `Gs2AsyncResult` を返します。成功時の値は `result`、失敗時の `Gs2Exception` は `error` に格納されます。`Gs2Connection` は必要に応じてセッションの再接続やアクセストークンの再認証を行います。
+
+利用を終了するときは、REST / WebSocket セッションを明示的に閉じられます。
+
+```gdscript
+connection.disconnect_session()
+```
 
 ## サーバープッシュ通知
 
-`Gs2AccountAuthenticator` に GS2-Gateway のネームスペース名を渡すと、ログイン時に通知の受信登録 (SetUserId) が行われます。
+`Gs2AccountAuthenticator` の第3引数に GS2-Gateway のネームスペース名を指定すると、ログイン後に通知を受信できます。サービスごとのドメインは、ペイロードを対応する通知型へ変換してシグナルを発行します。
 
 ```gdscript
-var authenticator = Gs2AccountAuthenticator.new(
-    "アカウントネームスペース名",
-    "暗号鍵GRN",
-    "Gatewayネームスペース名",  # 省略可
-    true,                        # allow_concurrent_access
+var authenticator := Gs2AccountAuthenticator.new(
+    ACCOUNT_NAMESPACE_NAME,
+    ENCRYPTION_KEY_GRN,
+    "gateway-namespace",
+    true, # allow_concurrent_access
 )
 
-connection.notification_received.connect(func(message):
-    # message: Gs2NotificationMessage (issuer / subject / payload)
-    var notification = message.parse()  # 生成済み通知モデルへ自動デシリアライズ
-    if notification is Gs2FriendAcceptRequestNotification:
-        print("フレンドリクエストが承認されました: ", notification.target_user_id)
+ez.chat.post_notification.connect(func(notification: Gs2ChatPostNotification):
+    print(notification.namespace_name)
+    print(notification.room_name)
 )
 ```
 
-`parse()` は `subject` (例: `Gs2Friend:AcceptRequestNotification`) から対応する通知モデルを解決します。対応するモデルがない場合 (ユーザー発行の通知など) は null を返すので、`message.payload` を直接参照してください。
+## ドキュメント
 
-## Guild セッション
+- [GS2 ドキュメント](https://docs.gs2.io/ja/)
+- [Game Engine 向けガイド](https://docs.gs2.io/ja/get_start/#game-engine)
+- [API リファレンス](https://docs.gs2.io/ja/api_reference/)
+- [リリース一覧](https://github.com/gs2io/gs2-sdk-for-godot/releases)
 
-Guild を主体として Experience や Exchange を実行する場合は、ユーザーの `Gs2GameSession` から `GuildGameSession` を作成します。
+## フィードバック
 
-```gdscript
-var guild_authenticator = Gs2GuildGuildAuthenticator.new(
-    "Guildネームスペース名",
-    "Guildモデル名",
-    "Gatewayネームスペース名",
-    true,
-)
-var guild_game_session = GuildGameSession.new(
-    guild_authenticator,
-    connection,
-    game_session,
-    "Guild名",
-)
-var assume_result = await guild_game_session.login()
-if assume_result.error != null:
-    push_error(str(assume_result.error))
-    return
-```
-
-`GuildGameSession` は WebSocket 切断後に再認証し、Guild のアクセストークンを `access_token` に更新します。
+不具合や機能要望は [GitHub Issues](https://github.com/gs2io/gs2-sdk-for-godot/issues) でお知らせください。サービスごとの API やモデルの多くは自動生成されるため、生成コードへの変更提案も、まず Issue でご相談ください。

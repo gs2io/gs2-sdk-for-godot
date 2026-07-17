@@ -11,6 +11,7 @@
 # on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
+# deny overwrite
 class_name Gs2ScheduleEventAccessTokenDomain
 extends RefCounted
 
@@ -22,7 +23,7 @@ var user_id: Variant:
     get:
         return null if access_token == null else access_token.user_id
 var event_name: Variant = null
-var is_in_schedule: bool = true
+var is_in_schedule: Variant = null # diff +++
 var in_schedule: Variant = null
 var schedule_start_at: Variant = null
 var schedule_end_at: Variant = null
@@ -33,15 +34,20 @@ func _init(
     gs2: Gs2Domain,
     namespace_name_,
     access_token_,
+# diff --- start
+#    event_name_
+# diff --- end
+# diff +++ start
     event_name_,
-    is_in_schedule_: bool = true
+    is_in_schedule_ = null
+# diff +++ end
 ):
     _gs2 = gs2
     _client = Gs2ScheduleRestClient.new(gs2.rest_session)
     namespace_name = namespace_name_
     access_token = access_token_
     event_name = event_name_
-    is_in_schedule = is_in_schedule_
+    is_in_schedule = is_in_schedule_ # diff +++
 
 
 func get_(
@@ -50,7 +56,7 @@ func get_(
     request = request.with_context_stack(_gs2.default_context_stack if request.context_stack == null or request.context_stack == "" else request.context_stack)
     request = request.with_namespace_name(namespace_name)
     request = request.with_event_name(event_name)
-    request = request.with_is_in_schedule(is_in_schedule)
+    request = request.with_is_in_schedule(is_in_schedule) # diff +++
     request = request.with_access_token(null if access_token == null else access_token.token)
     var async_result = await Gs2ScheduleGetEventMethodCache.invoke(
         _gs2.cache,
@@ -96,19 +102,36 @@ func model() -> Gs2AsyncResult:
         namespace_name,
         user_id,
         event_name,
-        (null if access_token == null else access_token.time_offset)
+# diff --- start
+#        (null if access_token == null else access_token.time_offset)
+# diff --- end
+# diff +++ start
+        (null if access_token == null else access_token.time_offset),
+        is_in_schedule if is_in_schedule != null else true
+# diff +++ end
     )
     if pair[1]:
         return Gs2AsyncResult.new(pair[0], null)
+# diff +++ start
+    var fetch_impl = func():
+        var get_result = await get_(Gs2ScheduleGetEventRequest.new())
+        return get_result
+# diff +++ end
     return await Gs2ScheduleEventCache.fetch(
         _gs2.cache,
         namespace_name,
         user_id,
         event_name,
         (null if access_token == null else access_token.time_offset),
-        func():
-            var get_result = await get_(Gs2ScheduleGetEventRequest.new())
-            return get_result
+# diff --- start
+#        func():
+#            var get_result = await get_(Gs2ScheduleGetEventRequest.new())
+#            return get_result
+# diff --- end
+# diff +++ start
+        fetch_impl,
+        is_in_schedule if is_in_schedule != null else true
+# diff +++ end
     )
 
 
@@ -118,7 +141,13 @@ func invalidate() -> void:
         namespace_name,
         user_id,
         event_name,
-        (null if access_token == null else access_token.time_offset)
+# diff --- start
+#        (null if access_token == null else access_token.time_offset)
+# diff --- end
+# diff +++ start
+        (null if access_token == null else access_token.time_offset),
+        is_in_schedule if is_in_schedule != null else true
+# diff +++ end
     )
 
 
@@ -131,7 +160,13 @@ func subscribe_model(callback: Callable) -> int:
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2ScheduleEventCache.cache_key(
-            event_name
+# diff --- start
+#            event_name
+# diff --- end
+# diff +++ start
+            event_name,
+            is_in_schedule if is_in_schedule != null else true
+# diff +++ end
         ),
         callback,
         func(): await model()
@@ -147,7 +182,13 @@ func unsubscribe_model(callback_id: int) -> void:
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2ScheduleEventCache.cache_key(
-            event_name
+# diff --- start
+#            event_name
+# diff --- end
+# diff +++ start
+            event_name,
+            is_in_schedule if is_in_schedule != null else true
+# diff +++ end
         ),
         callback_id
     )

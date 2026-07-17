@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2VersionWebSocketClient
 var _rest_client: Gs2VersionRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2VersionWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2VersionRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_version_model(namespace_name, version_name) -> Gs2AsyncResult:
         var request = Gs2VersionGetVersionModelRequest.new()
         request.namespace_name = namespace_name
         request.version_name = version_name
-        return await _web_socket_client.get_version_model(request)
+        return await _rest_client.get_version_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -56,7 +54,7 @@ func accept(game_session, namespace_name, version_name, version = null) -> Gs2As
         request.access_token = game_session.access_token.token
         request.version_name = version_name
         request.version = null if version == null else version.to_model()
-        return await _web_socket_client.accept(request)
+        return await _rest_client.accept(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -69,7 +67,7 @@ func delete(game_session, namespace_name, version_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.version_name = version_name
-        return await _web_socket_client.delete_accept_version(request)
+        return await _rest_client.delete_accept_version(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -97,7 +95,7 @@ func reject(game_session, namespace_name, version_name, version = null) -> Gs2As
         request.access_token = game_session.access_token.token
         request.version_name = version_name
         request.version = null if version == null else version.to_model()
-        return await _web_socket_client.reject(request)
+        return await _rest_client.reject(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

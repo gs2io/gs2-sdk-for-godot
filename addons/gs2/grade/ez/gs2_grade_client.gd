@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2GradeWebSocketClient
 var _rest_client: Gs2GradeRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2GradeWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2GradeRestClient.new(connection.rest_session)
 
 
@@ -56,7 +54,7 @@ func apply_rank_cap(game_session, namespace_name, grade_name, property_id) -> Gs
         request.grade_name = grade_name
         request.access_token = game_session.access_token.token
         request.property_id = property_id
-        return await _web_socket_client.apply_rank_cap(request)
+        return await _rest_client.apply_rank_cap(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -70,7 +68,7 @@ func get_status(game_session, namespace_name, grade_name, property_id) -> Gs2Asy
         request.grade_name = grade_name
         request.access_token = game_session.access_token.token
         request.property_id = property_id
-        return await _web_socket_client.get_status(request)
+        return await _rest_client.get_status(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

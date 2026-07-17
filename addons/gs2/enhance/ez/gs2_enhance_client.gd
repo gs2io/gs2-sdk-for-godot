@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2EnhanceWebSocketClient
 var _rest_client: Gs2EnhanceRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2EnhanceWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2EnhanceRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_rate_model(namespace_name, rate_name) -> Gs2AsyncResult:
         var request = Gs2EnhanceGetRateModelRequest.new()
         request.namespace_name = namespace_name
         request.rate_name = rate_name
-        return await _web_socket_client.get_rate_model(request)
+        return await _rest_client.get_rate_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -54,7 +52,7 @@ func get_unleash_rate_model(namespace_name, rate_name) -> Gs2AsyncResult:
         var request = Gs2EnhanceGetUnleashRateModelRequest.new()
         request.namespace_name = namespace_name
         request.rate_name = rate_name
-        return await _web_socket_client.get_unleash_rate_model(request)
+        return await _rest_client.get_unleash_rate_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -77,7 +75,7 @@ func delete_progress(game_session, namespace_name) -> Gs2AsyncResult:
         var request = Gs2EnhanceDeleteProgressRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.delete_progress(request)
+        return await _rest_client.delete_progress(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -102,7 +100,7 @@ func get_progress(game_session, namespace_name) -> Gs2AsyncResult:
         var request = Gs2EnhanceGetProgressRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_progress(request)
+        return await _rest_client.get_progress(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

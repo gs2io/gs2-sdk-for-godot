@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2DatastoreWebSocketClient
 var _rest_client: Gs2DatastoreRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2DatastoreWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2DatastoreRestClient.new(connection.rest_session)
 
 
@@ -32,7 +30,7 @@ func delete_data_object(game_session, namespace_name, data_object_name = null) -
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.data_object_name = data_object_name
-        return await _web_socket_client.delete_data_object(request)
+        return await _rest_client.delete_data_object(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -45,7 +43,7 @@ func done_upload(game_session, namespace_name, data_object_name = null) -> Gs2As
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.data_object_name = data_object_name
-        return await _web_socket_client.done_upload(request)
+        return await _rest_client.done_upload(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -130,7 +128,7 @@ func prepare_upload(game_session, namespace_name, name = null, scope = null, con
         request.content_type = content_type
         request.allow_user_ids = null if allow_user_ids == null else allow_user_ids.map(func(v): return v)
         request.update_if_exists = update_if_exists
-        return await _web_socket_client.prepare_upload(request)
+        return await _rest_client.prepare_upload(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -142,7 +140,7 @@ func restore_data_object(namespace_name, data_object_id) -> Gs2AsyncResult:
         var request = Gs2DatastoreRestoreDataObjectRequest.new()
         request.namespace_name = namespace_name
         request.data_object_id = data_object_id
-        return await _web_socket_client.restore_data_object(request)
+        return await _rest_client.restore_data_object(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -156,7 +154,7 @@ func update_data_object(game_session, namespace_name, scope = null, allow_user_i
         request.access_token = game_session.access_token.token
         request.scope = scope
         request.allow_user_ids = null if allow_user_ids == null else allow_user_ids.map(func(v): return v)
-        return await _web_socket_client.update_data_object(request)
+        return await _rest_client.update_data_object(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

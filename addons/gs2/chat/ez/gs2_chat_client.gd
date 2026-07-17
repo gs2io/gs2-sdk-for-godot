@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2ChatWebSocketClient
 var _rest_client: Gs2ChatRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2ChatWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2ChatRestClient.new(connection.rest_session)
 
 
@@ -75,7 +73,7 @@ func get_message(game_session, namespace_name, room_name, message_name = null, p
         request.message_name = message_name
         request.access_token = game_session.access_token.token
         request.password = password
-        return await _web_socket_client.get_message(request)
+        return await _rest_client.get_message(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -122,7 +120,7 @@ func post(game_session, namespace_name, room_name, metadata, category = null, pa
         request.category = category
         request.metadata = metadata
         request.password = password
-        return await _web_socket_client.post(request)
+        return await _rest_client.post(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -150,7 +148,7 @@ func subscribe(game_session, namespace_name, room_name, notification_types = nul
         request.room_name = room_name
         request.access_token = game_session.access_token.token
         request.notification_types = null if notification_types == null else notification_types.map(func(v): return null if v == null else v.to_model())
-        return await _web_socket_client.subscribe(request)
+        return await _rest_client.subscribe(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -163,7 +161,7 @@ func unsubscribe(game_session, namespace_name, room_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.room_name = room_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.unsubscribe(request)
+        return await _rest_client.unsubscribe(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -177,7 +175,7 @@ func update_subscribe_setting(game_session, namespace_name, room_name, notificat
         request.room_name = room_name
         request.access_token = game_session.access_token.token
         request.notification_types = null if notification_types == null else notification_types.map(func(v): return null if v == null else v.to_model())
-        return await _web_socket_client.update_notification_type(request)
+        return await _rest_client.update_notification_type(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -189,7 +187,7 @@ func get_category_model(namespace_name, category) -> Gs2AsyncResult:
         var request = Gs2ChatGetCategoryModelRequest.new()
         request.namespace_name = namespace_name
         request.category = category
-        return await _web_socket_client.get_category_model(request)
+        return await _rest_client.get_category_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

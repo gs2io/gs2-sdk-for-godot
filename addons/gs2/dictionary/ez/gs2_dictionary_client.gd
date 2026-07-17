@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2DictionaryWebSocketClient
 var _rest_client: Gs2DictionaryRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2DictionaryWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2DictionaryRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_entry_model(namespace_name, entry_name) -> Gs2AsyncResult:
         var request = Gs2DictionaryGetEntryModelRequest.new()
         request.namespace_name = namespace_name
         request.entry_name = entry_name
-        return await _web_socket_client.get_entry_model(request)
+        return await _rest_client.get_entry_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -55,7 +53,7 @@ func get_entry(game_session, namespace_name, entry_model_name) -> Gs2AsyncResult
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.entry_model_name = entry_model_name
-        return await _web_socket_client.get_entry(request)
+        return await _rest_client.get_entry(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -122,7 +120,7 @@ func get_like(game_session, namespace_name, entry_model_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.entry_model_name = entry_model_name
-        return await _web_socket_client.get_like(request)
+        return await _rest_client.get_like(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2Ranking2WebSocketClient
 var _rest_client: Gs2Ranking2RestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2Ranking2WebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2Ranking2RestClient.new(connection.rest_session)
 
 
@@ -33,7 +31,7 @@ func get_global_ranking_rank(game_session, namespace_name, ranking_name, season 
         request.ranking_name = ranking_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_global_ranking(request)
+        return await _rest_client.get_global_ranking(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -86,7 +84,7 @@ func get_global_ranking_received_reward(game_session, namespace_name, ranking_na
         request.ranking_name = ranking_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_global_ranking_received_reward(request)
+        return await _rest_client.get_global_ranking_received_reward(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -131,7 +129,7 @@ func get_global_ranking_score(game_session, namespace_name, ranking_name, season
         request.ranking_name = ranking_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_global_ranking_score(request)
+        return await _rest_client.get_global_ranking_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -161,7 +159,7 @@ func put_global_ranking(game_session, namespace_name, ranking_name, score, metad
         request.access_token = game_session.access_token.token
         request.score = score
         request.metadata = metadata
-        return await _web_socket_client.put_global_ranking_score(request)
+        return await _rest_client.put_global_ranking_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -176,7 +174,7 @@ func get_cluster_ranking_rank(game_session, namespace_name, ranking_name, cluste
         request.cluster_name = cluster_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_cluster_ranking(request)
+        return await _rest_client.get_cluster_ranking(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -231,7 +229,7 @@ func get_cluster_ranking_received_reward(game_session, namespace_name, ranking_n
         request.cluster_name = cluster_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_cluster_ranking_received_reward(request)
+        return await _rest_client.get_cluster_ranking_received_reward(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -279,7 +277,7 @@ func get_cluster_ranking_score(game_session, namespace_name, ranking_name, clust
         request.cluster_name = cluster_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_cluster_ranking_score(request)
+        return await _rest_client.get_cluster_ranking_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -312,7 +310,7 @@ func put_cluster_ranking(game_session, namespace_name, ranking_name, cluster_nam
         request.access_token = game_session.access_token.token
         request.score = score
         request.metadata = metadata
-        return await _web_socket_client.put_cluster_ranking_score(request)
+        return await _rest_client.put_cluster_ranking_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -326,7 +324,7 @@ func get_subscribe(game_session, namespace_name, ranking_name, target_user_id) -
         request.ranking_name = ranking_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.get_subscribe(request)
+        return await _rest_client.get_subscribe(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -355,7 +353,7 @@ func get_subscribe_ranking_rank(game_session, namespace_name, ranking_name, seas
         request.ranking_name = ranking_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_subscribe_ranking(request)
+        return await _rest_client.get_subscribe_ranking(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -383,7 +381,7 @@ func get_subscribe_ranking_model(namespace_name, ranking_name) -> Gs2AsyncResult
         var request = Gs2Ranking2GetSubscribeRankingModelRequest.new()
         request.namespace_name = namespace_name
         request.ranking_name = ranking_name
-        return await _web_socket_client.get_subscribe_ranking_model(request)
+        return await _rest_client.get_subscribe_ranking_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -408,7 +406,7 @@ func get_subscribe_ranking_score(game_session, namespace_name, ranking_name, sea
         request.ranking_name = ranking_name
         request.season = season
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_subscribe_ranking_score(request)
+        return await _rest_client.get_subscribe_ranking_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -438,7 +436,7 @@ func put_subscribe_ranking(game_session, namespace_name, ranking_name, score, me
         request.access_token = game_session.access_token.token
         request.score = score
         request.metadata = metadata
-        return await _web_socket_client.put_subscribe_ranking_score(request)
+        return await _rest_client.put_subscribe_ranking_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

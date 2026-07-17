@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2ExchangeWebSocketClient
 var _rest_client: Gs2ExchangeRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2ExchangeWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2ExchangeRestClient.new(connection.rest_session)
 
 

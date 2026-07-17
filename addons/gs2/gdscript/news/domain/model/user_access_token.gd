@@ -42,7 +42,8 @@ func newses(
         _gs2,
         _client,
         namespace_name,
-        access_token
+        access_token,
+        self
     )
 
 

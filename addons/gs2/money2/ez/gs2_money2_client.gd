@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2Money2WebSocketClient
 var _rest_client: Gs2Money2RestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2Money2WebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2Money2RestClient.new(connection.rest_session)
 
 
@@ -32,7 +30,7 @@ func get_(game_session, namespace_name, slot) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.slot = slot
-        return await _web_socket_client.get_wallet(request)
+        return await _rest_client.get_wallet(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

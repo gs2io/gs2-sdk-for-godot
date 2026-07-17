@@ -76,7 +76,8 @@ func in_game_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 

@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2FormationWebSocketClient
 var _rest_client: Gs2FormationRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2FormationWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2FormationRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_mold_model(namespace_name, mold_model_name) -> Gs2AsyncResult:
         var request = Gs2FormationGetMoldModelRequest.new()
         request.namespace_name = namespace_name
         request.mold_model_name = mold_model_name
-        return await _web_socket_client.get_mold_model(request)
+        return await _rest_client.get_mold_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -55,7 +53,7 @@ func get_mold(game_session, namespace_name, mold_model_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.mold_model_name = mold_model_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_mold(request)
+        return await _rest_client.get_mold(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -81,7 +79,7 @@ func get_form_model(namespace_name, mold_model_name) -> Gs2AsyncResult:
         var request = Gs2FormationGetFormModelRequest.new()
         request.namespace_name = namespace_name
         request.mold_model_name = mold_model_name
-        return await _web_socket_client.get_form_model(request)
+        return await _rest_client.get_form_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -167,7 +165,7 @@ func get_property_form_model(namespace_name, property_form_model_name) -> Gs2Asy
         var request = Gs2FormationGetPropertyFormModelRequest.new()
         request.namespace_name = namespace_name
         request.property_form_model_name = property_form_model_name
-        return await _web_socket_client.get_property_form_model(request)
+        return await _rest_client.get_property_form_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

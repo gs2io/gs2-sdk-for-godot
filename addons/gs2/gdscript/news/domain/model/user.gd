@@ -41,7 +41,8 @@ func newses(
         _client,
         namespace_name,
         user_id,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 

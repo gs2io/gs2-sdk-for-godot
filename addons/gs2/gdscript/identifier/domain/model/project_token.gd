@@ -16,7 +16,7 @@ extends RefCounted
 
 var _gs2: Gs2Domain
 var _client: Gs2IdentifierRestClient
-var access_token: Gs2AuthAccessToken
+var access_token: Variant = null
 var token_type: Variant = null
 var expires_in: Variant = null
 var owner_id: Variant = null

@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2AuthWebSocketClient
 var _rest_client: Gs2AuthRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2AuthWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2AuthRestClient.new(connection.rest_session)
 
 
@@ -32,7 +30,7 @@ func login(body, signature, key_id = null) -> Gs2AsyncResult:
         request.key_id = key_id
         request.body = body
         request.signature = signature
-        return await _web_socket_client.login_by_signature(request)
+        return await _rest_client.login_by_signature(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

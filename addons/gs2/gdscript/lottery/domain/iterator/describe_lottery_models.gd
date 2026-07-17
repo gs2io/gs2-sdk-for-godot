@@ -16,16 +16,16 @@ class_name Gs2LotteryDescribeLotteryModelsIterator
 extends RefCounted
 
 
-static var fetch_size = null
+static var fetch_size: Variant = null
 
-var _gs2
-var _client
-var namespace_name = null
-var _last = false
+var _gs2: Gs2Domain
+var _client: Gs2LotteryRestClient
+var namespace_name: Variant = null
+var _last: bool = false
 
 
 func _init(
-    gs2,
+    gs2: Gs2Domain,
     client,
     namespace_name_
 ):

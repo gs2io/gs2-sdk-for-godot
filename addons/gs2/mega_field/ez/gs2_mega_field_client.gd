@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2MegaFieldWebSocketClient
 var _rest_client: Gs2MegaFieldRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2MegaFieldWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2MegaFieldRestClient.new(connection.rest_session)
 
 
@@ -67,7 +65,7 @@ func get_layer_model(namespace_name, area_model_name, layer_model_name) -> Gs2As
         request.namespace_name = namespace_name
         request.area_model_name = area_model_name
         request.layer_model_name = layer_model_name
-        return await _web_socket_client.get_layer_model(request)
+        return await _rest_client.get_layer_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

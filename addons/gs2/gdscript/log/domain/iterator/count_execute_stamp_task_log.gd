@@ -20,6 +20,7 @@ static var fetch_size: Variant = null
 
 var _gs2: Gs2Domain
 var _client: Gs2LogRestClient
+var _response_cache: Variant = null
 var namespace_name: Variant = null
 var service: Variant = null
 var method: Variant = null
@@ -44,10 +45,12 @@ func _init(
     begin_ = null,
     end_ = null,
     long_term_ = null,
-    time_offset_token_ = null
+    time_offset_token_ = null,
+    response_cache_ = null
 ):
     _gs2 = gs2
     _client = client
+    _response_cache = response_cache_
     namespace_name = namespace_name_
     service = service_
     method = method_
@@ -81,6 +84,9 @@ func load() -> Gs2AsyncResult:
         var r = await _client.count_execute_stamp_task_log(request)
         if r.error != null:
             return r
+        if _response_cache != null:
+            _response_cache.total_count = r.result.total_count
+            _response_cache.scan_size = r.result.scan_size
         var page = []
         for item in (r.result.items if r.result.items != null else []):
             if not (service == null or item.service == service):

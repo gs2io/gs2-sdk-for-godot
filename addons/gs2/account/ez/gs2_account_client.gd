@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2AccountWebSocketClient
 var _rest_client: Gs2AccountRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2AccountWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2AccountRestClient.new(connection.rest_session)
 
 
@@ -44,7 +42,7 @@ func create(namespace_name) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2AccountCreateAccountRequest.new()
         request.namespace_name = namespace_name
-        return await _web_socket_client.create_account(request)
+        return await _rest_client.create_account(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -59,7 +57,7 @@ func add_take_over_setting(game_session, namespace_name, type, user_identifier, 
         request.type = type
         request.user_identifier = user_identifier
         request.password = password
-        return await _web_socket_client.create_take_over(request)
+        return await _rest_client.create_take_over(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -73,7 +71,7 @@ func add_take_over_setting_open_id_connect(game_session, namespace_name, type, i
         request.access_token = game_session.access_token.token
         request.type = type
         request.id_token = id_token
-        return await _web_socket_client.create_take_over_open_id_connect(request)
+        return await _rest_client.create_take_over_open_id_connect(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -86,7 +84,7 @@ func delete_take_over_setting(game_session, namespace_name, type) -> Gs2AsyncRes
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.type = type
-        return await _web_socket_client.delete_take_over(request)
+        return await _rest_client.delete_take_over(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -100,7 +98,7 @@ func do_take_over(namespace_name, type, user_identifier, password) -> Gs2AsyncRe
         request.type = type
         request.user_identifier = user_identifier
         request.password = password
-        return await _web_socket_client.do_take_over(request)
+        return await _rest_client.do_take_over(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -113,7 +111,7 @@ func do_take_over_open_id_connect(namespace_name, type, id_token) -> Gs2AsyncRes
         request.namespace_name = namespace_name
         request.type = type
         request.id_token = id_token
-        return await _web_socket_client.do_take_over_open_id_connect(request)
+        return await _rest_client.do_take_over_open_id_connect(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -126,7 +124,7 @@ func get_(game_session, namespace_name, type) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.type = type
-        return await _web_socket_client.get_take_over(request)
+        return await _rest_client.get_take_over(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -138,7 +136,7 @@ func get_authorization_url(namespace_name, type) -> Gs2AsyncResult:
         var request = Gs2AccountGetAuthorizationUrlRequest.new()
         request.namespace_name = namespace_name
         request.type = type
-        return await _web_socket_client.get_authorization_url(request)
+        return await _rest_client.get_authorization_url(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -167,7 +165,7 @@ func update_take_over_setting(game_session, namespace_name, type, old_password, 
         request.type = type
         request.old_password = old_password
         request.password = password
-        return await _web_socket_client.update_take_over(request)
+        return await _rest_client.update_take_over(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -181,7 +179,7 @@ func add_platform_id_setting(game_session, namespace_name, type, user_identifier
         request.access_token = game_session.access_token.token
         request.type = type
         request.user_identifier = user_identifier
-        return await _web_socket_client.create_platform_id(request)
+        return await _rest_client.create_platform_id(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -194,7 +192,7 @@ func delete_platform_id_setting(game_session, namespace_name, type) -> Gs2AsyncR
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.type = type
-        return await _web_socket_client.delete_platform_id(request)
+        return await _rest_client.delete_platform_id(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -208,7 +206,7 @@ func find_platform_user(game_session, namespace_name, type, user_identifier) -> 
         request.access_token = game_session.access_token.token
         request.type = type
         request.user_identifier = user_identifier
-        return await _web_socket_client.find_platform_id(request)
+        return await _rest_client.find_platform_id(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -221,7 +219,7 @@ func get_platform_id(game_session, namespace_name, type) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.type = type
-        return await _web_socket_client.get_platform_id(request)
+        return await _rest_client.get_platform_id(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

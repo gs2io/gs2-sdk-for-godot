@@ -393,17 +393,13 @@ static func dispatch(
             completed_job.namespace_name,
             completed_job.job_name
         )
-        var model_result = await Gs2JobQueue.new(gs2).namespace_(
+        Gs2JobQueue.new(gs2).namespace_(
             completed_job.namespace_name
         ).access_token(
             access_token
         ).job(
             completed_job.job_name
-        ).job_result().model_no_cache()
-        if model_result.error != null:
-            if model_result.error is Gs2NotFoundException:
-                continue
-            return model_result
+        ).job_result().invalidate()
         var wait_result = await auto_run.wait()
         if wait_result.error != null:
             if wait_result.error is Gs2NotFoundException:

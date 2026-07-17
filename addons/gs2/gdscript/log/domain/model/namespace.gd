@@ -199,7 +199,8 @@ func access_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -276,7 +277,8 @@ func count_access_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -361,7 +363,8 @@ func execute_stamp_sheet_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -443,7 +446,8 @@ func count_execute_stamp_sheet_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -531,7 +535,8 @@ func execute_stamp_task_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -613,7 +618,8 @@ func count_execute_stamp_task_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -701,7 +707,8 @@ func issue_stamp_sheet_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -783,7 +790,8 @@ func count_issue_stamp_sheet_log(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 
@@ -919,7 +927,8 @@ func access_log_with_telemetry(
         begin,
         end,
         long_term,
-        time_offset_token
+        time_offset_token,
+        self
     )
 
 

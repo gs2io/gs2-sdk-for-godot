@@ -18,14 +18,15 @@ class_name Gs2AutoTransactionDomain
 extends Gs2TransactionDomain
 
 
-const TIMEOUT_MS = 10 * 1000
-
 static var _handled: Dictionary = {}
 
+var _namespace_name = null
 
-func _init(gs2_, access_token_, user_id_, transaction_id_):
+
+func _init(gs2_, access_token_, user_id_, transaction_id_, namespace_name_ = null):
     super._init(gs2_, access_token_, user_id_, [])
     transaction_id = transaction_id_
+    _namespace_name = namespace_name_
 
 
 func _skip_callback() -> bool:
@@ -101,12 +102,15 @@ func _handle_result(result) -> Gs2AsyncResult:
 
 func wait(all: bool = false) -> Gs2AsyncResult:
     var begin = Gs2CacheDatabase.now_ms()
+    var timeout_msec = gs2.transaction_configuration.auto_transaction_result_timeout_msec
     while true:
-        if Gs2CacheDatabase.now_ms() - begin > TIMEOUT_MS:
+        if timeout_msec > 0 and Gs2CacheDatabase.now_ms() - begin > timeout_msec:
             return Gs2AsyncResult.new(null, Gs2TransactionDomainFactory.timeout_error(
                 "Failed to retrieve transaction results, either because there is some failure in GS2, or the GS2-Gateway used to notify the GS2-Distributor used to execute the transaction is not yet configured, or the GS2-Gateway has a user ID to receive notifications The configuration API may not have been invoked."
             ))
-        var namespace_name = gs2.transaction_configuration.namespace_name
+        var namespace_name = _namespace_name
+        if namespace_name == null:
+            namespace_name = gs2.transaction_configuration.namespace_name
         if namespace_name == null:
             namespace_name = "default"
         var user_domain = null
@@ -123,7 +127,8 @@ func wait(all: bool = false) -> Gs2AsyncResult:
             await Gs2Domain.yield_frame()
             continue
         if model_result.result == null:
-            await Gs2Domain.yield_frame()
+            domain.invalidate()
+            await Gs2Domain.wait_ms(Gs2Constant.RETRY_WAIT)
             if access_token != null:
                 var dispatch_result = await Gs2Distributor.dispatch(gs2, access_token)
                 if dispatch_result.error != null:

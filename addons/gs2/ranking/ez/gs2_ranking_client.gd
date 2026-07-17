@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2RankingWebSocketClient
 var _rest_client: Gs2RankingRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2RankingWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2RankingRestClient.new(connection.rest_session)
 
 
@@ -69,7 +67,7 @@ func subscribe(game_session, namespace_name, category_name, target_user_id) -> G
         request.category_name = category_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.subscribe(request)
+        return await _rest_client.subscribe(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -83,7 +81,7 @@ func unsubscribe(game_session, namespace_name, category_name, target_user_id) ->
         request.category_name = category_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
-        return await _web_socket_client.unsubscribe(request)
+        return await _rest_client.unsubscribe(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -113,7 +111,7 @@ func get_rank(game_session, namespace_name, category_name, scorer_user_id, addit
         request.scorer_user_id = scorer_user_id
         request.access_token = game_session.access_token.token
         request.unique_id = unique_id
-        return await _web_socket_client.get_ranking(request)
+        return await _rest_client.get_ranking(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -145,7 +143,7 @@ func put_score(game_session, namespace_name, category_name, score, metadata = nu
         request.access_token = game_session.access_token.token
         request.score = score
         request.metadata = metadata
-        return await _web_socket_client.put_score(request)
+        return await _rest_client.put_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -160,7 +158,7 @@ func get_score(game_session, namespace_name, category_name, scorer_user_id, uniq
         request.access_token = game_session.access_token.token
         request.scorer_user_id = scorer_user_id
         request.unique_id = unique_id
-        return await _web_socket_client.get_score(request)
+        return await _rest_client.get_score(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

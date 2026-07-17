@@ -16,19 +16,19 @@ class_name Gs2JobQueueDescribeJobsByUserIdIterator
 extends RefCounted
 
 
-static var fetch_size = null
+static var fetch_size: Variant = null
 
-var _gs2
-var _client
-var namespace_name = null
-var user_id = null
-var time_offset_token = null
-var _page_token = null
-var _last = false
+var _gs2: Gs2Domain
+var _client: Gs2JobQueueRestClient
+var namespace_name: Variant = null
+var user_id: Variant = null
+var time_offset_token: Variant = null
+var _page_token: Variant = null
+var _last: bool = false
 
 
 func _init(
-    gs2,
+    gs2: Gs2Domain,
     client,
     namespace_name_,
     user_id_,

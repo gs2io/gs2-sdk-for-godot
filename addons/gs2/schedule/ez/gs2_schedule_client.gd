@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2ScheduleWebSocketClient
 var _rest_client: Gs2ScheduleRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2ScheduleWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2ScheduleRestClient.new(connection.rest_session)
 
 
@@ -32,7 +30,7 @@ func get_trigger(game_session, namespace_name, trigger_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.trigger_name = trigger_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_trigger(request)
+        return await _rest_client.get_trigger(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -57,7 +55,7 @@ func get_event(game_session, namespace_name, event_name) -> Gs2AsyncResult:
         request.namespace_name = namespace_name
         request.event_name = event_name
         request.access_token = game_session.access_token.token
-        return await _web_socket_client.get_event(request)
+        return await _rest_client.get_event(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

@@ -11,6 +11,7 @@
 # on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
+# deny overwrite
 class_name Gs2ScheduleUserAccessTokenDomain
 extends RefCounted
 
@@ -147,13 +148,23 @@ func invalidate_events(
         )
     )
 func event(
+# diff --- start
+#    event_name
+# diff --- end
+# diff +++ start
     event_name,
-    is_in_schedule: bool = true
+    is_in_schedule = null
+# diff +++ end
 ) -> Gs2ScheduleEventAccessTokenDomain:
     return Gs2ScheduleEventAccessTokenDomain.new(
         _gs2,
         namespace_name,
         access_token,
+# diff --- start
+#        event_name
+# diff --- end
+# diff +++ start
         event_name,
         is_in_schedule
+# diff +++ end
     )

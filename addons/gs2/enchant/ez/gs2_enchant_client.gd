@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2EnchantWebSocketClient
 var _rest_client: Gs2EnchantRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2EnchantWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2EnchantRestClient.new(connection.rest_session)
 
 
@@ -31,7 +29,7 @@ func get_balance_parameter_model(namespace_name, parameter_name) -> Gs2AsyncResu
         var request = Gs2EnchantGetBalanceParameterModelRequest.new()
         request.namespace_name = namespace_name
         request.parameter_name = parameter_name
-        return await _web_socket_client.get_balance_parameter_model(request)
+        return await _rest_client.get_balance_parameter_model(request)
     var async_result = await _connection.run(null, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -56,7 +54,7 @@ func get_balance_parameter_status(game_session, namespace_name, parameter_name, 
         request.parameter_name = parameter_name
         request.access_token = game_session.access_token.token
         request.property_id = property_id
-        return await _web_socket_client.get_balance_parameter_status(request)
+        return await _rest_client.get_balance_parameter_status(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -108,7 +106,7 @@ func get_rarity_parameter_status(game_session, namespace_name, parameter_name, p
         request.parameter_name = parameter_name
         request.access_token = game_session.access_token.token
         request.property_id = property_id
-        return await _web_socket_client.get_rarity_parameter_status(request)
+        return await _rest_client.get_rarity_parameter_status(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -140,7 +138,7 @@ func verify_rarity_parameter_status(game_session, namespace_name, parameter_name
         request.verify_type = verify_type
         request.parameter_value_name = parameter_value_name
         request.parameter_count = parameter_count
-        return await _web_socket_client.verify_rarity_parameter_status(request)
+        return await _rest_client.verify_rarity_parameter_status(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)

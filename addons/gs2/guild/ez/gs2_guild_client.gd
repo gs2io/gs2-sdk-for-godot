@@ -16,13 +16,11 @@ extends RefCounted
 
 
 var _connection: Gs2Connection
-var _web_socket_client: Gs2GuildWebSocketClient
 var _rest_client: Gs2GuildRestClient
 
 
 func _init(connection: Gs2Connection):
     _connection = connection
-    _web_socket_client = Gs2GuildWebSocketClient.new(connection.web_socket_session)
     _rest_client = Gs2GuildRestClient.new(connection.rest_session)
 
 
@@ -224,7 +222,7 @@ func get_receive_request(game_session, namespace_name, guild_model_name, from_us
         request.access_token = game_session.access_token.token
         request.guild_model_name = guild_model_name
         request.from_user_id = from_user_id
-        return await _web_socket_client.get_receive_request(request)
+        return await _rest_client.get_receive_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -253,7 +251,7 @@ func reject_request(game_session, namespace_name, guild_model_name, from_user_id
         request.access_token = game_session.access_token.token
         request.guild_model_name = guild_model_name
         request.from_user_id = from_user_id
-        return await _web_socket_client.reject_request(request)
+        return await _rest_client.reject_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -267,7 +265,7 @@ func cancel_request(game_session, namespace_name, guild_model_name, target_guild
         request.access_token = game_session.access_token.token
         request.guild_model_name = guild_model_name
         request.target_guild_name = target_guild_name
-        return await _web_socket_client.delete_request(request)
+        return await _rest_client.delete_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -281,7 +279,7 @@ func get_send_request(game_session, namespace_name, guild_model_name, target_gui
         request.access_token = game_session.access_token.token
         request.guild_model_name = guild_model_name
         request.target_guild_name = target_guild_name
-        return await _web_socket_client.get_send_request(request)
+        return await _rest_client.get_send_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -325,7 +323,7 @@ func get_joined_guild(game_session, namespace_name, guild_model_name, guild_name
         request.access_token = game_session.access_token.token
         request.guild_model_name = guild_model_name
         request.guild_name = guild_name
-        return await _web_socket_client.get_joined_guild(request)
+        return await _rest_client.get_joined_guild(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -397,7 +395,7 @@ func delete_ignore_user(game_session, namespace_name, guild_model_name, user_id)
         request.guild_model_name = guild_model_name
         request.access_token = game_session.access_token.token
         request.user_id = user_id
-        return await _web_socket_client.delete_ignore_user(request)
+        return await _rest_client.delete_ignore_user(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
@@ -411,7 +409,7 @@ func get_ignore_user(game_session, namespace_name, guild_model_name, user_id) ->
         request.guild_model_name = guild_model_name
         request.access_token = game_session.access_token.token
         request.user_id = user_id
-        return await _web_socket_client.get_ignore_user(request)
+        return await _rest_client.get_ignore_user(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
