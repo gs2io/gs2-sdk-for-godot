@@ -30,6 +30,13 @@ const HEARTBEAT_INTERVAL_SEC: float = 30.0
 var credential: Gs2Credential
 var region: String = Gs2Region.AP_NORTHEAST_1
 
+## Steady（専用フリート）の基点（https://<host>）。空なら共有クラウド（従来どおり ENDPOINT_HOST）。
+## 接続先は wss://<host>/（基点が http:// なら ws://）になり、handshake に上限が付く。
+## 末尾の / と空白は落とされる
+var steady_endpoint: String = "":
+    set(value):
+        steady_endpoint = Gs2Steady.normalize_steady_endpoint(value)
+
 var _socket: WebSocketPeer
 var _request_id: int = 0
 var _results: Dictionary = {}
@@ -53,6 +60,15 @@ func ping() -> bool:
     return is_open()
 
 
+## WebSocket の接続先。優先順は steady_endpoint ＞ ENDPOINT_HOST。
+## steady_endpoint が空なら従来の ENDPOINT_HOST の置換と byte 単位で同じ文字列になる
+func web_socket_url() -> String:
+    var url = Gs2Steady.steady_web_socket_url(steady_endpoint)
+    if url != "":
+        return url
+    return ENDPOINT_HOST.replace("{region}", region)
+
+
 ## 接続してプロジェクトトークンを取得する
 func open() -> Gs2AsyncResult:
     while _opening:
@@ -62,12 +78,23 @@ func open() -> Gs2AsyncResult:
     _opening = true
     _socket = WebSocketPeer.new()
     _socket.set_heartbeat_interval(HEARTBEAT_INTERVAL_SEC)
-    var err = _socket.connect_to_url(ENDPOINT_HOST.replace("{region}", region))
+    var err = _socket.connect_to_url(web_socket_url())
     if err != OK:
         _socket = null
         _opening = false
         return Gs2AsyncResult.new(null, Gs2Exception.extract_error("core.network.connect.failed", 0))
+    # ★Steady のときだけ handshake（DNS / TCP の接続 / TLS / WebSocket の upgrade）に上限を置く。
+    # フリートが手放した公開 IP は SYN を落とすので、OS 既定に任せない。共有クラウドは不変。
+    # 繋ぎ直しは入れない（失敗は呼び出し元へ返す）
+    var handshake_deadline = -1
+    if steady_endpoint != "":
+        handshake_deadline = Time.get_ticks_msec() + Gs2Steady.CONNECT_TIMEOUT_MS
     while _socket != null and _socket.get_ready_state() == WebSocketPeer.STATE_CONNECTING:
+        if handshake_deadline >= 0 and Time.get_ticks_msec() > handshake_deadline:
+            _socket.close()
+            _socket = null
+            _opening = false
+            return Gs2AsyncResult.new(null, Gs2Exception.extract_error("core.network.timeout", 0))
         _socket.poll()
         await Engine.get_main_loop().process_frame
     if not is_open():

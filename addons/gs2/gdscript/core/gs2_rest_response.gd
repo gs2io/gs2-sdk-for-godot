@@ -19,6 +19,9 @@ var status_code: int = 0
 var body: Variant = null
 var body_bytes: PackedByteArray = PackedByteArray()
 var error: Gs2Exception
+## 接続段階（DNS / TCP / TLS handshake）で失敗し、1 バイトも送っていない
+## （Steady の基点宛のときだけ同じ要求をもう 1 回だけ送る判断に使う）
+var connect_failed: bool = false
 
 
 func is_success() -> bool:
@@ -48,8 +51,9 @@ static func from_response(status_code_: int, body_text: String) -> Gs2RestRespon
     return ret
 
 
-static func network_error(message) -> Gs2RestResponse:
+static func network_error(message, connect_failed_: bool = false) -> Gs2RestResponse:
     var ret = Gs2RestResponse.new()
     ret.status_code = 0
     ret.error = Gs2Exception.extract_error(message, 0)
+    ret.connect_failed = connect_failed_
     return ret

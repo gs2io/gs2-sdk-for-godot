@@ -22,9 +22,16 @@ var rest_session: Gs2RestSession
 var web_socket_session: Gs2WebSocketSession
 
 
-func _init(credential: Gs2Credential, region: String = Gs2Region.AP_NORTHEAST_1):
+## steady_endpoint: Steady（専用フリート）の基点（https://<host>）。空なら共有クラウド
+func _init(
+    credential: Gs2Credential,
+    region: String = Gs2Region.AP_NORTHEAST_1,
+    steady_endpoint: String = ""
+):
     rest_session = Gs2RestSession.new(credential, region)
     web_socket_session = Gs2WebSocketSession.new(credential, region)
+    rest_session.steady_endpoint = steady_endpoint
+    web_socket_session.steady_endpoint = steady_endpoint
     web_socket_session.notification_received.connect(func(message): notification_received.emit(message))
 
 
