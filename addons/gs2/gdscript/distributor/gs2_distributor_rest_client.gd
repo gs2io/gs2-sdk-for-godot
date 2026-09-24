@@ -49,6 +49,8 @@ func create_namespace(request: Gs2DistributorCreateNamespaceRequest) -> Gs2Async
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.assume_user_id != null:
         body["assumeUserId"] = request.assume_user_id
     if request.auto_run_stamp_sheet_notification != null:
@@ -112,6 +114,8 @@ func update_namespace(request: Gs2DistributorUpdateNamespaceRequest) -> Gs2Async
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.assume_user_id != null:
         body["assumeUserId"] = request.assume_user_id
     if request.auto_run_stamp_sheet_notification != null:
@@ -979,6 +983,51 @@ func get_stamp_sheet_result_by_user_id(request: Gs2DistributorGetStampSheetResul
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2DistributorGetStampSheetResultByUserIdResult.from_dict(response.body), null)
+
+
+func describe_user_data(request: Gs2DistributorDescribeUserDataRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "distributor").replace("{region}", session.region) + "/user/me/data"
+    var headers = create_authorized_headers()
+    var query_strings = {}
+    if request.context_stack != null:
+        query_strings["contextStack"] = request.context_stack
+    if request.page_token != null:
+        query_strings["pageToken"] = request.page_token
+    if request.limit != null:
+        query_strings["limit"] = request.limit
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.access_token != null:
+        headers["X-GS2-ACCESS-TOKEN"] = request.access_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("GET", url, headers, query_strings, null)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2DistributorDescribeUserDataResult.from_dict(response.body), null)
+
+
+func describe_user_data_by_user_id(request: Gs2DistributorDescribeUserDataByUserIdRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "distributor").replace("{region}", session.region) + "/user/{userId}/data"
+    url = url.replace("{userId}", "null" if (request.user_id == null or str(request.user_id) == "") else str(request.user_id))
+    var headers = create_authorized_headers()
+    var query_strings = {}
+    if request.context_stack != null:
+        query_strings["contextStack"] = request.context_stack
+    if request.page_token != null:
+        query_strings["pageToken"] = request.page_token
+    if request.limit != null:
+        query_strings["limit"] = request.limit
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.time_offset_token != null:
+        headers["X-GS2-TIME-OFFSET-TOKEN"] = request.time_offset_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("GET", url, headers, query_strings, null)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2DistributorDescribeUserDataByUserIdResult.from_dict(response.body), null)
 
 
 func run_transaction(request: Gs2DistributorRunTransactionRequest) -> Gs2AsyncResult:

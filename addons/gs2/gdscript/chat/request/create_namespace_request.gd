@@ -18,6 +18,7 @@ extends Gs2Request
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var allow_create_room = null
 var message_life_time_days = null
 var post_message_script = null
@@ -41,6 +42,11 @@ func with_description(v) -> Gs2ChatCreateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2ChatCreateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2ChatCreateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -96,6 +102,7 @@ static func from_dict(data) -> Gs2ChatCreateNamespaceRequest:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2ChatTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2ChatTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.allow_create_room = null if data.get("allowCreateRoom") == null else bool(data.get("allowCreateRoom"))
     ret.message_life_time_days = null if data.get("messageLifeTimeDays") == null else int(data.get("messageLifeTimeDays"))
     ret.post_message_script = null if data.get("postMessageScript") == null else Gs2ChatScriptSetting.from_dict(data.get("postMessageScript"))
@@ -113,6 +120,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["allowCreateRoom"] = allow_create_room
     ret["messageLifeTimeDays"] = message_life_time_days
     ret["postMessageScript"] = null if post_message_script == null else post_message_script.to_dict()

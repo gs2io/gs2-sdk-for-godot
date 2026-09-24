@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var acquire_script = null
 var overflow_script = null
 var consume_script = null
@@ -49,6 +50,11 @@ func with_description(v) -> Gs2InventoryNamespace:
 
 func with_transaction_setting(v) -> Gs2InventoryNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2InventoryNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -148,6 +154,7 @@ static func from_dict(data) -> Gs2InventoryNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2InventoryTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2InventoryTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.acquire_script = null if data.get("acquireScript") == null else Gs2InventoryScriptSetting.from_dict(data.get("acquireScript"))
     ret.overflow_script = null if data.get("overflowScript") == null else Gs2InventoryScriptSetting.from_dict(data.get("overflowScript"))
     ret.consume_script = null if data.get("consumeScript") == null else Gs2InventoryScriptSetting.from_dict(data.get("consumeScript"))
@@ -168,6 +175,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["acquireScript"] = null if acquire_script == null else acquire_script.to_dict()
     ret["overflowScript"] = null if overflow_script == null else overflow_script.to_dict()
     ret["consumeScript"] = null if consume_script == null else consume_script.to_dict()

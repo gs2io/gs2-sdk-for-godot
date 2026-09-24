@@ -16,8 +16,11 @@ extends RefCounted
 
 
 var _domain: Gs2DistributorUserAccessTokenDomain
-var _game_session: Variant
+var _game_session: Gs2GameSessionBase
 var _connection: Gs2Connection
+var next_page_token: Variant:
+    get:
+        return _domain.next_page_token
 var namespace_name: Variant:
     get:
         return null if _domain == null else _domain.namespace_name
@@ -28,12 +31,37 @@ var user_id: Variant:
 
 func _init(
     domain: Gs2DistributorUserAccessTokenDomain,
-    game_session: Variant,
+    game_session: Gs2GameSessionBase,
     connection: Gs2Connection
 ):
     _domain = domain
     _game_session = game_session
     _connection = connection
+
+
+func user_data(
+) -> Gs2DistributorEzDescribeUserDataIterator:
+    return Gs2DistributorEzDescribeUserDataIterator.new(
+        _domain,
+        _game_session,
+        _connection
+    )
+
+
+func subscribe_user_data(
+    callback: Callable
+) -> int:
+    return _domain.subscribe_user_data(
+        func(items): callback.call([] if items == null else items.map(func(v): return Gs2DistributorEzUserDataEntry.from_model(v)))
+    )
+
+
+func unsubscribe_user_data(
+    callback_id: int
+) -> void:
+    _domain.unsubscribe_user_data(
+        callback_id
+    )
 
 
 func stamp_sheet_result(

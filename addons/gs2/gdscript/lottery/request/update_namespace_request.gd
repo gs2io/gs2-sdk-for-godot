@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var lottery_trigger_script_id = null
 var log_setting = null
 var queue_namespace_id = null
@@ -36,6 +37,11 @@ func with_description(v) -> Gs2LotteryUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2LotteryUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2LotteryUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -66,6 +72,7 @@ static func from_dict(data) -> Gs2LotteryUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2LotteryTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2LotteryTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.lottery_trigger_script_id = null if data.get("lotteryTriggerScriptId") == null else str(data.get("lotteryTriggerScriptId"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2LotteryLogSetting.from_dict(data.get("logSetting"))
     ret.queue_namespace_id = null if data.get("queueNamespaceId") == null else str(data.get("queueNamespaceId"))
@@ -78,6 +85,7 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["lotteryTriggerScriptId"] = lottery_trigger_script_id
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     ret["queueNamespaceId"] = queue_namespace_id

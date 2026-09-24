@@ -42,7 +42,8 @@ var _request_id: int = 0
 var _results: Dictionary = {}
 var _pending: Array[String] = []
 var _opening: bool = false
-var _pumping: bool = false
+## 受信を回している接続（null なら回っていない）。★接続ごとに 1 本だけ回す
+var _pumping_socket: WebSocketPeer = null
 
 
 func _init(credential_: Gs2Credential, region_: String = Gs2Region.AP_NORTHEAST_1):
@@ -115,10 +116,30 @@ func open() -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null, null)
 
 
+## 接続を閉じる。応答待ちの要求には「接続が切れた」が返る
 func close():
-    if _socket != null:
-        _socket.close()
-        _socket = null
+    _drop_connection(_socket)
+
+
+## ★接続を捨て、応答待ちの要求すべてに「接続が切れた」を返す。
+##
+## 待ち行列（_pending）を片付けないことが致命的だった: 切れた接続の要求 id が残ると、
+## 繋ぎ直したときに requestId を持たない応答（ログイン応答等）が _pending の先頭＝死んだ
+## 要求へ割り当てられ、本当の待ち手が永久に await から返らない（サーバーが応答の前に接続を
+## 閉じる形。gateway の setUserId が自分自身の接続を切る・ノードの死亡・ネットワーク断）。
+##
+## 既に別の接続へ差し替わっていたら何もしない（古い接続の後始末が新しい接続を殺さないように）
+func _drop_connection(socket: WebSocketPeer):
+    if socket == null or socket != _socket:
+        return
+    _socket = null
+    socket.close()
+    var broken = _pending.duplicate()
+    _pending.clear()
+    for request_id in broken:
+        # 既に応答が届いているものはそれを残す（送信者が取り出して消す）
+        if not _results.has(request_id):
+            _results[request_id] = Gs2RestResponse.network_error("core.network.disconnected")
 
 
 ## GS2 API を WebSocket 経由で呼び出す
@@ -130,6 +151,8 @@ func send(service: String, component: String, function: String, body) -> Gs2Rest
             error_response.status_code = open_result.error.status_code
             error_response.error = open_result.error
             return error_response
+    if not is_open():
+        return Gs2RestResponse.network_error("core.network.disconnected")
     _request_id += 1
     var request_id = "%032d" % _request_id
     var message = {} if body == null else body.duplicate()
@@ -146,17 +169,22 @@ func send(service: String, component: String, function: String, body) -> Gs2Rest
     _pending.append(request_id)
     _socket.send_text(JSON.stringify(Gs2RestSession._strip_nulls(message)))
     while true:
-        if _socket == null:
-            return Gs2RestResponse.network_error("core.network.disconnected")
-        _socket.poll()
-        while _socket != null and _socket.get_available_packet_count() > 0:
-            _handle_message(_socket.get_packet().get_string_from_utf8())
+        if _socket != null:
+            _socket.poll()
+            while _socket != null and _socket.get_available_packet_count() > 0:
+                _handle_message(_socket.get_packet().get_string_from_utf8())
+            # ★STATE_CLOSING / STATE_CLOSED になったらもう応答は来ない。
+            # 接続を捨て、待ち中の要求すべてを「接続が切れた」で終わらせる（待ち続けない）
+            if _socket != null and _socket.get_ready_state() != WebSocketPeer.STATE_OPEN:
+                _drop_connection(_socket)
         if _results.has(request_id):
             var response = _results[request_id]
             _results.erase(request_id)
             _pending.erase(request_id)
             return response
-        if _socket == null or _socket.get_ready_state() != WebSocketPeer.STATE_OPEN:
+        if _socket == null:
+            # ★どの経路で抜けても待ち行列から自分を外す（残すと次の接続の応答を取り違える）
+            _pending.erase(request_id)
             return Gs2RestResponse.network_error("core.network.disconnected")
         await Engine.get_main_loop().process_frame
     return null
@@ -174,6 +202,9 @@ func _handle_message(packet: String):
         else:
             notification_received.emit(Gs2NotificationMessage.from_dict(parsed.get("body")))
             return
+    if not _pending.has(request_id):
+        # ★待っていない要求の応答（切断の後に届いた等）は捨てる。_results を溜めない
+        return
     var response = Gs2RestResponse.new()
     var status = 0 if parsed.get("status") == null else int(parsed.get("status"))
     response.status_code = status
@@ -193,17 +224,26 @@ func _handle_message(packet: String):
 
 
 func _start_pump():
-    if _pumping:
+    if _socket == null or _pumping_socket == _socket:
         return
-    _pumping = true
-    _pump()
+    _pumping_socket = _socket
+    _pump(_socket)
 
 
-func _pump():
-    while _socket != null and _socket.get_ready_state() != WebSocketPeer.STATE_CLOSED:
-        _socket.poll()
-        while _socket != null and _socket.get_available_packet_count() > 0:
-            _handle_message(_socket.get_packet().get_string_from_utf8())
+## 接続が開いている間、受信を回し続ける（応答を待っている要求が無くても通知を受け取るため）。
+## ★接続ごとに 1 本。自分の接続が差し替わったら（繋ぎ直し）新しい pump に任せて抜ける。
+## 切れたら _drop_connection で待ち中の要求すべてを終わらせてから抜ける（polling を残さない）
+func _pump(socket: WebSocketPeer):
+    while socket == _socket:
+        socket.poll()
+        while socket == _socket and socket.get_available_packet_count() > 0:
+            _handle_message(socket.get_packet().get_string_from_utf8())
+        if socket != _socket:
+            break
+        if socket.get_ready_state() != WebSocketPeer.STATE_OPEN:
+            _drop_connection(socket)
+            break
         await Engine.get_main_loop().process_frame
-    _pumping = false
+    if _pumping_socket == socket:
+        _pumping_socket = null
     disconnected.emit()

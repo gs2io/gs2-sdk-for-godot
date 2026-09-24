@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var start_quest_script = null
 var complete_quest_script = null
 var failed_quest_script = null
@@ -47,6 +48,11 @@ func with_description(v) -> Gs2QuestNamespace:
 
 func with_transaction_setting(v) -> Gs2QuestNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2QuestNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -136,6 +142,7 @@ static func from_dict(data) -> Gs2QuestNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2QuestTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2QuestTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.start_quest_script = null if data.get("startQuestScript") == null else Gs2QuestScriptSetting.from_dict(data.get("startQuestScript"))
     ret.complete_quest_script = null if data.get("completeQuestScript") == null else Gs2QuestScriptSetting.from_dict(data.get("completeQuestScript"))
     ret.failed_quest_script = null if data.get("failedQuestScript") == null else Gs2QuestScriptSetting.from_dict(data.get("failedQuestScript"))
@@ -154,6 +161,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["startQuestScript"] = null if start_quest_script == null else start_quest_script.to_dict()
     ret["completeQuestScript"] = null if complete_quest_script == null else complete_quest_script.to_dict()
     ret["failedQuestScript"] = null if failed_quest_script == null else failed_quest_script.to_dict()

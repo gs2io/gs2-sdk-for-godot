@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var access_token = null
 var token = null
+var locale = null
 var duplication_avoider = null
 
 
@@ -36,6 +37,11 @@ func with_token(v) -> Gs2GatewaySetFirebaseTokenRequest:
     return self
 
 
+func with_locale(v) -> Gs2GatewaySetFirebaseTokenRequest:
+    locale = v
+    return self
+
+
 func with_duplication_avoider(v) -> Gs2GatewaySetFirebaseTokenRequest:
     duplication_avoider = v
     return self
@@ -48,6 +54,7 @@ static func from_dict(data) -> Gs2GatewaySetFirebaseTokenRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.access_token = null if data.get("accessToken") == null else str(data.get("accessToken"))
     ret.token = null if data.get("token") == null else str(data.get("token"))
+    ret.locale = null if data.get("locale") == null else str(data.get("locale"))
     return ret
 
 
@@ -56,4 +63,5 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["accessToken"] = access_token
     ret["token"] = token
+    ret["locale"] = locale
     return ret

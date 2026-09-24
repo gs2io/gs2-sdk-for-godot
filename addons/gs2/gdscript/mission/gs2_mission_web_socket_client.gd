@@ -115,38 +115,6 @@ func delete_mission_group_model_master(request: Gs2MissionDeleteMissionGroupMode
     return Gs2AsyncResult.new(Gs2MissionDeleteMissionGroupModelMasterResult.from_dict(response.body), null)
 
 
-func create_namespace(request: Gs2MissionCreateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.name != null:
-        body["name"] = request.name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.mission_complete_script != null:
-        body["missionCompleteScript"] = request.mission_complete_script.to_dict()
-    if request.counter_increment_script != null:
-        body["counterIncrementScript"] = request.counter_increment_script.to_dict()
-    if request.receive_rewards_script != null:
-        body["receiveRewardsScript"] = request.receive_rewards_script.to_dict()
-    if request.complete_notification != null:
-        body["completeNotification"] = request.complete_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.queue_namespace_id != null:
-        body["queueNamespaceId"] = request.queue_namespace_id
-    if request.key_id != null:
-        body["keyId"] = request.key_id
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("mission", "namespace", "createNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2MissionCreateNamespaceResult.from_dict(response.body), null)
-
-
 func get_namespace_status(request: Gs2MissionGetNamespaceStatusRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:
@@ -159,66 +127,6 @@ func get_namespace_status(request: Gs2MissionGetNamespaceStatusRequest) -> Gs2As
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2MissionGetNamespaceStatusResult.from_dict(response.body), null)
-
-
-func get_namespace(request: Gs2MissionGetNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("mission", "namespace", "getNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2MissionGetNamespaceResult.from_dict(response.body), null)
-
-
-func update_namespace(request: Gs2MissionUpdateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.mission_complete_script != null:
-        body["missionCompleteScript"] = request.mission_complete_script.to_dict()
-    if request.counter_increment_script != null:
-        body["counterIncrementScript"] = request.counter_increment_script.to_dict()
-    if request.receive_rewards_script != null:
-        body["receiveRewardsScript"] = request.receive_rewards_script.to_dict()
-    if request.complete_notification != null:
-        body["completeNotification"] = request.complete_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.queue_namespace_id != null:
-        body["queueNamespaceId"] = request.queue_namespace_id
-    if request.key_id != null:
-        body["keyId"] = request.key_id
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("mission", "namespace", "updateNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2MissionUpdateNamespaceResult.from_dict(response.body), null)
-
-
-func delete_namespace(request: Gs2MissionDeleteNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("mission", "namespace", "deleteNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2MissionDeleteNamespaceResult.from_dict(response.body), null)
 
 
 func get_service_version(request: Gs2MissionGetServiceVersionRequest) -> Gs2AsyncResult:

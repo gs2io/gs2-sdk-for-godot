@@ -213,6 +213,71 @@ func dispatch(access_token) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null, null)
 
 
+## ユーザーの全データの一括取得（Gs2Distributor:DescribeUserData）でキャッシュを作る
+##
+## ★ログイン直後に 1 回 await すると、そのユーザーの全 GS2 サービスのデータ（スタミナ・インベントリ・
+##   ミッション進捗 …）が各モデルのキャッシュに載り、以後の Get / Describe はサーバーへ出ない。
+##   各エントリは kind でモデルを示し、サービスごとの生成物 `Gs2<Service>ServiceCache.put_user_data`
+##   （kind → モデルの振り分け。鍵の取り出しは各モデルキャッシュの `put_user_data`、sdk-gen の
+##   BaseModel.user_data_cache_keys）へ渡す。キー方式 v2 のプロジェクトでだけ使える（v1 は BadRequest）。
+##
+## ★「リストが揃った印」（Describe のイテレータがサーバーへ出ない条件）は、全ページを読み終えてから
+##   (service, kind, 親キー) の集合にまとめて立てる。途中で失敗したら印は立てない（入れた item は個別 Get の
+##   キャッシュとして残る）。エントリ単位の JSON の失敗は数えず続行する。
+##   ロード中に作ったイテレータは部分的なリストを返しうるので、他の呼び出しの前に await すること。
+##
+## 戻り値: result にキャッシュへ入れたエントリ数（int）。知らない service / kind（SDK が古い、または対応表に無い）は
+## 数えず捨てる。
+func load_user_data(access_token) -> Gs2AsyncResult:
+    assert(access_token != null)
+    # 実態は distributor ドメイン（生成物 Gs2Distributor.load_user_data）。ここは糖衣
+    return await distributor.load_user_data(access_token)
+
+
+## 一括取得の service 名（seed のディレクトリ名の綴り: "stamina" / "skill_tree" / "money2"）を
+## サービスキャッシュのクラス名 ("Gs2Stamina" / "Gs2SkillTree" / "Gs2Money2") の接頭辞に変換する
+static func user_data_service_class_prefix(service: String) -> String:
+    var prefix = "Gs2"
+    for part in service.split("_"):
+        if part == "":
+            continue
+        prefix += part.substr(0, 1).to_upper() + part.substr(1)
+    return prefix
+
+
+## 一括取得の 1 エントリを、service の生成物 (Gs2<Service>ServiceCache.put_user_data) へ振り分けてキャッシュへ入れる。
+## 戻り値は親キー（知らない service / kind は null）。
+func put_user_data(service, namespace_name, user_id, time_offset, kind, payload):
+    if service == null or kind == null:
+        return null
+    var service_cache = Gs2ClassRegistry.resolve(user_data_service_class_prefix(service) + "ServiceCache")
+    if service_cache == null or not _script_has_method(service_cache, "put_user_data"):
+        return null
+    # 1 件の JSON が読めなくても他のエントリは入れる（個別 API で取り直せる）
+    return service_cache.put_user_data(cache, namespace_name, user_id, time_offset, kind, payload)
+
+
+## 一括取得で入れた (service, kind, 親キー) に「リストが揃った印」を立てる
+func set_list_cached(service, time_offset, kind, parent_key) -> bool:
+    if service == null or kind == null or parent_key == null:
+        return false
+    var service_cache = Gs2ClassRegistry.resolve(user_data_service_class_prefix(service) + "ServiceCache")
+    if service_cache == null or not _script_has_method(service_cache, "set_list_cached"):
+        return false
+    return service_cache.set_list_cached(cache, time_offset, kind, parent_key)
+
+
+## Gs2ClassRegistry.resolve が返すスクリプト（クラス）が static func を持つか
+## （Object.has_method はスクリプト資源自身のメソッドを見るので、クラスの static func には使えない）
+static func _script_has_method(script, method_name: String) -> bool:
+    if script == null:
+        return false
+    for m in script.get_script_method_list():
+        if m.name == method_name:
+            return true
+    return false
+
+
 func dispatch_by_user_id(user_id) -> Gs2AsyncResult:
     if Gs2CacheDatabase.now_ms() - _last_ping_at > 5 * 60 * 1000:
         if web_socket_session != null and web_socket_session.has_method("ping"):

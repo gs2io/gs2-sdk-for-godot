@@ -49,6 +49,8 @@ func create_namespace(request: Gs2LoginRewardCreateNamespaceRequest) -> Gs2Async
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.receive_script != null:
         body["receiveScript"] = request.receive_script.to_dict()
     if request.log_setting != null:
@@ -108,6 +110,8 @@ func update_namespace(request: Gs2LoginRewardUpdateNamespaceRequest) -> Gs2Async
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.receive_script != null:
         body["receiveScript"] = request.receive_script.to_dict()
     if request.log_setting != null:

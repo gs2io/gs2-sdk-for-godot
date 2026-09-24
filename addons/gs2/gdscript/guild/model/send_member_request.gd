@@ -16,6 +16,7 @@ extends RefCounted
 
 
 var user_id = null
+var target_guild_model_name = null
 var target_guild_name = null
 var metadata = null
 var created_at = null
@@ -23,6 +24,11 @@ var created_at = null
 
 func with_user_id(v) -> Gs2GuildSendMemberRequest:
     user_id = v
+    return self
+
+
+func with_target_guild_model_name(v) -> Gs2GuildSendMemberRequest:
+    target_guild_model_name = v
     return self
 
 
@@ -46,6 +52,7 @@ static func from_dict(data) -> Gs2GuildSendMemberRequest:
         return null
     var ret = Gs2GuildSendMemberRequest.new()
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
+    ret.target_guild_model_name = null if data.get("targetGuildModelName") == null else str(data.get("targetGuildModelName"))
     ret.target_guild_name = null if data.get("targetGuildName") == null else str(data.get("targetGuildName"))
     ret.metadata = null if data.get("metadata") == null else str(data.get("metadata"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
@@ -55,6 +62,7 @@ static func from_dict(data) -> Gs2GuildSendMemberRequest:
 func to_dict() -> Dictionary:
     var ret = {}
     ret["userId"] = user_id
+    ret["targetGuildModelName"] = target_guild_model_name
     ret["targetGuildName"] = target_guild_name
     ret["metadata"] = metadata
     ret["createdAt"] = created_at

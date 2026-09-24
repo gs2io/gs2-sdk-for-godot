@@ -19,6 +19,7 @@ var name = null
 var description = null
 var support_speculative_execution = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var start_script = null
 var pass_script = null
 var error_script = null
@@ -43,6 +44,11 @@ func with_support_speculative_execution(v) -> Gs2StateMachineCreateNamespaceRequ
 
 func with_transaction_setting(v) -> Gs2StateMachineCreateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2StateMachineCreateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -79,6 +85,7 @@ static func from_dict(data) -> Gs2StateMachineCreateNamespaceRequest:
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.support_speculative_execution = null if data.get("supportSpeculativeExecution") == null else str(data.get("supportSpeculativeExecution"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2StateMachineTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2StateMachineTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.start_script = null if data.get("startScript") == null else Gs2StateMachineScriptSetting.from_dict(data.get("startScript"))
     ret.pass_script = null if data.get("passScript") == null else Gs2StateMachineScriptSetting.from_dict(data.get("passScript"))
     ret.error_script = null if data.get("errorScript") == null else Gs2StateMachineScriptSetting.from_dict(data.get("errorScript"))
@@ -93,6 +100,7 @@ func to_dict() -> Dictionary:
     ret["description"] = description
     ret["supportSpeculativeExecution"] = support_speculative_execution
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["startScript"] = null if start_script == null else start_script.to_dict()
     ret["passScript"] = null if pass_script == null else pass_script.to_dict()
     ret["errorScript"] = null if error_script == null else error_script.to_dict()

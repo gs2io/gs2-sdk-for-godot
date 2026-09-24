@@ -1,0 +1,53 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+class_name Gs2InboxMobileNotificationMessage
+extends RefCounted
+
+
+var locale = null
+var title = null
+var message = null
+
+
+func with_locale(v) -> Gs2InboxMobileNotificationMessage:
+    locale = v
+    return self
+
+
+func with_title(v) -> Gs2InboxMobileNotificationMessage:
+    title = v
+    return self
+
+
+func with_message(v) -> Gs2InboxMobileNotificationMessage:
+    message = v
+    return self
+
+
+static func from_dict(data) -> Gs2InboxMobileNotificationMessage:
+    if data == null:
+        return null
+    var ret = Gs2InboxMobileNotificationMessage.new()
+    ret.locale = null if data.get("locale") == null else str(data.get("locale"))
+    ret.title = null if data.get("title") == null else str(data.get("title"))
+    ret.message = null if data.get("message") == null else str(data.get("message"))
+    return ret
+
+
+func to_dict() -> Dictionary:
+    var ret = {}
+    ret["locale"] = locale
+    ret["title"] = title
+    ret["message"] = message
+    return ret

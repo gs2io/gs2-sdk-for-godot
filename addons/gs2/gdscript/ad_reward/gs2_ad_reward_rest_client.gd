@@ -49,6 +49,8 @@ func create_namespace(request: Gs2AdRewardCreateNamespaceRequest) -> Gs2AsyncRes
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.admob != null:
         body["admob"] = request.admob.to_dict()
     if request.unity_ad != null:
@@ -118,6 +120,8 @@ func update_namespace(request: Gs2AdRewardUpdateNamespaceRequest) -> Gs2AsyncRes
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.admob != null:
         body["admob"] = request.admob.to_dict()
     if request.unity_ad != null:

@@ -11,7 +11,6 @@
 # on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
-# deny overwrite
 class_name Gs2InboxOpenMessageMethodCache
 extends RefCounted
 
@@ -25,23 +24,23 @@ static func put_cache(
 ) -> void:
     if result == null:
         return
-    Gs2InboxMessageCache.delete_cache(
-        cache,
-        request.namespace_name,
-        user_id,
-        request.message_name,
-        time_offset
-    )
-    # diff +++ start
-    cache.clear_list_cache(
-        "Gs2InboxMessage",
-        Gs2InboxMessageCache.cache_parent_key(
+    if result.item != null and result.item.is_read == true:
+        Gs2InboxMessageCache.put_cache(
+            result.item,
+            cache,
             request.namespace_name,
             user_id,
+            request.message_name,
             time_offset
         )
-    )
-    # diff +++ end
+    else:
+        Gs2InboxMessageCache.delete_cache(
+            cache,
+            request.namespace_name,
+            user_id,
+            request.message_name,
+            time_offset
+        )
 
 
 static func invoke(

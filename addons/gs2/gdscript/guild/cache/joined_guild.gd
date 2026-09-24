@@ -109,6 +109,22 @@ static func put_cache(
     time_offset
 ) -> void:
     assert(user_id != null)
+    var pair = get_cache(
+        cache,
+        namespace_name,
+        user_id,
+        guild_model_name,
+        guild_name,
+        time_offset
+    )
+    var value = pair[0]
+    var find = pair[1]
+    var value_revision = value.revision if value != null and value.revision != null else -1
+    var item_revision = item.revision if item != null and item.revision != null else -1
+    if find and value_revision > item_revision and item_revision > 1:
+        return
+    if find and value_revision == item_revision:
+        return
     var ttl = 0
     cache.put(
         "Gs2GuildJoinedGuild",
@@ -123,6 +139,33 @@ static func put_cache(
         ),
         item,
         ttl
+    )
+
+
+# Gs2Distributor:DescribeUserData（ユーザーの全データの一括取得）の 1 エントリ（この kind）をキャッシュへ入れる。
+# 鍵はエントリの namespace_name / 読み込むユーザーの user_id / モデル自身のプロパティ / 主キー GRN から取る
+# （sdk-gen の BaseModel.user_data_cache_keys）。戻り値は親キーで、呼び手が全ページを読み終えてから
+# Gs2GuildServiceCache.set_list_cached(cache, time_offset, kind, parent_key) で「リストが揃った印」を立てる。
+static func put_user_data(
+    item,
+    cache: Gs2CacheDatabase,
+    namespace_name,
+    user_id,
+    time_offset
+) -> String:
+    put_cache(
+        item,
+        cache,
+        namespace_name,
+        user_id,
+        item.guild_model_name,
+        item.guild_name,
+        time_offset
+    )
+    return cache_parent_key(
+        namespace_name,
+        user_id,
+        time_offset
     )
 
 

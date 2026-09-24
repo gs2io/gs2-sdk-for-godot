@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var log_setting = null
 
 
@@ -36,6 +37,11 @@ func with_transaction_setting(v) -> Gs2ScheduleUpdateNamespaceRequest:
     return self
 
 
+func with_transaction_setting_v2(v) -> Gs2ScheduleUpdateNamespaceRequest:
+    transaction_setting_v2 = v
+    return self
+
+
 func with_log_setting(v) -> Gs2ScheduleUpdateNamespaceRequest:
     log_setting = v
     return self
@@ -48,6 +54,7 @@ static func from_dict(data) -> Gs2ScheduleUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2ScheduleTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2ScheduleTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2ScheduleLogSetting.from_dict(data.get("logSetting"))
     return ret
 
@@ -57,5 +64,6 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     return ret

@@ -131,5 +131,11 @@ func dispatch(game_session) -> Gs2AsyncResult:
     return await gs2.dispatch(game_session.access_token)
 
 
+## 一括取得（Gs2Distributor:DescribeUserData）でこのユーザーの全データを各モデルのキャッシュへ入れる。
+## ログイン直後に 1 回 await すると、以後の Get / Describe はサーバーへ出ない。実態は distributor.load_user_data
+func load_user_data(game_session) -> Gs2AsyncResult:
+    return await gs2.load_user_data(game_session.access_token)
+
+
 func clear_cache() -> void:
     gs2.clear_cache()

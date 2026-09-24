@@ -26,6 +26,7 @@ var enable_event_bridge = null
 var currency = null
 var event_bridge_aws_account_id = null
 var event_bridge_aws_region = null
+var data_store_key_scheme = null
 var created_at = null
 var updated_at = null
 
@@ -85,6 +86,11 @@ func with_event_bridge_aws_region(v) -> Gs2ProjectProject:
     return self
 
 
+func with_data_store_key_scheme(v) -> Gs2ProjectProject:
+    data_store_key_scheme = v
+    return self
+
+
 func with_created_at(v) -> Gs2ProjectProject:
     created_at = v
     return self
@@ -132,6 +138,7 @@ static func from_dict(data) -> Gs2ProjectProject:
     ret.currency = null if data.get("currency") == null else str(data.get("currency"))
     ret.event_bridge_aws_account_id = null if data.get("eventBridgeAwsAccountId") == null else str(data.get("eventBridgeAwsAccountId"))
     ret.event_bridge_aws_region = null if data.get("eventBridgeAwsRegion") == null else str(data.get("eventBridgeAwsRegion"))
+    ret.data_store_key_scheme = null if data.get("dataStoreKeyScheme") == null else str(data.get("dataStoreKeyScheme"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
     ret.updated_at = null if data.get("updatedAt") == null else int(data.get("updatedAt"))
     return ret
@@ -150,6 +157,7 @@ func to_dict() -> Dictionary:
     ret["currency"] = currency
     ret["eventBridgeAwsAccountId"] = event_bridge_aws_account_id
     ret["eventBridgeAwsRegion"] = event_bridge_aws_region
+    ret["dataStoreKeyScheme"] = data_store_key_scheme
     ret["createdAt"] = created_at
     ret["updatedAt"] = updated_at
     return ret

@@ -24,13 +24,23 @@ static func put_cache(
 ) -> void:
     if result == null:
         return
-    Gs2InboxMessageCache.delete_cache(
-        cache,
-        request.namespace_name,
-        (result.item.user_id if result.item != null else null),
-        request.message_name,
-        time_offset
-    )
+    if result.item != null and result.item.is_read == true:
+        Gs2InboxMessageCache.put_cache(
+            result.item,
+            cache,
+            request.namespace_name,
+            result.item.user_id,
+            request.message_name,
+            time_offset
+        )
+    else:
+        Gs2InboxMessageCache.delete_cache(
+            cache,
+            request.namespace_name,
+            (result.item.user_id if result.item != null else null),
+            request.message_name,
+            time_offset
+        )
 
 
 static func invoke(

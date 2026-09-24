@@ -49,6 +49,8 @@ func create_namespace(request: Gs2QuestCreateNamespaceRequest) -> Gs2AsyncResult
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.start_quest_script != null:
         body["startQuestScript"] = request.start_quest_script.to_dict()
     if request.complete_quest_script != null:
@@ -116,6 +118,8 @@ func update_namespace(request: Gs2QuestUpdateNamespaceRequest) -> Gs2AsyncResult
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.start_quest_script != null:
         body["startQuestScript"] = request.start_quest_script.to_dict()
     if request.complete_quest_script != null:

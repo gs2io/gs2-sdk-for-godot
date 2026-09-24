@@ -25,6 +25,7 @@ var billing_method_name = null
 var enable_event_bridge = null
 var event_bridge_aws_account_id = null
 var event_bridge_aws_region = null
+var data_store_key_scheme = null
 
 
 func with_account_token(v) -> Gs2ProjectCreateProjectRequest:
@@ -77,6 +78,11 @@ func with_event_bridge_aws_region(v) -> Gs2ProjectCreateProjectRequest:
     return self
 
 
+func with_data_store_key_scheme(v) -> Gs2ProjectCreateProjectRequest:
+    data_store_key_scheme = v
+    return self
+
+
 static func from_dict(data) -> Gs2ProjectCreateProjectRequest:
     if data == null:
         return null
@@ -91,6 +97,7 @@ static func from_dict(data) -> Gs2ProjectCreateProjectRequest:
     ret.enable_event_bridge = null if data.get("enableEventBridge") == null else str(data.get("enableEventBridge"))
     ret.event_bridge_aws_account_id = null if data.get("eventBridgeAwsAccountId") == null else str(data.get("eventBridgeAwsAccountId"))
     ret.event_bridge_aws_region = null if data.get("eventBridgeAwsRegion") == null else str(data.get("eventBridgeAwsRegion"))
+    ret.data_store_key_scheme = null if data.get("dataStoreKeyScheme") == null else str(data.get("dataStoreKeyScheme"))
     return ret
 
 
@@ -106,4 +113,5 @@ func to_dict() -> Dictionary:
     ret["enableEventBridge"] = enable_event_bridge
     ret["eventBridgeAwsAccountId"] = event_bridge_aws_account_id
     ret["eventBridgeAwsRegion"] = event_bridge_aws_region
+    ret["dataStoreKeyScheme"] = data_store_key_scheme
     return ret

@@ -757,6 +757,8 @@ func create_namespace(request: Gs2MissionCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.mission_complete_script != null:
         body["missionCompleteScript"] = request.mission_complete_script.to_dict()
     if request.counter_increment_script != null:
@@ -826,6 +828,8 @@ func update_namespace(request: Gs2MissionUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.mission_complete_script != null:
         body["missionCompleteScript"] = request.mission_complete_script.to_dict()
     if request.counter_increment_script != null:

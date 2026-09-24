@@ -53,6 +53,8 @@ func create_namespace(request: Gs2ExchangeCreateNamespaceRequest) -> Gs2AsyncRes
         body["enableDirectExchange"] = request.enable_direct_exchange
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.exchange_script != null:
         body["exchangeScript"] = request.exchange_script.to_dict()
     if request.incremental_exchange_script != null:
@@ -124,6 +126,8 @@ func update_namespace(request: Gs2ExchangeUpdateNamespaceRequest) -> Gs2AsyncRes
         body["enableDirectExchange"] = request.enable_direct_exchange
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.exchange_script != null:
         body["exchangeScript"] = request.exchange_script.to_dict()
     if request.incremental_exchange_script != null:

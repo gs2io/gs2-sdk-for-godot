@@ -23,8 +23,12 @@ func create_namespace(request: Gs2GatewayCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.firebase_secret != null:
         body["firebaseSecret"] = request.firebase_secret
+    if request.firebase_project_id != null:
+        body["firebaseProjectId"] = request.firebase_project_id
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.context_stack != null:
@@ -73,8 +77,12 @@ func update_namespace(request: Gs2GatewayUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.firebase_secret != null:
         body["firebaseSecret"] = request.firebase_secret
+    if request.firebase_project_id != null:
+        body["firebaseProjectId"] = request.firebase_project_id
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.context_stack != null:
@@ -303,6 +311,8 @@ func set_firebase_token(request: Gs2GatewaySetFirebaseTokenRequest) -> Gs2AsyncR
         body["accessToken"] = request.access_token
     if request.token != null:
         body["token"] = request.token
+    if request.locale != null:
+        body["locale"] = request.locale
     if request.context_stack != null:
         body["contextStack"] = request.context_stack
     if request.access_token != null:
@@ -325,6 +335,8 @@ func set_firebase_token_by_user_id(request: Gs2GatewaySetFirebaseTokenByUserIdRe
         body["userId"] = request.user_id
     if request.token != null:
         body["token"] = request.token
+    if request.locale != null:
+        body["locale"] = request.locale
     if request.time_offset_token != null:
         body["timeOffsetToken"] = request.time_offset_token
     if request.context_stack != null:
@@ -427,6 +439,8 @@ func send_mobile_notification_by_user_id(request: Gs2GatewaySendMobileNotificati
         body["payload"] = request.payload
     if request.sound != null:
         body["sound"] = request.sound
+    if request.mobile_notification_messages != null:
+        body["mobileNotificationMessages"] = request.mobile_notification_messages.map(func(v): return null if v == null else v.to_dict())
     if request.time_offset_token != null:
         body["timeOffsetToken"] = request.time_offset_token
     if request.context_stack != null:

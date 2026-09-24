@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var follow_script = null
 var unfollow_script = null
 var send_request_script = null
@@ -56,6 +57,11 @@ func with_description(v) -> Gs2FriendNamespace:
 
 func with_transaction_setting(v) -> Gs2FriendNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2FriendNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -190,6 +196,7 @@ static func from_dict(data) -> Gs2FriendNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2FriendTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2FriendTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.follow_script = null if data.get("followScript") == null else Gs2FriendScriptSetting.from_dict(data.get("followScript"))
     ret.unfollow_script = null if data.get("unfollowScript") == null else Gs2FriendScriptSetting.from_dict(data.get("unfollowScript"))
     ret.send_request_script = null if data.get("sendRequestScript") == null else Gs2FriendScriptSetting.from_dict(data.get("sendRequestScript"))
@@ -217,6 +224,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["followScript"] = null if follow_script == null else follow_script.to_dict()
     ret["unfollowScript"] = null if unfollow_script == null else unfollow_script.to_dict()
     ret["sendRequestScript"] = null if send_request_script == null else send_request_script.to_dict()

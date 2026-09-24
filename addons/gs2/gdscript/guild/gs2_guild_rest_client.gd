@@ -49,6 +49,8 @@ func create_namespace(request: Gs2GuildCreateNamespaceRequest) -> Gs2AsyncResult
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.change_notification != null:
         body["changeNotification"] = request.change_notification.to_dict()
     if request.join_notification != null:
@@ -134,6 +136,8 @@ func update_namespace(request: Gs2GuildUpdateNamespaceRequest) -> Gs2AsyncResult
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.change_notification != null:
         body["changeNotification"] = request.change_notification.to_dict()
     if request.join_notification != null:

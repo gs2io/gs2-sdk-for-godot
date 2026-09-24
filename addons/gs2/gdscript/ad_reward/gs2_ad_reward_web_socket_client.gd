@@ -15,38 +15,6 @@ class_name Gs2AdRewardWebSocketClient
 extends Gs2AbstractWebSocketClient
 
 
-func create_namespace(request: Gs2AdRewardCreateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.name != null:
-        body["name"] = request.name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.admob != null:
-        body["admob"] = request.admob.to_dict()
-    if request.unity_ad != null:
-        body["unityAd"] = request.unity_ad.to_dict()
-    if request.app_lovin_maxes != null:
-        body["appLovinMaxes"] = request.app_lovin_maxes.map(func(v): return null if v == null else v.to_dict())
-    if request.acquire_point_script != null:
-        body["acquirePointScript"] = request.acquire_point_script.to_dict()
-    if request.consume_point_script != null:
-        body["consumePointScript"] = request.consume_point_script.to_dict()
-    if request.change_point_notification != null:
-        body["changePointNotification"] = request.change_point_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("adReward", "namespace", "createNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AdRewardCreateNamespaceResult.from_dict(response.body), null)
-
-
 func get_namespace_status(request: Gs2AdRewardGetNamespaceStatusRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:
@@ -59,66 +27,6 @@ func get_namespace_status(request: Gs2AdRewardGetNamespaceStatusRequest) -> Gs2A
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2AdRewardGetNamespaceStatusResult.from_dict(response.body), null)
-
-
-func get_namespace(request: Gs2AdRewardGetNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("adReward", "namespace", "getNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AdRewardGetNamespaceResult.from_dict(response.body), null)
-
-
-func update_namespace(request: Gs2AdRewardUpdateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.admob != null:
-        body["admob"] = request.admob.to_dict()
-    if request.unity_ad != null:
-        body["unityAd"] = request.unity_ad.to_dict()
-    if request.app_lovin_maxes != null:
-        body["appLovinMaxes"] = request.app_lovin_maxes.map(func(v): return null if v == null else v.to_dict())
-    if request.acquire_point_script != null:
-        body["acquirePointScript"] = request.acquire_point_script.to_dict()
-    if request.consume_point_script != null:
-        body["consumePointScript"] = request.consume_point_script.to_dict()
-    if request.change_point_notification != null:
-        body["changePointNotification"] = request.change_point_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("adReward", "namespace", "updateNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AdRewardUpdateNamespaceResult.from_dict(response.body), null)
-
-
-func delete_namespace(request: Gs2AdRewardDeleteNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("adReward", "namespace", "deleteNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AdRewardDeleteNamespaceResult.from_dict(response.body), null)
 
 
 func get_service_version(request: Gs2AdRewardGetServiceVersionRequest) -> Gs2AsyncResult:

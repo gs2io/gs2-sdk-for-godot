@@ -23,6 +23,8 @@ func create_namespace(request: Gs2StaminaCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.overflow_trigger_script != null:
         body["overflowTriggerScript"] = request.overflow_trigger_script
     if request.log_setting != null:
@@ -73,6 +75,8 @@ func update_namespace(request: Gs2StaminaUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.overflow_trigger_script != null:
         body["overflowTriggerScript"] = request.overflow_trigger_script
     if request.log_setting != null:

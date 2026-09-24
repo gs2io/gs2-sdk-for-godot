@@ -15,32 +15,6 @@ class_name Gs2RealtimeWebSocketClient
 extends Gs2AbstractWebSocketClient
 
 
-func create_namespace(request: Gs2RealtimeCreateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.name != null:
-        body["name"] = request.name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.server_type != null:
-        body["serverType"] = request.server_type
-    if request.server_spec != null:
-        body["serverSpec"] = request.server_spec
-    if request.create_notification != null:
-        body["createNotification"] = request.create_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("realtime", "namespace", "createNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2RealtimeCreateNamespaceResult.from_dict(response.body), null)
-
-
 func get_namespace_status(request: Gs2RealtimeGetNamespaceStatusRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:
@@ -53,60 +27,6 @@ func get_namespace_status(request: Gs2RealtimeGetNamespaceStatusRequest) -> Gs2A
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2RealtimeGetNamespaceStatusResult.from_dict(response.body), null)
-
-
-func get_namespace(request: Gs2RealtimeGetNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("realtime", "namespace", "getNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2RealtimeGetNamespaceResult.from_dict(response.body), null)
-
-
-func update_namespace(request: Gs2RealtimeUpdateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.server_type != null:
-        body["serverType"] = request.server_type
-    if request.server_spec != null:
-        body["serverSpec"] = request.server_spec
-    if request.create_notification != null:
-        body["createNotification"] = request.create_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("realtime", "namespace", "updateNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2RealtimeUpdateNamespaceResult.from_dict(response.body), null)
-
-
-func delete_namespace(request: Gs2RealtimeDeleteNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("realtime", "namespace", "deleteNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2RealtimeDeleteNamespaceResult.from_dict(response.body), null)
 
 
 func now(request: Gs2RealtimeNowRequest) -> Gs2AsyncResult:

@@ -23,6 +23,8 @@ func create_namespace(request: Gs2SeasonRatingCreateNamespaceRequest) -> Gs2Asyn
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.context_stack != null:
@@ -71,6 +73,8 @@ func update_namespace(request: Gs2SeasonRatingUpdateNamespaceRequest) -> Gs2Asyn
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.context_stack != null:

@@ -20,6 +20,7 @@ var user_id = null
 var subject = null
 var payload = null
 var sound = null
+var mobile_notification_messages = null
 var time_offset_token = null
 var duplication_avoider = null
 
@@ -49,6 +50,11 @@ func with_sound(v) -> Gs2GatewaySendMobileNotificationByUserIdRequest:
     return self
 
 
+func with_mobile_notification_messages(v) -> Gs2GatewaySendMobileNotificationByUserIdRequest:
+    mobile_notification_messages = v
+    return self
+
+
 func with_time_offset_token(v) -> Gs2GatewaySendMobileNotificationByUserIdRequest:
     time_offset_token = v
     return self
@@ -68,6 +74,7 @@ static func from_dict(data) -> Gs2GatewaySendMobileNotificationByUserIdRequest:
     ret.subject = null if data.get("subject") == null else str(data.get("subject"))
     ret.payload = null if data.get("payload") == null else str(data.get("payload"))
     ret.sound = null if data.get("sound") == null else str(data.get("sound"))
+    ret.mobile_notification_messages = null if data.get("mobileNotificationMessages") == null else data.get("mobileNotificationMessages").map(func(v): return Gs2GatewayMobileNotificationMessage.from_dict(v))
     ret.time_offset_token = null if data.get("timeOffsetToken") == null else str(data.get("timeOffsetToken"))
     return ret
 
@@ -79,5 +86,6 @@ func to_dict() -> Dictionary:
     ret["subject"] = subject
     ret["payload"] = payload
     ret["sound"] = sound
+    ret["mobileNotificationMessages"] = null if mobile_notification_messages == null else mobile_notification_messages.map(func(v): return null if v == null else v.to_dict())
     ret["timeOffsetToken"] = time_offset_token
     return ret

@@ -199,6 +199,8 @@ func create_project(request: Gs2ProjectCreateProjectRequest) -> Gs2AsyncResult:
         body["eventBridgeAwsAccountId"] = request.event_bridge_aws_account_id
     if request.event_bridge_aws_region != null:
         body["eventBridgeAwsRegion"] = request.event_bridge_aws_region
+    if request.data_store_key_scheme != null:
+        body["dataStoreKeyScheme"] = request.data_store_key_scheme
     if request.context_stack != null:
         body["contextStack"] = request.context_stack
     if request.dry_run:

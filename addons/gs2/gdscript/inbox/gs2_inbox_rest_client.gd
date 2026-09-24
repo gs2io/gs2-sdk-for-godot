@@ -51,6 +51,8 @@ func create_namespace(request: Gs2InboxCreateNamespaceRequest) -> Gs2AsyncResult
         body["isAutomaticDeletingEnabled"] = request.is_automatic_deleting_enabled
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.receive_message_script != null:
         body["receiveMessageScript"] = request.receive_message_script.to_dict()
     if request.read_message_script != null:
@@ -122,6 +124,8 @@ func update_namespace(request: Gs2InboxUpdateNamespaceRequest) -> Gs2AsyncResult
         body["isAutomaticDeletingEnabled"] = request.is_automatic_deleting_enabled
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.receive_message_script != null:
         body["receiveMessageScript"] = request.receive_message_script.to_dict()
     if request.read_message_script != null:

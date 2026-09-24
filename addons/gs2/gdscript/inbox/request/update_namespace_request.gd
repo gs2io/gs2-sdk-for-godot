@@ -19,6 +19,7 @@ var namespace_name = null
 var description = null
 var is_automatic_deleting_enabled = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var receive_message_script = null
 var read_message_script = null
 var delete_message_script = null
@@ -45,6 +46,11 @@ func with_is_automatic_deleting_enabled(v) -> Gs2InboxUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2InboxUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2InboxUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -91,6 +97,7 @@ static func from_dict(data) -> Gs2InboxUpdateNamespaceRequest:
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.is_automatic_deleting_enabled = null if data.get("isAutomaticDeletingEnabled") == null else bool(data.get("isAutomaticDeletingEnabled"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2InboxTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2InboxTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.receive_message_script = null if data.get("receiveMessageScript") == null else Gs2InboxScriptSetting.from_dict(data.get("receiveMessageScript"))
     ret.read_message_script = null if data.get("readMessageScript") == null else Gs2InboxScriptSetting.from_dict(data.get("readMessageScript"))
     ret.delete_message_script = null if data.get("deleteMessageScript") == null else Gs2InboxScriptSetting.from_dict(data.get("deleteMessageScript"))
@@ -107,6 +114,7 @@ func to_dict() -> Dictionary:
     ret["description"] = description
     ret["isAutomaticDeletingEnabled"] = is_automatic_deleting_enabled
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["receiveMessageScript"] = null if receive_message_script == null else receive_message_script.to_dict()
     ret["readMessageScript"] = null if read_message_script == null else read_message_script.to_dict()
     ret["deleteMessageScript"] = null if delete_message_script == null else delete_message_script.to_dict()

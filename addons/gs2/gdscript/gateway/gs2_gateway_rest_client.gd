@@ -49,8 +49,12 @@ func create_namespace(request: Gs2GatewayCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.firebase_secret != null:
         body["firebaseSecret"] = request.firebase_secret
+    if request.firebase_project_id != null:
+        body["firebaseProjectId"] = request.firebase_project_id
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.request_id != null:
@@ -108,8 +112,12 @@ func update_namespace(request: Gs2GatewayUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.firebase_secret != null:
         body["firebaseSecret"] = request.firebase_secret
+    if request.firebase_project_id != null:
+        body["firebaseProjectId"] = request.firebase_project_id
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.request_id != null:
@@ -409,6 +417,8 @@ func send_notification(request: Gs2GatewaySendNotificationRequest) -> Gs2AsyncRe
         body["enableTransferMobileNotification"] = request.enable_transfer_mobile_notification
     if request.sound != null:
         body["sound"] = request.sound
+    if request.mobile_notification_messages != null:
+        body["mobileNotificationMessages"] = request.mobile_notification_messages.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:
@@ -471,6 +481,8 @@ func set_firebase_token(request: Gs2GatewaySetFirebaseTokenRequest) -> Gs2AsyncR
         body["contextStack"] = request.context_stack
     if request.token != null:
         body["token"] = request.token
+    if request.locale != null:
+        body["locale"] = request.locale
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.access_token != null:
@@ -495,6 +507,8 @@ func set_firebase_token_by_user_id(request: Gs2GatewaySetFirebaseTokenByUserIdRe
         body["contextStack"] = request.context_stack
     if request.token != null:
         body["token"] = request.token
+    if request.locale != null:
+        body["locale"] = request.locale
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:
@@ -605,6 +619,8 @@ func send_mobile_notification_by_user_id(request: Gs2GatewaySendMobileNotificati
         body["payload"] = request.payload
     if request.sound != null:
         body["sound"] = request.sound
+    if request.mobile_notification_messages != null:
+        body["mobileNotificationMessages"] = request.mobile_notification_messages.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:

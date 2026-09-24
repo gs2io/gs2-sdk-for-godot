@@ -105,6 +105,31 @@ static func put_cache(
     )
 
 
+# Gs2Distributor:DescribeUserData（ユーザーの全データの一括取得）の 1 エントリ（この kind）をキャッシュへ入れる。
+# 鍵はエントリの namespace_name / 読み込むユーザーの user_id / モデル自身のプロパティ / 主キー GRN から取る
+# （sdk-gen の BaseModel.user_data_cache_keys）。戻り値は親キーで、呼び手が全ページを読み終えてから
+# Gs2FormationServiceCache.set_list_cached(cache, time_offset, kind, parent_key) で「リストが揃った印」を立てる。
+static func put_user_data(
+    item,
+    cache: Gs2CacheDatabase,
+    namespace_name,
+    user_id,
+    time_offset
+) -> String:
+    put_cache(
+        item,
+        cache,
+        namespace_name,
+        Gs2FormationFormModel.get_mold_model_name_from_grn(item.form_model_id),
+        time_offset
+    )
+    return cache_parent_key(
+        namespace_name,
+        Gs2FormationFormModel.get_mold_model_name_from_grn(item.form_model_id),
+        time_offset
+    )
+
+
 static func delete_cache(
     cache: Gs2CacheDatabase,
     namespace_name,

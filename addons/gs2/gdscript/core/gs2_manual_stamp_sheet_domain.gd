@@ -19,6 +19,12 @@ extends Gs2TransactionDomain
 
 var _stamp_sheet: Variant = null
 var _stamp_sheet_encryption_key_id: Variant = null
+# The stamp sheet runs once per instance: the SDK waits on it inside the
+# action that issued it, and a caller that waits again shares that run
+# instead of sending every task a second time.
+var _running := false
+var _run_result: Gs2AsyncResult = null
+signal _run_finished(run_result)
 
 
 func _init(gs2_, access_token_, user_id_, transaction_id_, stamp_sheet, stamp_sheet_encryption_key_id):
@@ -37,6 +43,27 @@ func _handle_result(action_name, result_payload) -> Gs2AsyncResult:
 
 
 func wait(all: bool = false) -> Gs2AsyncResult:
+    var run_result: Gs2AsyncResult
+    if _running:
+        run_result = await _run_finished
+    elif _run_result != null:
+        run_result = _run_result
+    else:
+        _running = true
+        run_result = await _run()
+        _running = false
+        # A failed run is forgotten so that waiting again retries it.
+        if run_result.error == null:
+            _run_result = run_result
+        _run_finished.emit(run_result)
+    if run_result.error != null:
+        return run_result
+    if all and run_result.result != null:
+        return await run_result.result.wait(true)
+    return run_result
+
+
+func _run() -> Gs2AsyncResult:
     var client = Gs2DistributorRestClient.new(gs2.rest_session)
     var time_offset = _time_offset()
     if _stamp_sheet == null or not (_stamp_sheet is String):
@@ -76,7 +103,7 @@ func wait(all: bool = false) -> Gs2AsyncResult:
             if async_result.error != null:
                 if async_result.error is Gs2NotFoundException:
                     gs2.transaction_configuration.namespace_name = null
-                    return await wait(all)
+                    return await _run()
                 return async_result
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
@@ -117,7 +144,7 @@ func wait(all: bool = false) -> Gs2AsyncResult:
             if async_result.error != null:
                 if async_result.error is Gs2NotFoundException:
                     gs2.transaction_configuration.namespace_name = null
-                    return await wait(all)
+                    return await _run()
                 return async_result
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
@@ -165,7 +192,7 @@ func wait(all: bool = false) -> Gs2AsyncResult:
         if async_result.error != null:
             if async_result.error is Gs2NotFoundException:
                 gs2.transaction_configuration.namespace_name = null
-                return await wait(all)
+                return await _run()
             return async_result
         var code = async_result.result.status_code if async_result.result.status_code != null else 999
         if int(code / 100.0) != 2:
@@ -179,9 +206,4 @@ func wait(all: bool = false) -> Gs2AsyncResult:
             async_result.result.result
         )
         result_payload = async_result.result.result if async_result.result.result != null and async_result.result.result != "" else "{}"
-    var transaction_result = _handle_result(action_name, result_payload)
-    if transaction_result.error != null:
-        return transaction_result
-    if all and transaction_result.result != null:
-        return await transaction_result.result.wait(true)
-    return transaction_result
+    return _handle_result(action_name, result_payload)

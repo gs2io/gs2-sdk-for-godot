@@ -51,6 +51,8 @@ func create_namespace(request: Gs2Money2CreateNamespaceRequest) -> Gs2AsyncResul
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.shared_free_currency != null:
         body["sharedFreeCurrency"] = request.shared_free_currency
     if request.platform_setting != null:
@@ -130,6 +132,8 @@ func update_namespace(request: Gs2Money2UpdateNamespaceRequest) -> Gs2AsyncResul
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.platform_setting != null:
         body["platformSetting"] = request.platform_setting.to_dict()
     if request.deposit_balance_script != null:

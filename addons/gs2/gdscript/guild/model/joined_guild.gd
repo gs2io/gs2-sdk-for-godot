@@ -20,6 +20,7 @@ var guild_model_name = null
 var guild_name = null
 var user_id = null
 var created_at = null
+var revision = null
 
 
 func with_joined_guild_id(v) -> Gs2GuildJoinedGuild:
@@ -44,6 +45,11 @@ func with_user_id(v) -> Gs2GuildJoinedGuild:
 
 func with_created_at(v) -> Gs2GuildJoinedGuild:
     created_at = v
+    return self
+
+
+func with_revision(v) -> Gs2GuildJoinedGuild:
+    revision = v
     return self
 
 
@@ -122,6 +128,7 @@ static func from_dict(data) -> Gs2GuildJoinedGuild:
     ret.guild_name = null if data.get("guildName") == null else str(data.get("guildName"))
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
+    ret.revision = null if data.get("revision") == null else int(data.get("revision"))
     return ret
 
 
@@ -132,4 +139,5 @@ func to_dict() -> Dictionary:
     ret["guildName"] = guild_name
     ret["userId"] = user_id
     ret["createdAt"] = created_at
+    ret["revision"] = revision
     return ret

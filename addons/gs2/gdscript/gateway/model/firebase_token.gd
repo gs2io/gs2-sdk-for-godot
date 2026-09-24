@@ -18,6 +18,7 @@ extends RefCounted
 var firebase_token_id = null
 var user_id = null
 var token = null
+var locale = null
 var created_at = null
 var updated_at = null
 var revision = null
@@ -35,6 +36,11 @@ func with_user_id(v) -> Gs2GatewayFirebaseToken:
 
 func with_token(v) -> Gs2GatewayFirebaseToken:
     token = v
+    return self
+
+
+func with_locale(v) -> Gs2GatewayFirebaseToken:
+    locale = v
     return self
 
 
@@ -104,6 +110,7 @@ static func from_dict(data) -> Gs2GatewayFirebaseToken:
     ret.firebase_token_id = null if data.get("firebaseTokenId") == null else str(data.get("firebaseTokenId"))
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
     ret.token = null if data.get("token") == null else str(data.get("token"))
+    ret.locale = null if data.get("locale") == null else str(data.get("locale"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
     ret.updated_at = null if data.get("updatedAt") == null else int(data.get("updatedAt"))
     ret.revision = null if data.get("revision") == null else int(data.get("revision"))
@@ -115,6 +122,7 @@ func to_dict() -> Dictionary:
     ret["firebaseTokenId"] = firebase_token_id
     ret["userId"] = user_id
     ret["token"] = token
+    ret["locale"] = locale
     ret["createdAt"] = created_at
     ret["updatedAt"] = updated_at
     ret["revision"] = revision

@@ -58,7 +58,7 @@ func batch_execute_api(request_payloads) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2DistributorEzBatchExecuteApiResult.from_model(async_result.result), null)
 
 
-func freeze_master_data(game_session, namespace_name) -> Gs2AsyncResult:
+func freeze_master_data(game_session: Gs2GameSessionBase, namespace_name) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2DistributorFreezeMasterDataRequest.new()
         request.namespace_name = namespace_name
@@ -70,7 +70,7 @@ func freeze_master_data(game_session, namespace_name) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2DistributorEzFreezeMasterDataResult.from_model(async_result.result), null)
 
 
-func freeze_master_data_by_signed_timestamp(game_session, namespace_name, body, signature, key_id) -> Gs2AsyncResult:
+func freeze_master_data_by_signed_timestamp(game_session: Gs2GameSessionBase, namespace_name, body, signature, key_id) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2DistributorFreezeMasterDataBySignedTimestampRequest.new()
         request.namespace_name = namespace_name
@@ -191,7 +191,7 @@ func run_verify_task_without_namespace(verify_task, key_id, context_stack = null
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2DistributorEzRunVerifyTaskWithoutNamespaceResult.from_model(async_result.result), null)
 
 
-func set_default_config(game_session, config) -> Gs2AsyncResult:
+func set_default_config(game_session: Gs2GameSessionBase, config) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2DistributorSetTransactionDefaultConfigRequest.new()
         request.access_token = game_session.access_token.token
@@ -203,7 +203,20 @@ func set_default_config(game_session, config) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2DistributorEzSetDefaultConfigResult.from_model(async_result.result), null)
 
 
-func get_stamp_sheet_result(game_session, namespace_name, transaction_id) -> Gs2AsyncResult:
+func describe_user_data(game_session: Gs2GameSessionBase, page_token = null, limit = null) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2DistributorDescribeUserDataRequest.new()
+        request.access_token = game_session.access_token.token
+        request.page_token = page_token
+        request.limit = limit
+        return await _rest_client.describe_user_data(request)
+    var async_result = await _connection.run(game_session, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2DistributorEzDescribeUserDataResult.from_model(async_result.result), null)
+
+
+func get_stamp_sheet_result(game_session: Gs2GameSessionBase, namespace_name, transaction_id) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2DistributorGetStampSheetResultRequest.new()
         request.namespace_name = namespace_name
@@ -216,7 +229,7 @@ func get_stamp_sheet_result(game_session, namespace_name, transaction_id) -> Gs2
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2DistributorEzGetStampSheetResultResult.from_model(async_result.result), null)
 
 
-func get_transaction_result(game_session, namespace_name, transaction_id) -> Gs2AsyncResult:
+func get_transaction_result(game_session: Gs2GameSessionBase, namespace_name, transaction_id) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2DistributorGetTransactionResultRequest.new()
         request.namespace_name = namespace_name

@@ -13,6 +13,7 @@
 # permissions and limitations under the License.
 class_name Gs2ScheduleEventCache
 extends RefCounted
+# deny overwrite  # is_in_schedule 引数が手書き追加されている（c2d87c15fd）。再生成で消えないよう印を付ける
 
 
 static func cache_parent_key(

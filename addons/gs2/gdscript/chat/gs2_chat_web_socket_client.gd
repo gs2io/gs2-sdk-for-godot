@@ -15,42 +15,6 @@ class_name Gs2ChatWebSocketClient
 extends Gs2AbstractWebSocketClient
 
 
-func create_namespace(request: Gs2ChatCreateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.name != null:
-        body["name"] = request.name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.allow_create_room != null:
-        body["allowCreateRoom"] = request.allow_create_room
-    if request.message_life_time_days != null:
-        body["messageLifeTimeDays"] = request.message_life_time_days
-    if request.post_message_script != null:
-        body["postMessageScript"] = request.post_message_script.to_dict()
-    if request.create_room_script != null:
-        body["createRoomScript"] = request.create_room_script.to_dict()
-    if request.delete_room_script != null:
-        body["deleteRoomScript"] = request.delete_room_script.to_dict()
-    if request.subscribe_room_script != null:
-        body["subscribeRoomScript"] = request.subscribe_room_script.to_dict()
-    if request.unsubscribe_room_script != null:
-        body["unsubscribeRoomScript"] = request.unsubscribe_room_script.to_dict()
-    if request.post_notification != null:
-        body["postNotification"] = request.post_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("chat", "namespace", "createNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2ChatCreateNamespaceResult.from_dict(response.body), null)
-
-
 func get_namespace_status(request: Gs2ChatGetNamespaceStatusRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:
@@ -63,70 +27,6 @@ func get_namespace_status(request: Gs2ChatGetNamespaceStatusRequest) -> Gs2Async
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2ChatGetNamespaceStatusResult.from_dict(response.body), null)
-
-
-func get_namespace(request: Gs2ChatGetNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("chat", "namespace", "getNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2ChatGetNamespaceResult.from_dict(response.body), null)
-
-
-func update_namespace(request: Gs2ChatUpdateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.allow_create_room != null:
-        body["allowCreateRoom"] = request.allow_create_room
-    if request.message_life_time_days != null:
-        body["messageLifeTimeDays"] = request.message_life_time_days
-    if request.post_message_script != null:
-        body["postMessageScript"] = request.post_message_script.to_dict()
-    if request.create_room_script != null:
-        body["createRoomScript"] = request.create_room_script.to_dict()
-    if request.delete_room_script != null:
-        body["deleteRoomScript"] = request.delete_room_script.to_dict()
-    if request.subscribe_room_script != null:
-        body["subscribeRoomScript"] = request.subscribe_room_script.to_dict()
-    if request.unsubscribe_room_script != null:
-        body["unsubscribeRoomScript"] = request.unsubscribe_room_script.to_dict()
-    if request.post_notification != null:
-        body["postNotification"] = request.post_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("chat", "namespace", "updateNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2ChatUpdateNamespaceResult.from_dict(response.body), null)
-
-
-func delete_namespace(request: Gs2ChatDeleteNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("chat", "namespace", "deleteNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2ChatDeleteNamespaceResult.from_dict(response.body), null)
 
 
 func get_service_version(request: Gs2ChatGetServiceVersionRequest) -> Gs2AsyncResult:

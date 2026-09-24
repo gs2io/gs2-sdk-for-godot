@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var admob = null
 var unity_ad = null
 var app_lovin_maxes = null
@@ -48,6 +49,11 @@ func with_description(v) -> Gs2AdRewardNamespace:
 
 func with_transaction_setting(v) -> Gs2AdRewardNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2AdRewardNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -142,6 +148,7 @@ static func from_dict(data) -> Gs2AdRewardNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2AdRewardTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2AdRewardTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.admob = null if data.get("admob") == null else Gs2AdRewardAdMob.from_dict(data.get("admob"))
     ret.unity_ad = null if data.get("unityAd") == null else Gs2AdRewardUnityAd.from_dict(data.get("unityAd"))
     ret.app_lovin_maxes = null if data.get("appLovinMaxes") == null else data.get("appLovinMaxes").map(func(v): return Gs2AdRewardAppLovinMax.from_dict(v))
@@ -161,6 +168,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["admob"] = null if admob == null else admob.to_dict()
     ret["unityAd"] = null if unity_ad == null else unity_ad.to_dict()
     ret["appLovinMaxes"] = null if app_lovin_maxes == null else app_lovin_maxes.map(func(v): return null if v == null else v.to_dict())

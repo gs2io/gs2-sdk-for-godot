@@ -23,6 +23,8 @@ func create_namespace(request: Gs2ExperienceCreateNamespaceRequest) -> Gs2AsyncR
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.rank_cap_script_id != null:
         body["rankCapScriptId"] = request.rank_cap_script_id
     if request.change_experience_script != null:
@@ -81,6 +83,8 @@ func update_namespace(request: Gs2ExperienceUpdateNamespaceRequest) -> Gs2AsyncR
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.rank_cap_script_id != null:
         body["rankCapScriptId"] = request.rank_cap_script_id
     if request.change_experience_script != null:

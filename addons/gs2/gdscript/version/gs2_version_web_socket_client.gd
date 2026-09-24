@@ -23,6 +23,8 @@ func create_namespace(request: Gs2VersionCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.assume_user_id != null:
         body["assumeUserId"] = request.assume_user_id
     if request.accept_version_script != null:
@@ -77,6 +79,8 @@ func update_namespace(request: Gs2VersionUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.assume_user_id != null:
         body["assumeUserId"] = request.assume_user_id
     if request.accept_version_script != null:

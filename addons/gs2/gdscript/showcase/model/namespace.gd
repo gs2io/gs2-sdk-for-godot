@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var buy_script = null
 var log_setting = null
 var created_at = null
@@ -45,6 +46,11 @@ func with_description(v) -> Gs2ShowcaseNamespace:
 
 func with_transaction_setting(v) -> Gs2ShowcaseNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2ShowcaseNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -124,6 +130,7 @@ static func from_dict(data) -> Gs2ShowcaseNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2ShowcaseTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2ShowcaseTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.buy_script = null if data.get("buyScript") == null else Gs2ShowcaseScriptSetting.from_dict(data.get("buyScript"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2ShowcaseLogSetting.from_dict(data.get("logSetting"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
@@ -140,6 +147,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["buyScript"] = null if buy_script == null else buy_script.to_dict()
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     ret["createdAt"] = created_at

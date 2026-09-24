@@ -18,6 +18,7 @@ extends RefCounted
 var gateway_namespace_id = null
 var enable_transfer_mobile_notification = null
 var sound = null
+var mobile_notification_messages = null
 var enable = null
 
 
@@ -36,6 +37,11 @@ func with_sound(v) -> Gs2Money2NotificationSetting:
     return self
 
 
+func with_mobile_notification_messages(v) -> Gs2Money2NotificationSetting:
+    mobile_notification_messages = v
+    return self
+
+
 func with_enable(v) -> Gs2Money2NotificationSetting:
     enable = v
     return self
@@ -48,6 +54,7 @@ static func from_dict(data) -> Gs2Money2NotificationSetting:
     ret.gateway_namespace_id = null if data.get("gatewayNamespaceId") == null else str(data.get("gatewayNamespaceId"))
     ret.enable_transfer_mobile_notification = null if data.get("enableTransferMobileNotification") == null else bool(data.get("enableTransferMobileNotification"))
     ret.sound = null if data.get("sound") == null else str(data.get("sound"))
+    ret.mobile_notification_messages = null if data.get("mobileNotificationMessages") == null else data.get("mobileNotificationMessages").map(func(v): return Gs2Money2MobileNotificationMessage.from_dict(v))
     ret.enable = null if data.get("enable") == null else str(data.get("enable"))
     return ret
 
@@ -57,5 +64,6 @@ func to_dict() -> Dictionary:
     ret["gatewayNamespaceId"] = gateway_namespace_id
     ret["enableTransferMobileNotification"] = enable_transfer_mobile_notification
     ret["sound"] = sound
+    ret["mobileNotificationMessages"] = null if mobile_notification_messages == null else mobile_notification_messages.map(func(v): return null if v == null else v.to_dict())
     ret["enable"] = enable
     return ret

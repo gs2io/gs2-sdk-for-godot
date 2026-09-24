@@ -15,40 +15,6 @@ class_name Gs2InboxWebSocketClient
 extends Gs2AbstractWebSocketClient
 
 
-func create_namespace(request: Gs2InboxCreateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.name != null:
-        body["name"] = request.name
-    if request.description != null:
-        body["description"] = request.description
-    if request.is_automatic_deleting_enabled != null:
-        body["isAutomaticDeletingEnabled"] = request.is_automatic_deleting_enabled
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.receive_message_script != null:
-        body["receiveMessageScript"] = request.receive_message_script.to_dict()
-    if request.read_message_script != null:
-        body["readMessageScript"] = request.read_message_script.to_dict()
-    if request.delete_message_script != null:
-        body["deleteMessageScript"] = request.delete_message_script.to_dict()
-    if request.receive_notification != null:
-        body["receiveNotification"] = request.receive_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.queue_namespace_id != null:
-        body["queueNamespaceId"] = request.queue_namespace_id
-    if request.key_id != null:
-        body["keyId"] = request.key_id
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("inbox", "namespace", "createNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2InboxCreateNamespaceResult.from_dict(response.body), null)
-
-
 func get_namespace_status(request: Gs2InboxGetNamespaceStatusRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:
@@ -61,68 +27,6 @@ func get_namespace_status(request: Gs2InboxGetNamespaceStatusRequest) -> Gs2Asyn
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2InboxGetNamespaceStatusResult.from_dict(response.body), null)
-
-
-func get_namespace(request: Gs2InboxGetNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("inbox", "namespace", "getNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2InboxGetNamespaceResult.from_dict(response.body), null)
-
-
-func update_namespace(request: Gs2InboxUpdateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.description != null:
-        body["description"] = request.description
-    if request.is_automatic_deleting_enabled != null:
-        body["isAutomaticDeletingEnabled"] = request.is_automatic_deleting_enabled
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.receive_message_script != null:
-        body["receiveMessageScript"] = request.receive_message_script.to_dict()
-    if request.read_message_script != null:
-        body["readMessageScript"] = request.read_message_script.to_dict()
-    if request.delete_message_script != null:
-        body["deleteMessageScript"] = request.delete_message_script.to_dict()
-    if request.receive_notification != null:
-        body["receiveNotification"] = request.receive_notification.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.queue_namespace_id != null:
-        body["queueNamespaceId"] = request.queue_namespace_id
-    if request.key_id != null:
-        body["keyId"] = request.key_id
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("inbox", "namespace", "updateNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2InboxUpdateNamespaceResult.from_dict(response.body), null)
-
-
-func delete_namespace(request: Gs2InboxDeleteNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("inbox", "namespace", "deleteNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2InboxDeleteNamespaceResult.from_dict(response.body), null)
 
 
 func get_service_version(request: Gs2InboxGetServiceVersionRequest) -> Gs2AsyncResult:

@@ -283,6 +283,8 @@ func create_project(request: Gs2ProjectCreateProjectRequest) -> Gs2AsyncResult:
         body["eventBridgeAwsAccountId"] = request.event_bridge_aws_account_id
     if request.event_bridge_aws_region != null:
         body["eventBridgeAwsRegion"] = request.event_bridge_aws_region
+    if request.data_store_key_scheme != null:
+        body["dataStoreKeyScheme"] = request.data_store_key_scheme
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.dry_run:
@@ -595,6 +597,26 @@ func describe_billings(request: Gs2ProjectDescribeBillingsRequest) -> Gs2AsyncRe
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2ProjectDescribeBillingsResult.from_dict(response.body), null)
+
+
+func get_billings(request: Gs2ProjectGetBillingsRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "project").replace("{region}", session.region) + "/billing/{year}/{month}"
+    url = url.replace("{year}", "null" if (request.year == null or str(request.year) == "") else str(request.year))
+    url = url.replace("{month}", "null" if (request.month == null or str(request.month) == "") else str(request.month))
+    var headers = create_authorized_headers()
+    var query_strings = {}
+    if request.context_stack != null:
+        query_strings["contextStack"] = request.context_stack
+    if request.service != null:
+        query_strings["service"] = request.service
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("GET", url, headers, query_strings, null)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2ProjectGetBillingsResult.from_dict(response.body), null)
 
 
 func describe_dump_progresses(request: Gs2ProjectDescribeDumpProgressesRequest) -> Gs2AsyncResult:

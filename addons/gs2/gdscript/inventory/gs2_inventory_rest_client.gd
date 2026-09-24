@@ -49,6 +49,8 @@ func create_namespace(request: Gs2InventoryCreateNamespaceRequest) -> Gs2AsyncRe
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.acquire_script != null:
         body["acquireScript"] = request.acquire_script.to_dict()
     if request.overflow_script != null:
@@ -120,6 +122,8 @@ func update_namespace(request: Gs2InventoryUpdateNamespaceRequest) -> Gs2AsyncRe
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.acquire_script != null:
         body["acquireScript"] = request.acquire_script.to_dict()
     if request.overflow_script != null:

@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var log_setting = null
 var done_upload_script = null
 
@@ -34,6 +35,11 @@ func with_description(v) -> Gs2DatastoreUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2DatastoreUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2DatastoreUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -54,6 +60,7 @@ static func from_dict(data) -> Gs2DatastoreUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2DatastoreTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2DatastoreTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2DatastoreLogSetting.from_dict(data.get("logSetting"))
     ret.done_upload_script = null if data.get("doneUploadScript") == null else Gs2DatastoreScriptSetting.from_dict(data.get("doneUploadScript"))
     return ret
@@ -64,6 +71,7 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     ret["doneUploadScript"] = null if done_upload_script == null else done_upload_script.to_dict()
     return ret

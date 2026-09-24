@@ -18,6 +18,7 @@ extends Gs2Request
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var assume_user_id = null
 var auto_run_stamp_sheet_notification = null
 var auto_run_transaction_notification = null
@@ -36,6 +37,11 @@ func with_description(v) -> Gs2DistributorCreateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2DistributorCreateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2DistributorCreateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -66,6 +72,7 @@ static func from_dict(data) -> Gs2DistributorCreateNamespaceRequest:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2DistributorTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2DistributorTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.assume_user_id = null if data.get("assumeUserId") == null else str(data.get("assumeUserId"))
     ret.auto_run_stamp_sheet_notification = null if data.get("autoRunStampSheetNotification") == null else Gs2DistributorNotificationSetting.from_dict(data.get("autoRunStampSheetNotification"))
     ret.auto_run_transaction_notification = null if data.get("autoRunTransactionNotification") == null else Gs2DistributorNotificationSetting.from_dict(data.get("autoRunTransactionNotification"))
@@ -78,6 +85,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["assumeUserId"] = assume_user_id
     ret["autoRunStampSheetNotification"] = null if auto_run_stamp_sheet_notification == null else auto_run_stamp_sheet_notification.to_dict()
     ret["autoRunTransactionNotification"] = null if auto_run_transaction_notification == null else auto_run_transaction_notification.to_dict()

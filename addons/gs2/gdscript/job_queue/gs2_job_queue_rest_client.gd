@@ -49,6 +49,8 @@ func create_namespace(request: Gs2JobQueueCreateNamespaceRequest) -> Gs2AsyncRes
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.enable_auto_run != null:
         body["enableAutoRun"] = request.enable_auto_run
     if request.push_notification != null:
@@ -112,6 +114,8 @@ func update_namespace(request: Gs2JobQueueUpdateNamespaceRequest) -> Gs2AsyncRes
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.enable_auto_run != null:
         body["enableAutoRun"] = request.enable_auto_run
     if request.push_notification != null:

@@ -25,6 +25,8 @@ func create_namespace(request: Gs2StateMachineCreateNamespaceRequest) -> Gs2Asyn
         body["supportSpeculativeExecution"] = request.support_speculative_execution
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.start_script != null:
         body["startScript"] = request.start_script.to_dict()
     if request.pass_script != null:
@@ -83,6 +85,8 @@ func update_namespace(request: Gs2StateMachineUpdateNamespaceRequest) -> Gs2Asyn
         body["supportSpeculativeExecution"] = request.support_speculative_execution
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.start_script != null:
         body["startScript"] = request.start_script.to_dict()
     if request.pass_script != null:

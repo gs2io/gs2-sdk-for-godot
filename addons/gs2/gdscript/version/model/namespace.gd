@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var assume_user_id = null
 var accept_version_script = null
 var check_version_trigger_script_id = null
@@ -45,6 +46,11 @@ func with_description(v) -> Gs2VersionNamespace:
 
 func with_transaction_setting(v) -> Gs2VersionNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2VersionNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -124,6 +130,7 @@ static func from_dict(data) -> Gs2VersionNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2VersionTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2VersionTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.assume_user_id = null if data.get("assumeUserId") == null else str(data.get("assumeUserId"))
     ret.accept_version_script = null if data.get("acceptVersionScript") == null else Gs2VersionScriptSetting.from_dict(data.get("acceptVersionScript"))
     ret.check_version_trigger_script_id = null if data.get("checkVersionTriggerScriptId") == null else str(data.get("checkVersionTriggerScriptId"))
@@ -140,6 +147,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["assumeUserId"] = assume_user_id
     ret["acceptVersionScript"] = null if accept_version_script == null else accept_version_script.to_dict()
     ret["checkVersionTriggerScriptId"] = check_version_trigger_script_id

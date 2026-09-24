@@ -24,9 +24,17 @@ static func put_cache(
 ) -> void:
     if result == null:
         return
-    if result.item != null:
+    if result.item != null and result.item.is_read == true:
         Gs2InboxMessageCache.put_cache(
             result.item,
+            cache,
+            request.namespace_name,
+            user_id,
+            request.message_name,
+            time_offset
+        )
+    elif result.item == null or result.item.read_acquire_actions == null or result.item.read_acquire_actions.is_empty():
+        Gs2InboxMessageCache.delete_cache(
             cache,
             request.namespace_name,
             user_id,

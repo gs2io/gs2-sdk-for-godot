@@ -1,0 +1,45 @@
+# Copyright 2016 Game Server Services, Inc. or its affiliates. All Rights
+# Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License").
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#  http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the "license" file accompanying this file. This file is distributed
+# on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+# express or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+class_name Gs2MissionTransactionSettingV2
+extends RefCounted
+
+
+var distributor_namespace_id = null
+var enable_parallel_execution = null
+
+
+func with_distributor_namespace_id(v) -> Gs2MissionTransactionSettingV2:
+    distributor_namespace_id = v
+    return self
+
+
+func with_enable_parallel_execution(v) -> Gs2MissionTransactionSettingV2:
+    enable_parallel_execution = v
+    return self
+
+
+static func from_dict(data) -> Gs2MissionTransactionSettingV2:
+    if data == null:
+        return null
+    var ret = Gs2MissionTransactionSettingV2.new()
+    ret.distributor_namespace_id = null if data.get("distributorNamespaceId") == null else str(data.get("distributorNamespaceId"))
+    ret.enable_parallel_execution = null if data.get("enableParallelExecution") == null else bool(data.get("enableParallelExecution"))
+    return ret
+
+
+func to_dict() -> Dictionary:
+    var ret = {}
+    ret["distributorNamespaceId"] = distributor_namespace_id
+    ret["enableParallelExecution"] = enable_parallel_execution
+    return ret

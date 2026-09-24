@@ -49,6 +49,8 @@ func create_namespace(request: Gs2AccountCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.change_password_if_take_over != null:
         body["changePasswordIfTakeOver"] = request.change_password_if_take_over
     if request.different_user_id_for_login_and_data_retention != null:
@@ -122,6 +124,8 @@ func update_namespace(request: Gs2AccountUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.change_password_if_take_over != null:
         body["changePasswordIfTakeOver"] = request.change_password_if_take_over
     if request.create_account_script != null:

@@ -168,6 +168,50 @@ func handle_notification(
     pass
 
 
+## 一括取得（Gs2Distributor:DescribeUserData）で access_token のユーザーの全データを、各モデルのキャッシュへ入れる。
+## ログイン直後に 1 回 await すると、以後の Get / Describe はサーバーへ出ない。キー方式 v2 のプロジェクトでだけ使える（v1 はエラー）。
+## 各エントリは kind でモデルを示し、Core の put_user_data（service → 生成物 Gs2{Service}Cache.put_user_data）へ振り分ける。
+## 「リストが揃った印」は全ページを読み終えてから (service, kind, 親キー) ごとにまとめて立てる。途中で失敗したら印は立てない。
+## 読めないエントリは数えず続行する。result はキャッシュへ入れたエントリ数（int）。知らない service / kind は数えない。
+func load_user_data(access_token) -> Gs2AsyncResult:
+    assert(access_token != null)
+    var loaded = 0
+    var list_cached = {}  # "service\nkind\nparent_key" -> [service, kind, parent_key]
+    var page_token = null
+    while true:
+        var request = Gs2DistributorDescribeUserDataRequest.new()
+        request.context_stack = _gs2.default_context_stack
+        request.access_token = access_token.token
+        request.page_token = page_token
+        request.limit = 100
+        var async_result = await _client.describe_user_data(request)
+        if async_result.error != null:
+            return async_result
+        var result = async_result.result
+        if result != null and result.items != null:
+            for entry in result.items:
+                if entry == null:
+                    continue
+                var parent_key = _gs2.put_user_data(
+                    entry.service,
+                    entry.namespace_name,
+                    access_token.user_id,
+                    access_token.time_offset,
+                    entry.kind,
+                    entry.payload
+                )
+                if parent_key == null:
+                    continue
+                loaded += 1
+                list_cached["\n".join([entry.service, entry.kind, parent_key])] = [entry.service, entry.kind, parent_key]
+        page_token = null if result == null else result.next_page_token
+        if page_token == null or page_token == "":
+            break
+    for triple in list_cached.values():
+        _gs2.set_list_cached(triple[0], access_token.time_offset, triple[1], triple[2])
+    return Gs2AsyncResult.new(loaded, null)
+
+
 static func dispatch(
     gs2,
     access_token

@@ -25,6 +25,100 @@ static func _parse(payload):
     return null
 
 
+# Gs2Distributor:DescribeUserData（ユーザーの全データの一括取得）の 1 エントリを、kind に対応するモデルのキャッシュへ入れる。
+# 戻り値は親キー（null は知らない kind ＝ SDK が古い / 対応表に無い）。呼び手は全ページを読み終えてから
+# set_list_cached(cache, time_offset, kind, parent_key) を呼ぶ。対応表は sdk-gen の type/user_data_cache.py（kind → モデル）。
+static func put_user_data(
+    cache: Gs2CacheDatabase,
+    namespace_name,
+    user_id,
+    time_offset,
+    kind: String,
+    payload
+):
+    if kind == "followUser":
+        var item = Gs2FriendFollowUser.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2FriendFollowUserCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    if kind == "friendUser":
+        var item = Gs2FriendFriendUser.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2FriendFriendUserCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    if kind == "profile":
+        var item = Gs2FriendProfile.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2FriendProfileCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    if kind == "receiveFriendRequest":
+        var item = Gs2FriendReceiveFriendRequest.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2FriendReceiveFriendRequestCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    if kind == "sendFriendRequest":
+        var item = Gs2FriendSendFriendRequest.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2FriendSendFriendRequestCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    return null
+
+
+# 一括取得で入れた kind の親キーに「リストが揃った印」を立てる（Describe のイテレータがサーバーへ出なくなる）。
+static func set_list_cached(
+    cache: Gs2CacheDatabase,
+    time_offset,
+    kind: String,
+    parent_key: String
+) -> bool:
+    if kind == "followUser":
+        cache.set_list_cached("Gs2FriendFollowUser", parent_key)
+        return true
+    if kind == "friendUser":
+        cache.set_list_cached("Gs2FriendFriendUser", parent_key)
+        return true
+    if kind == "profile":
+        cache.set_list_cached("Gs2FriendProfile", parent_key)
+        return true
+    if kind == "receiveFriendRequest":
+        cache.set_list_cached("Gs2FriendReceiveFriendRequest", parent_key)
+        return true
+    if kind == "sendFriendRequest":
+        cache.set_list_cached("Gs2FriendSendFriendRequest", parent_key)
+        return true
+    return false
+
+
 static func put_cache(
     cache: Gs2CacheDatabase,
     user_id,

@@ -17,6 +17,9 @@ extends RefCounted
 
 var _domain: Gs2DistributorUserDomain
 var _connection: Gs2Connection
+var next_page_token: Variant:
+    get:
+        return _domain.next_page_token
 var namespace_name: Variant:
     get:
         return null if _domain == null else _domain.namespace_name

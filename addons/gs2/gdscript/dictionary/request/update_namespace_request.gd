@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var entry_script = null
 var duplicate_entry_script = null
 var log_setting = null
@@ -35,6 +36,11 @@ func with_description(v) -> Gs2DictionaryUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2DictionaryUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2DictionaryUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -60,6 +66,7 @@ static func from_dict(data) -> Gs2DictionaryUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2DictionaryTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2DictionaryTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.entry_script = null if data.get("entryScript") == null else Gs2DictionaryScriptSetting.from_dict(data.get("entryScript"))
     ret.duplicate_entry_script = null if data.get("duplicateEntryScript") == null else str(data.get("duplicateEntryScript"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2DictionaryLogSetting.from_dict(data.get("logSetting"))
@@ -71,6 +78,7 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["entryScript"] = null if entry_script == null else entry_script.to_dict()
     ret["duplicateEntryScript"] = duplicate_entry_script
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()

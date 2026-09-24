@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var user_id = null
 var token = null
+var locale = null
 var time_offset_token = null
 var duplication_avoider = null
 
@@ -34,6 +35,11 @@ func with_user_id(v) -> Gs2GatewaySetFirebaseTokenByUserIdRequest:
 
 func with_token(v) -> Gs2GatewaySetFirebaseTokenByUserIdRequest:
     token = v
+    return self
+
+
+func with_locale(v) -> Gs2GatewaySetFirebaseTokenByUserIdRequest:
+    locale = v
     return self
 
 
@@ -54,6 +60,7 @@ static func from_dict(data) -> Gs2GatewaySetFirebaseTokenByUserIdRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
     ret.token = null if data.get("token") == null else str(data.get("token"))
+    ret.locale = null if data.get("locale") == null else str(data.get("locale"))
     ret.time_offset_token = null if data.get("timeOffsetToken") == null else str(data.get("timeOffsetToken"))
     return ret
 
@@ -63,5 +70,6 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["userId"] = user_id
     ret["token"] = token
+    ret["locale"] = locale
     ret["timeOffsetToken"] = time_offset_token
     return ret

@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var rank_cap_script_id = null
 var change_experience_script = null
 var change_rank_script = null
@@ -38,6 +39,11 @@ func with_description(v) -> Gs2ExperienceUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2ExperienceUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2ExperienceUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -78,6 +84,7 @@ static func from_dict(data) -> Gs2ExperienceUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2ExperienceTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2ExperienceTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.rank_cap_script_id = null if data.get("rankCapScriptId") == null else str(data.get("rankCapScriptId"))
     ret.change_experience_script = null if data.get("changeExperienceScript") == null else Gs2ExperienceScriptSetting.from_dict(data.get("changeExperienceScript"))
     ret.change_rank_script = null if data.get("changeRankScript") == null else Gs2ExperienceScriptSetting.from_dict(data.get("changeRankScript"))
@@ -92,6 +99,7 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["rankCapScriptId"] = rank_cap_script_id
     ret["changeExperienceScript"] = null if change_experience_script == null else change_experience_script.to_dict()
     ret["changeRankScript"] = null if change_rank_script == null else change_rank_script.to_dict()

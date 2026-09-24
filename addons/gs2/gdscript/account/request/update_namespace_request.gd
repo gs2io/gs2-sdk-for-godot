@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var change_password_if_take_over = null
 var create_account_script = null
 var authentication_script = null
@@ -40,6 +41,11 @@ func with_description(v) -> Gs2AccountUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2AccountUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2AccountUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -90,6 +96,7 @@ static func from_dict(data) -> Gs2AccountUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2AccountTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2AccountTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.change_password_if_take_over = null if data.get("changePasswordIfTakeOver") == null else bool(data.get("changePasswordIfTakeOver"))
     ret.create_account_script = null if data.get("createAccountScript") == null else Gs2AccountScriptSetting.from_dict(data.get("createAccountScript"))
     ret.authentication_script = null if data.get("authenticationScript") == null else Gs2AccountScriptSetting.from_dict(data.get("authenticationScript"))
@@ -106,6 +113,7 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["changePasswordIfTakeOver"] = change_password_if_take_over
     ret["createAccountScript"] = null if create_account_script == null else create_account_script.to_dict()
     ret["authenticationScript"] = null if authentication_script == null else authentication_script.to_dict()

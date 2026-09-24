@@ -19,6 +19,7 @@ var namespace_id = null
 var name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var priority = null
 var share_free = null
 var currency = null
@@ -52,6 +53,11 @@ func with_description(v) -> Gs2MoneyNamespace:
 
 func with_transaction_setting(v) -> Gs2MoneyNamespace:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2MoneyNamespace:
+    transaction_setting_v2 = v
     return self
 
 
@@ -166,6 +172,7 @@ static func from_dict(data) -> Gs2MoneyNamespace:
     ret.name = null if data.get("name") == null else str(data.get("name"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2MoneyTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2MoneyTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.priority = null if data.get("priority") == null else str(data.get("priority"))
     ret.share_free = null if data.get("shareFree") == null else bool(data.get("shareFree"))
     ret.currency = null if data.get("currency") == null else str(data.get("currency"))
@@ -189,6 +196,7 @@ func to_dict() -> Dictionary:
     ret["name"] = name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["priority"] = priority
     ret["shareFree"] = share_free
     ret["currency"] = currency

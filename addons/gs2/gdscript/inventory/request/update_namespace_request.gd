@@ -18,6 +18,7 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var acquire_script = null
 var overflow_script = null
 var consume_script = null
@@ -40,6 +41,11 @@ func with_description(v) -> Gs2InventoryUpdateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2InventoryUpdateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2InventoryUpdateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -90,6 +96,7 @@ static func from_dict(data) -> Gs2InventoryUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2InventoryTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2InventoryTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.acquire_script = null if data.get("acquireScript") == null else Gs2InventoryScriptSetting.from_dict(data.get("acquireScript"))
     ret.overflow_script = null if data.get("overflowScript") == null else Gs2InventoryScriptSetting.from_dict(data.get("overflowScript"))
     ret.consume_script = null if data.get("consumeScript") == null else Gs2InventoryScriptSetting.from_dict(data.get("consumeScript"))
@@ -106,6 +113,7 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["acquireScript"] = null if acquire_script == null else acquire_script.to_dict()
     ret["overflowScript"] = null if overflow_script == null else overflow_script.to_dict()
     ret["consumeScript"] = null if consume_script == null else consume_script.to_dict()

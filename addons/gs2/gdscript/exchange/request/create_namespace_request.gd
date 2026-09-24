@@ -20,6 +20,7 @@ var description = null
 var enable_await_exchange = null
 var enable_direct_exchange = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var exchange_script = null
 var incremental_exchange_script = null
 var acquire_await_script = null
@@ -50,6 +51,11 @@ func with_enable_direct_exchange(v) -> Gs2ExchangeCreateNamespaceRequest:
 
 func with_transaction_setting(v) -> Gs2ExchangeCreateNamespaceRequest:
     transaction_setting = v
+    return self
+
+
+func with_transaction_setting_v2(v) -> Gs2ExchangeCreateNamespaceRequest:
+    transaction_setting_v2 = v
     return self
 
 
@@ -92,6 +98,7 @@ static func from_dict(data) -> Gs2ExchangeCreateNamespaceRequest:
     ret.enable_await_exchange = null if data.get("enableAwaitExchange") == null else bool(data.get("enableAwaitExchange"))
     ret.enable_direct_exchange = null if data.get("enableDirectExchange") == null else bool(data.get("enableDirectExchange"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2ExchangeTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2ExchangeTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.exchange_script = null if data.get("exchangeScript") == null else Gs2ExchangeScriptSetting.from_dict(data.get("exchangeScript"))
     ret.incremental_exchange_script = null if data.get("incrementalExchangeScript") == null else Gs2ExchangeScriptSetting.from_dict(data.get("incrementalExchangeScript"))
     ret.acquire_await_script = null if data.get("acquireAwaitScript") == null else Gs2ExchangeScriptSetting.from_dict(data.get("acquireAwaitScript"))
@@ -108,6 +115,7 @@ func to_dict() -> Dictionary:
     ret["enableAwaitExchange"] = enable_await_exchange
     ret["enableDirectExchange"] = enable_direct_exchange
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["exchangeScript"] = null if exchange_script == null else exchange_script.to_dict()
     ret["incrementalExchangeScript"] = null if incremental_exchange_script == null else incremental_exchange_script.to_dict()
     ret["acquireAwaitScript"] = null if acquire_await_script == null else acquire_await_script.to_dict()

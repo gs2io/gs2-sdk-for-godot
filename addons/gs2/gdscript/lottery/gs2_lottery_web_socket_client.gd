@@ -23,6 +23,8 @@ func create_namespace(request: Gs2LotteryCreateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.lottery_trigger_script_id != null:
         body["lotteryTriggerScriptId"] = request.lottery_trigger_script_id
     if request.log_setting != null:
@@ -77,6 +79,8 @@ func update_namespace(request: Gs2LotteryUpdateNamespaceRequest) -> Gs2AsyncResu
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.lottery_trigger_script_id != null:
         body["lotteryTriggerScriptId"] = request.lottery_trigger_script_id
     if request.log_setting != null:

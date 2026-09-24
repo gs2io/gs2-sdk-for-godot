@@ -17,6 +17,7 @@ extends RefCounted
 
 var user_id = null
 var updated_at = null
+var revision = null
 
 
 func with_user_id(v) -> Gs2GuildLastGuildMasterActivity:
@@ -26,6 +27,11 @@ func with_user_id(v) -> Gs2GuildLastGuildMasterActivity:
 
 func with_updated_at(v) -> Gs2GuildLastGuildMasterActivity:
     updated_at = v
+    return self
+
+
+func with_revision(v) -> Gs2GuildLastGuildMasterActivity:
+    revision = v
     return self
 
 
@@ -90,6 +96,7 @@ static func from_dict(data) -> Gs2GuildLastGuildMasterActivity:
     var ret = Gs2GuildLastGuildMasterActivity.new()
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
     ret.updated_at = null if data.get("updatedAt") == null else int(data.get("updatedAt"))
+    ret.revision = null if data.get("revision") == null else int(data.get("revision"))
     return ret
 
 
@@ -97,4 +104,5 @@ func to_dict() -> Dictionary:
     var ret = {}
     ret["userId"] = user_id
     ret["updatedAt"] = updated_at
+    ret["revision"] = revision
     return ret

@@ -25,6 +25,58 @@ static func _parse(payload):
     return null
 
 
+# Gs2Distributor:DescribeUserData（ユーザーの全データの一括取得）の 1 エントリを、kind に対応するモデルのキャッシュへ入れる。
+# 戻り値は親キー（null は知らない kind ＝ SDK が古い / 対応表に無い）。呼び手は全ページを読み終えてから
+# set_list_cached(cache, time_offset, kind, parent_key) を呼ぶ。対応表は sdk-gen の type/user_data_cache.py（kind → モデル）。
+static func put_user_data(
+    cache: Gs2CacheDatabase,
+    namespace_name,
+    user_id,
+    time_offset,
+    kind: String,
+    payload
+):
+    if kind == "score":
+        var item = Gs2RankingScore.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2RankingScoreCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    if kind == "subscribeUser":
+        var item = Gs2RankingSubscribeUser.from_dict(_parse(payload))
+        if item == null:
+            return null
+        return Gs2RankingSubscribeUserCache.put_user_data(
+            item,
+            cache,
+            namespace_name,
+            user_id,
+            time_offset
+        )
+    return null
+
+
+# 一括取得で入れた kind の親キーに「リストが揃った印」を立てる（Describe のイテレータがサーバーへ出なくなる）。
+static func set_list_cached(
+    cache: Gs2CacheDatabase,
+    time_offset,
+    kind: String,
+    parent_key: String
+) -> bool:
+    if kind == "score":
+        cache.set_list_cached("Gs2RankingScore", parent_key)
+        return true
+    if kind == "subscribeUser":
+        cache.set_list_cached("Gs2RankingSubscribeUser", parent_key)
+        return true
+    return false
+
+
 static func put_cache(
     cache: Gs2CacheDatabase,
     user_id,

@@ -23,6 +23,8 @@ func create_namespace(request: Gs2MoneyCreateNamespaceRequest) -> Gs2AsyncResult
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.priority != null:
         body["priority"] = request.priority
     if request.share_free != null:
@@ -89,6 +91,8 @@ func update_namespace(request: Gs2MoneyUpdateNamespaceRequest) -> Gs2AsyncResult
         body["description"] = request.description
     if request.transaction_setting != null:
         body["transactionSetting"] = request.transaction_setting.to_dict()
+    if request.transaction_setting_v2 != null:
+        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
     if request.priority != null:
         body["priority"] = request.priority
     if request.apple_key != null:

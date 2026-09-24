@@ -18,7 +18,9 @@ extends Gs2Request
 var namespace_name = null
 var description = null
 var transaction_setting = null
+var transaction_setting_v2 = null
 var firebase_secret = null
+var firebase_project_id = null
 var log_setting = null
 
 
@@ -37,8 +39,18 @@ func with_transaction_setting(v) -> Gs2GatewayUpdateNamespaceRequest:
     return self
 
 
+func with_transaction_setting_v2(v) -> Gs2GatewayUpdateNamespaceRequest:
+    transaction_setting_v2 = v
+    return self
+
+
 func with_firebase_secret(v) -> Gs2GatewayUpdateNamespaceRequest:
     firebase_secret = v
+    return self
+
+
+func with_firebase_project_id(v) -> Gs2GatewayUpdateNamespaceRequest:
+    firebase_project_id = v
     return self
 
 
@@ -54,7 +66,9 @@ static func from_dict(data) -> Gs2GatewayUpdateNamespaceRequest:
     ret.namespace_name = null if data.get("namespaceName") == null else str(data.get("namespaceName"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.transaction_setting = null if data.get("transactionSetting") == null else Gs2GatewayTransactionSetting.from_dict(data.get("transactionSetting"))
+    ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2GatewayTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.firebase_secret = null if data.get("firebaseSecret") == null else str(data.get("firebaseSecret"))
+    ret.firebase_project_id = null if data.get("firebaseProjectId") == null else str(data.get("firebaseProjectId"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2GatewayLogSetting.from_dict(data.get("logSetting"))
     return ret
 
@@ -64,6 +78,8 @@ func to_dict() -> Dictionary:
     ret["namespaceName"] = namespace_name
     ret["description"] = description
     ret["transactionSetting"] = null if transaction_setting == null else transaction_setting.to_dict()
+    ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["firebaseSecret"] = firebase_secret
+    ret["firebaseProjectId"] = firebase_project_id
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     return ret
