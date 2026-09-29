@@ -12,8 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## Ez ドメイン API のルート。Unity SDK の Gs2Domain に相当する。
-## 使い方:
 ##   var ez = Gs2EzDomain.new(connection)
 ##   var result = await ez.account.namespace_("game-0001").me(game_session).account().model()
 class_name Gs2EzDomain
@@ -126,13 +124,10 @@ func _init(connection_: Gs2Connection, distributor_namespace_name = null):
     version = Gs2VersionEzDomain.new(self)
 
 
-## 通知で届いた自動実行トランザクション/ジョブの結果をキャッシュに反映する
 func dispatch(game_session) -> Gs2AsyncResult:
     return await gs2.dispatch(game_session.access_token)
 
 
-## 一括取得（Gs2Distributor:DescribeUserData）でこのユーザーの全データを各モデルのキャッシュへ入れる。
-## ログイン直後に 1 回 await すると、以後の Get / Describe はサーバーへ出ない。実態は distributor.load_user_data
 func load_user_data(game_session) -> Gs2AsyncResult:
     return await gs2.load_user_data(game_session.access_token)
 

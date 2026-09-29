@@ -41,7 +41,6 @@ func _init(
     _target_versions = target_versions
 
 
-## GS2-Account の認証と GS2-Auth のログインを行い、アクセストークンを取得する
 func authentication(connection: Gs2Connection, user_id: String, password: String) -> Gs2AsyncResult:
     if connection.is_disconnected():
         var connect_result = await connection.connect_session()
@@ -103,7 +102,6 @@ func authentication(connection: Gs2Connection, user_id: String, password: String
             connection.update_project_token(version_result.result.project_token)
 
     if _gateway_namespace_name != null:
-        # サーバープッシュ通知を受信できるように GS2-Gateway にユーザーIDを登録する
         var gateway_client = Gs2GatewayWebSocketClient.new(connection.web_socket_session)
         var set_user_id_request = Gs2GatewaySetUserIdRequest.new()
         set_user_id_request.namespace_name = _gateway_namespace_name

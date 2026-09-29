@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2MegaFieldEzSpatialGameSessionDomain[])
 func update(
     position,
     scopes = null
@@ -66,7 +65,6 @@ func update(
     return Gs2AsyncResult.new(domains, null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2MegaFieldEzSpatial)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

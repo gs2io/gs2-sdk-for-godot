@@ -37,6 +37,13 @@ func _init(
     _wsclient = Gs2GatewayWebSocketClient.new(gs2.web_socket_session)
     namespace_name = namespace_name_
     access_token = access_token_
+func firebase_token(
+) -> Gs2GatewayFirebaseTokenAccessTokenDomain:
+    return Gs2GatewayFirebaseTokenAccessTokenDomain.new(
+        _gs2,
+        namespace_name,
+        access_token
+    )
 
 
 func web_socket_sessions(
@@ -90,13 +97,6 @@ func invalidate_web_socket_sessions(
 func web_socket_session(
 ) -> Gs2GatewayWebSocketSessionAccessTokenDomain:
     return Gs2GatewayWebSocketSessionAccessTokenDomain.new(
-        _gs2,
-        namespace_name,
-        access_token
-    )
-func firebase_token(
-) -> Gs2GatewayFirebaseTokenAccessTokenDomain:
-    return Gs2GatewayFirebaseTokenAccessTokenDomain.new(
         _gs2,
         namespace_name,
         access_token

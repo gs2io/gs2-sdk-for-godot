@@ -11,7 +11,6 @@
 # on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
-# deny overwrite
 class_name Gs2QuestEndMethodCache
 extends RefCounted
 
@@ -31,7 +30,15 @@ static func put_cache(
         user_id,
         time_offset
     )
-    # diff +++ start
+    var quest_group_name = null if result.item == null else Gs2QuestQuestModel.get_quest_group_name_from_grn(result.item.quest_model_id)
+    if quest_group_name != null:
+        Gs2QuestCompletedQuestListCache.delete_cache(
+            cache,
+            request.namespace_name,
+            user_id,
+            quest_group_name,
+            time_offset
+        )
     cache.clear_list_cache(
         "Gs2QuestCompletedQuestList",
         Gs2QuestCompletedQuestListCache.cache_parent_key(
@@ -40,7 +47,6 @@ static func put_cache(
             time_offset
         )
     )
-    # diff +++ end
 
 
 static func invoke(

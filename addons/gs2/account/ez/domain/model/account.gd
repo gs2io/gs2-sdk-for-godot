@@ -46,7 +46,6 @@ func _init(
 ):
     _domain = domain
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzAccountDomain)
 func authentication(
     password,
     key_id = null
@@ -65,7 +64,6 @@ func authentication(
         async_result.result,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzAccountDomain)
 func get_authorization_url(
     type
 ) -> Gs2AsyncResult:
@@ -106,7 +104,6 @@ func platform_id(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzAccount)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

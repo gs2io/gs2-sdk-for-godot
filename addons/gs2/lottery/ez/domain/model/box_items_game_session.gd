@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2LotteryEzBoxItemsGameSessionDomain)
 func reset_box(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -55,7 +54,6 @@ func reset_box(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2LotteryEzBoxItems)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

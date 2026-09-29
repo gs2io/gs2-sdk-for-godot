@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzSubscribeGameSessionDomain)
 func subscribe(
     notification_types = null
 ) -> Gs2AsyncResult:
@@ -55,7 +54,6 @@ func subscribe(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzSubscribeGameSessionDomain)
 func update_subscribe_setting(
     notification_types = null
 ) -> Gs2AsyncResult:
@@ -73,7 +71,6 @@ func update_subscribe_setting(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzSubscribeGameSessionDomain)
 func unsubscribe(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -91,7 +88,6 @@ func unsubscribe(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzSubscribe)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -43,7 +43,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzSubscribeRankingScoreGameSessionDomain)
 func put_subscribe_ranking(
     score,
     metadata = null

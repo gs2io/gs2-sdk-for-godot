@@ -44,12 +44,10 @@ func get_login_user_id() -> String:
     return _user_id
 
 
-## ログイン (初回認証)
 func login() -> Gs2AsyncResult:
     return await refresh()
 
 
-## アクセストークンを再取得する
 func refresh() -> Gs2AsyncResult:
     if _refresh_in_progress:
         await refresh_completed
@@ -77,8 +75,6 @@ func _refresh_impl() -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null, null)
 
 
-## 再認証が必要な場合のみアクセストークンを再取得する
-## result: 再認証を行った場合 true
 func refresh_if_need_refresh() -> Gs2AsyncResult:
     if _authenticator == null or not _authenticator.need_re_authentication:
         return Gs2AsyncResult.new(false, null)

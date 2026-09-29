@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2LimitEzCounterGameSessionDomain)
 func count_up(
     count_up_value = null,
     max_value = null
@@ -62,7 +61,6 @@ func count_up(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2LimitEzCounter)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

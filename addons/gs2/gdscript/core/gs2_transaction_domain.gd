@@ -12,9 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## トランザクション実行結果の待機・キャッシュ反映の基底クラス。
-## C# の TransactionDomain / TransactionAccessTokenDomain (二系統) を
-## access_token / user_id 両対応の一系統に統合したもの。
 class_name Gs2TransactionDomain
 extends RefCounted
 
@@ -52,9 +49,6 @@ func _dispatch() -> Gs2AsyncResult:
     return await gs2.dispatch_by_user_id(_user_id)
 
 
-## トランザクションの完了を待つ。
-## all = false: このトランザクションのみ待ち、後続があれば result に返す
-## all = true: 後続のトランザクションも含めてすべて待つ (result = null)
 func wait(all: bool = false) -> Gs2AsyncResult:
     if actions.size() == 0:
         return Gs2AsyncResult.new(null, null)
@@ -84,7 +78,6 @@ func run() -> Gs2AsyncResult:
     return await wait(false)
 
 
-## acquire 結果 JSON から後続トランザクションを actions に積む共通処理
 func _append_next_transactions(action_name, result_payload, next_transactions: Array) -> void:
     if result_payload == null or result_payload == "":
         return

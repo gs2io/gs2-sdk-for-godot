@@ -12,7 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## Gs2AutoStampSheetDomain のアクセストークン版コンストラクタ (C# 互換の別名クラス)
 class_name Gs2AutoStampSheetAccessTokenDomain
 extends Gs2AutoStampSheetDomain
 

@@ -15,14 +15,10 @@ class_name Gs2Constant
 extends RefCounted
 
 
-## リクエストのタイムスタンプの有効レンジ(±sec)
 const REQUEST_VALID_TIME_RANGE = 60 * 5
 
-## リトライ回数
 const RETRY_NUM = 3
 
-## リトライウェイト(msec)
 const RETRY_WAIT = 1000
 
-## APIエンドポイント
 static var ENDPOINT_HOST: String = "https://{service}.{region}.gen2.gs2io.com"

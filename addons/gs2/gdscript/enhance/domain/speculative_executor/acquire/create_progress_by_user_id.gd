@@ -20,7 +20,6 @@ static func action() -> String:
     return "Gs2Enhance:CreateProgressByUserId"
 
 
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
     gs2: Gs2Domain,
     access_token,
@@ -45,6 +44,5 @@ static func execute(
 #    return Gs2AsyncResult.new(commit, null)
 # diff --- end
 # diff +++ start
-    # C# deny (CreateProgressByStampSheetSpeculativeExecutor): 投機的実行しない (no-op commit)
     return Gs2AsyncResult.new(func(): return null, null)
 # diff +++ end

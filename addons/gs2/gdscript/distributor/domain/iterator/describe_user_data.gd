@@ -40,7 +40,6 @@ func _init(
     _last = false
 
 
-# 全ページを読み込んで Array を返す (Gs2AsyncResult.result = Array)
 func load() -> Gs2AsyncResult:
     var result = []
     _page_token = null
@@ -58,7 +57,6 @@ func load() -> Gs2AsyncResult:
         for item in (r.result.items if r.result.items != null else []):
             page.append(item)
         result.append_array(page)
-        # 一括取得: 読んだページの各エントリを kind ごとのモデルのキャッシュへ入れる（Core の put_user_data が振り分ける）
         for entry in page:
             if entry == null:
                 continue
@@ -75,7 +73,6 @@ func load() -> Gs2AsyncResult:
             _list_cached["\n".join([entry.service, entry.kind, parent_key])] = [entry.service, entry.kind, parent_key]
         _page_token = r.result.next_page_token
         _last = _page_token == null
-    # 最終ページまで読めたので (service, kind, 親キー) ごとに「リストが揃った印」を立てる
     for triple in _list_cached.values():
         _gs2.set_list_cached(triple[0], null if access_token == null else access_token.time_offset, triple[1], triple[2])
     _list_cached = {}

@@ -12,8 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## API 応答に含まれる実行済みトランザクション結果 (TransactionResult) を
-## キャッシュへ反映する。C# の RanTransactionDomain 相当。
 class_name Gs2RanTransactionDomain
 extends Gs2TransactionDomain
 
@@ -31,7 +29,6 @@ func _init(gs2_, access_token_, user_id_, transaction_id_, result, metadata):
         _error = _handle_metadata(metadata)
 
 
-# 戻り値: エラーがあれば Gs2Exception、なければ null
 func _handle_transaction_result(result):
     var time_offset = _time_offset()
     Gs2DistributorTransactionResultCache.put_cache(
@@ -113,7 +110,6 @@ func _handle_transaction_result(result):
     return null
 
 
-# 戻り値: エラーがあれば Gs2Exception、なければ null
 func _handle_metadata(metadata):
     var time_offset = _time_offset()
     if metadata == null or metadata.script_transaction_results == null:

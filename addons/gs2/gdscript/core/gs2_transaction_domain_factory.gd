@@ -88,7 +88,6 @@ static func _to_transaction(
     )
 
 
-## API 応答の結果 JSON (Dictionary) に autoRunStampSheet が含まれる場合、後続のトランザクションを構築する
 static func next_from_result_json(
     gs2,
     access_token,

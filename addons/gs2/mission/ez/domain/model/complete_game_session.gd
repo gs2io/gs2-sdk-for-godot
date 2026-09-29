@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func receive_rewards(
     mission_task_name,
     config = null,
@@ -55,7 +54,6 @@ func receive_rewards(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func batch_receive_rewards(
     mission_task_names,
     config = null,
@@ -73,7 +71,6 @@ func batch_receive_rewards(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2MissionEzCompleteGameSessionDomain)
 func evaluate_complete(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -91,7 +88,6 @@ func evaluate_complete(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2MissionEzComplete)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

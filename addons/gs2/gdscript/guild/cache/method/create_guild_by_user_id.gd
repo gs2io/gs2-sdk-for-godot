@@ -33,6 +33,14 @@ static func put_cache(
             result.item.name,
             time_offset
         )
+    cache.clear_list_cache(
+        "Gs2GuildJoinedGuild",
+        Gs2GuildJoinedGuildCache.cache_parent_key(
+            request.namespace_name,
+            request.user_id,
+            time_offset
+        )
+    )
 
 
 static func invoke(

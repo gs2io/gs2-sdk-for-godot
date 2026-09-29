@@ -35,8 +35,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)  # diff ---
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildDomain)  # diff +++
 func create_guild(
     guild_model_name,
     display_name,
@@ -85,7 +83,6 @@ func create_guild(
     ), null)
     # diff +++ end
 # diff --- start
-# # 戻り値: Gs2AsyncResult (result = Gs2GuildEzUserGameSessionDomain)
 # func assume(
 #     guild_model_name,
 #     guild_name = null
@@ -108,7 +105,6 @@ func create_guild(
 # diff --- end
 # diff +++ start
 # Unity EzUserGameSessionDomainExt.Assume parity.
-# 戻り値: Gs2AsyncResult (result = GuildGameSession)
 func assume(
     gateway_namespace_name,
     allow_concurrent_access,
@@ -131,7 +127,6 @@ func assume(
         return refresh_result
     return Gs2AsyncResult.new(game_session, null)
 # diff +++ end
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)
 func send_request(
     guild_model_name,
     target_guild_name,
@@ -161,7 +156,6 @@ func send_request(
         _connection
     ), null)
     # diff +++ end
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzSendMemberRequestGameSessionDomain)
 func cancel_request(
     guild_model_name,
     target_guild_name

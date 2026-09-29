@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func random_showcase_buy(
     quantity = null,
     config = null,
@@ -60,7 +59,6 @@ func random_showcase_buy(
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2ShowcaseEzRandomDisplayItem)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

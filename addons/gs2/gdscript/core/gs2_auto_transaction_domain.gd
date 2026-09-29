@@ -12,8 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## サーバー側でアトミックに自動実行されたトランザクションの結果 (GS2-Distributor の
-## TransactionResult) を待機してキャッシュへ反映する。C# の AutoTransactionDomain 相当。
 class_name Gs2AutoTransactionDomain
 extends Gs2TransactionDomain
 
@@ -42,7 +40,6 @@ func _skip_callback() -> bool:
     return false
 
 
-# 戻り値: Gs2AsyncResult (result = 後続の Gs2TransactionDomain / null)
 func _handle_result(result) -> Gs2AsyncResult:
     var skip_callback = _skip_callback()
     var time_offset = _time_offset()

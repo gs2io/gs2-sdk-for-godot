@@ -41,7 +41,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2SerialKeyEzSerialKeyGameSessionDomain)
 # diff --- start
 # func use_serial_code(
 #     code
@@ -66,7 +65,6 @@ func use_serial_code(  # diff +++
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2SerialKeyEzSerialKey)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -34,7 +34,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2FriendEzBlackListGameSessionDomain)
 func register_black_list(
     target_user_id
 ) -> Gs2AsyncResult:
@@ -52,7 +51,6 @@ func register_black_list(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2FriendEzBlackListGameSessionDomain)
 func unregister_black_list(
     target_user_id
 ) -> Gs2AsyncResult:
@@ -72,7 +70,6 @@ func unregister_black_list(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2FriendEzBlackList)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

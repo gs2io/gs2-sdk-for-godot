@@ -68,7 +68,6 @@ func mission_task_model(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2MissionEzMissionGroupModel)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

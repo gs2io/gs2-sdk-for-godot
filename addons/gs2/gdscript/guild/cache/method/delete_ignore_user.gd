@@ -32,7 +32,7 @@ static func put_cache(
 # diff --- start
 #        null,
 # diff --- end
-        user_id,  # diff +++ (C# deny: default → userId)
+        user_id,  # diff +++
         time_offset
     )
 

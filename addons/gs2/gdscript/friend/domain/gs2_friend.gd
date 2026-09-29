@@ -341,14 +341,24 @@ func handle_notification(
         if notification == null:
             return
         var n = notification
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriend",
-            Gs2FriendFriendCache.cache_parent_key(
+        for with_profile in [false, true, null]:
+            Gs2FriendFriendUserCache.delete_cache(
+                _gs2.cache,
                 n.namespace_name,
                 n.user_id,
+                with_profile,
+                n.from_user_id,
                 null
             )
-        )
+            _gs2.cache.clear_list_cache(
+                "Gs2FriendFriendUser",
+                Gs2FriendFriendUserCache.cache_parent_key(
+                    n.namespace_name,
+                    n.user_id,
+                    with_profile,
+                    null
+                )
+            )
         delete_friend_notification.emit(notification)
         return
     if action == "ReceiveRequestNotification":
@@ -378,6 +388,26 @@ func handle_notification(
         var notification: Gs2FriendCancelRequestNotification = Gs2FriendCancelRequestNotification.from_dict(data)
         if notification == null:
             return
+        var n = notification
+        _gs2.cache.delete(
+            "Gs2FriendFriendRequest",
+            Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                n.namespace_name,
+                n.user_id,
+                null
+            ),
+            Gs2FriendReceiveFriendRequestCache.cache_key(
+                n.from_user_id
+            )
+        )
+        _gs2.cache.clear_list_cache(
+            "Gs2FriendFriendRequest",
+            Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                n.namespace_name,
+                n.user_id,
+                null
+            )
+        )
         cancel_request_notification.emit(notification)
         return
     pass

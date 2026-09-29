@@ -84,7 +84,6 @@ func item_set(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2InventoryEzInventory)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

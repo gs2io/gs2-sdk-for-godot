@@ -48,7 +48,6 @@ func _init(
     _connection = connection
 
 
-# 戻り値: Gs2AsyncResult (result = PackedByteArray)
 func download(
 ) -> Gs2AsyncResult:
     var prepare_result = await prepare_download_by_user_id_and_data_object_name()
@@ -60,13 +59,11 @@ func download(
     return Gs2AsyncResult.new(response.body_bytes, null)
 
 
-# 戻り値: Gs2AsyncResult (result = PackedByteArray)
 func download_by_user_id_and_data_object_name(
 ) -> Gs2AsyncResult:
     return await download()
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectDomain)
 func prepare_download_by_user_id_and_data_object_name(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -94,7 +91,6 @@ func data_object_history(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObject)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

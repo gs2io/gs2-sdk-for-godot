@@ -49,7 +49,6 @@ func _init(
     _last = false
 
 
-# 全ページを読み込んで Array を返す (Gs2AsyncResult.result = Array)
 func load() -> Gs2AsyncResult:
     var result = []
     _page_token = null
@@ -95,7 +94,7 @@ func load() -> Gs2AsyncResult:
 # diff --- start
 #            user_id,
 # diff --- end
-            null,  # diff +++ (C# deny: UserId → null)
+            null,  # diff +++
             null if access_token == null else access_token.time_offset,
             request
         )

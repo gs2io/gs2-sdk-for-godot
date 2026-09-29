@@ -19,8 +19,6 @@ var status_code: int = 0
 var body: Variant = null
 var body_bytes: PackedByteArray = PackedByteArray()
 var error: Gs2Exception
-## 接続段階（DNS / TCP / TLS handshake）で失敗し、1 バイトも送っていない
-## （Steady の基点宛のときだけ同じ要求をもう 1 回だけ送る判断に使う）
 var connect_failed: bool = false
 
 

@@ -46,7 +46,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2FormationEzFormGameSessionDomain)
 func get_form_with_signature(
     key_id = null
 ) -> Gs2AsyncResult:
@@ -64,7 +63,6 @@ func get_form_with_signature(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2FormationEzFormGameSessionDomain)
 func set_form(
     slots,
     key_id = null
@@ -84,7 +82,6 @@ func set_form(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2FormationEzFormGameSessionDomain)
 func delete_form(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -102,7 +99,6 @@ func delete_form(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2FormationEzForm)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2DictionaryEzLikeGameSessionDomain[])
 func add_likes(
     entry_model_names = null
 ) -> Gs2AsyncResult:
@@ -59,7 +58,6 @@ func add_likes(
                 _connection
             ))
     return Gs2AsyncResult.new(domains, null)
-# 戻り値: Gs2AsyncResult (result = Gs2DictionaryEzLikeGameSessionDomain[])
 func delete_likes(
     entry_model_names = null
 ) -> Gs2AsyncResult:

@@ -16,7 +16,6 @@ extends RefCounted
 
 
 var namespace_name: Variant = null
-## AutoTransaction の結果を待つ上限。0 以下を指定すると上限なしで待機する。
 var auto_transaction_result_timeout_msec: int = 3 * 60 * 1000
 # Callable(cache, transaction_id, time_offset, action, request, result)
 var verify_action_event_handler: Callable

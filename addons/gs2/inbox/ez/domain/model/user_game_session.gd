@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2InboxEzMessageGameSessionDomain[])
 func receive_global_message(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -57,7 +56,6 @@ func receive_global_message(
                 _connection
             ))
     return Gs2AsyncResult.new(domains, null)
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func batch_read(
     message_names,
     speculative_execute: bool = true

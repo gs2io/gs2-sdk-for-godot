@@ -56,7 +56,7 @@ func cluster_ranking_season(
 # diff --- start
 #) -> Gs2Ranking2ClusterRankingSeasonDomain:
 # diff --- end
-):  # diff +++ (C# は AccessToken オーバーロードが手動追加されているため型注釈を外して分岐する)
+):  # diff +++
     # diff +++ start
     if user_id is Gs2AuthAccessToken:
         return Gs2Ranking2ClusterRankingSeasonAccessTokenDomain.new(

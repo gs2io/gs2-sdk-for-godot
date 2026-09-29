@@ -43,7 +43,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func receive_global_ranking_reward(
     config = null,
     speculative_execute: bool = true
@@ -61,7 +60,6 @@ func receive_global_ranking_reward(
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzGlobalRankingReceivedReward)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

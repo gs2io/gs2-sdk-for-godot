@@ -15,9 +15,8 @@ class_name Gs2NewsAcquireActionSpeculativeExecutorIndex
 extends RefCounted
 
 
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
-    gs2: Gs2Domain,
+    gs2,
     access_token,
     acquire_action: Gs2AcquireAction,
     rate_value

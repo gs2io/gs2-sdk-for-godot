@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2StaminaEzStaminaGameSessionDomain)
 func consume(
     consume_value
 ) -> Gs2AsyncResult:
@@ -58,7 +57,6 @@ func consume(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2StaminaEzStaminaGameSessionDomain)
 func apply(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -74,7 +72,6 @@ func apply(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2StaminaEzStaminaGameSessionDomain)
 func set_max_value(
     signed_status_body,
     signed_status_signature,
@@ -96,7 +93,6 @@ func set_max_value(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2StaminaEzStaminaGameSessionDomain)
 func set_recover_interval(
     signed_status_body,
     signed_status_signature,
@@ -118,7 +114,6 @@ func set_recover_interval(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2StaminaEzStaminaGameSessionDomain)
 func set_recover_value(
     signed_status_body,
     signed_status_signature,
@@ -142,7 +137,6 @@ func set_recover_value(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2StaminaEzStamina)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

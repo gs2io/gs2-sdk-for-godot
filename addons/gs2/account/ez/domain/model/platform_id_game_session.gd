@@ -41,7 +41,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzPlatformIdGameSessionDomain)
 func add_platform_id_setting(
     user_identifier  # diff +++
 ) -> Gs2AsyncResult:
@@ -59,7 +58,6 @@ func add_platform_id_setting(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzPlatformUser)
 func find_platform_user(
     user_identifier  # diff +++
 ) -> Gs2AsyncResult:
@@ -81,7 +79,6 @@ func find_platform_user(
         null
     )
     # diff +++ end
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzPlatformIdGameSessionDomain)
 func delete_platform_id_setting(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -99,7 +96,6 @@ func delete_platform_id_setting(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzPlatformId)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -76,7 +76,6 @@ static func fetch(
     return Gs2AsyncResult.new(async_result.result, null)
 
 
-# 戻り値: [value, find]
 static func get_cache(
     cache: Gs2CacheDatabase,
     namespace_name,
@@ -128,10 +127,6 @@ static func put_cache(
 
 
 # diff +++ start
-# Gs2Distributor:DescribeUserData（ユーザーの全データの一括取得）の 1 エントリ（この kind）をキャッシュへ入れる。
-# 鍵はエントリの namespace_name / 読み込むユーザーの user_id / モデル自身のプロパティ / 主キー GRN から取る
-# （sdk-gen の BaseModel.user_data_cache_keys）。戻り値は親キーで、呼び手が全ページを読み終えてから
-# Gs2FriendServiceCache.set_list_cached(cache, time_offset, kind, parent_key) で「リストが揃った印」を立てる。
 static func put_user_data(
     item,
     cache: Gs2CacheDatabase,
@@ -144,7 +139,7 @@ static func put_user_data(
         cache,
         namespace_name,
         user_id,
-        false,  # サーバーの一括取得は withProfile 無しで展開する
+        false,
         item.user_id,
         time_offset
     )

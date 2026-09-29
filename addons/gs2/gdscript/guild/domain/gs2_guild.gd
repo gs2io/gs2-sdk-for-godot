@@ -443,6 +443,30 @@ func handle_notification(
             n.guild_name,
             null
         )
+        _gs2.cache.clear_list_cache(
+            "Gs2GuildJoinedGuild",
+            Gs2GuildJoinedGuildCache.cache_parent_key(
+                n.namespace_name,
+                n.joined_user_id,
+                null
+            )
+        )
+        Gs2GuildSendMemberRequestCache.delete_cache(
+            _gs2.cache,
+            n.namespace_name,
+            n.joined_user_id,
+            n.guild_model_name,
+            n.guild_name,
+            null
+        )
+        _gs2.cache.clear_list_cache(
+            "Gs2GuildSendMemberRequest",
+            Gs2GuildSendMemberRequestCache.cache_parent_key(
+                n.namespace_name,
+                n.joined_user_id,
+                null
+            )
+        )
         join_notification.emit(notification)
         return
     if action == "LeaveNotification":
@@ -456,6 +480,22 @@ func handle_notification(
             n.guild_model_name,
             n.guild_name,
             null
+        )
+        Gs2GuildJoinedGuildCache.delete_cache(
+            _gs2.cache,
+            n.namespace_name,
+            n.leaved_user_id,
+            n.guild_model_name,
+            n.guild_name,
+            null
+        )
+        _gs2.cache.clear_list_cache(
+            "Gs2GuildJoinedGuild",
+            Gs2GuildJoinedGuildCache.cache_parent_key(
+                n.namespace_name,
+                n.leaved_user_id,
+                null
+            )
         )
         leave_notification.emit(notification)
         return

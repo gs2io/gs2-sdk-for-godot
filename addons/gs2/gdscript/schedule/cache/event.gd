@@ -13,7 +13,7 @@
 # permissions and limitations under the License.
 class_name Gs2ScheduleEventCache
 extends RefCounted
-# deny overwrite  # is_in_schedule 引数が手書き追加されている（c2d87c15fd）。再生成で消えないよう印を付ける
+# deny overwrite
 
 
 static func cache_parent_key(
@@ -76,7 +76,6 @@ static func fetch(
     return Gs2AsyncResult.new(async_result.result, null)
 
 
-# 戻り値: [value, find]
 static func get_cache(
     cache: Gs2CacheDatabase,
     namespace_name,

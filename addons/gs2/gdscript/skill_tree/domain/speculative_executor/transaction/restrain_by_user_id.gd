@@ -20,7 +20,6 @@ static func action() -> String:
     return "Gs2SkillTree:RestrainByUserId"
 
 
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
     gs2: Gs2Domain,
     access_token,
@@ -67,7 +66,7 @@ static func execute(
             gs2,
             access_token,
             [],
-            null,  # C# の Gs2.Core.SpeculativeExecutor.Transaction.Revert(model.ReleaseConsumeActions) は null を返す
+            null,
             model.restrain_return_rate if model.restrain_return_rate != null else 1.0
         )
         if commit_result.error != null:

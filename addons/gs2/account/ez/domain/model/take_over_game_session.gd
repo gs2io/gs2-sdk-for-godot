@@ -47,7 +47,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzTakeOverGameSessionDomain)
 func add_take_over_setting(
     user_identifier,  # diff +++
     password
@@ -67,7 +66,6 @@ func add_take_over_setting(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzTakeOverGameSessionDomain)
 func add_take_over_setting_open_id_connect(
     id_token
 ) -> Gs2AsyncResult:
@@ -85,7 +83,6 @@ func add_take_over_setting_open_id_connect(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzTakeOverGameSessionDomain)
 func update_take_over_setting(
     old_password,
     password
@@ -108,7 +105,6 @@ func update_take_over_setting(
 
 
 # diff +++ start
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzTakeOverGameSessionDomain)
 func delete_take_over_setting() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,
@@ -126,7 +122,6 @@ func delete_take_over_setting() -> Gs2AsyncResult:
 # diff +++ end
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzTakeOver)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

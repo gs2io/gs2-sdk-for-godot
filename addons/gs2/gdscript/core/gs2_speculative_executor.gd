@@ -12,10 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## 投機的実行のコア。consume/acquire アクション列を各サービスの
-## SpeculativeExecutorIndex に振り分けて実行する。
-## C# の Core/Domain/SpeculativeExecutor/SpeculativeExecutor.cs のサービス列挙は
-## フラット命名 + 動的クラス解決で置き換えている。
 class_name Gs2SpeculativeExecutor
 extends RefCounted
 
@@ -27,7 +23,6 @@ static func _index_for(action, suffix: String):
     return Gs2ClassRegistry.resolve(service + suffix)
 
 
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable)
 static func execute(
     gs2,
     access_token,

@@ -26,8 +26,6 @@ static func put_cache(
     if result == null:
         return
     # diff +++ start
-    # C# deny は result.item (SalesItem) を SalesItem キャッシュに put するが、
-    # GDScript には SalesItem キャッシュクラスが存在しないため省略
     cache.clear_list_cache(
         "Gs2ShowcaseDisplayItem",
         Gs2ShowcaseDisplayItemCache.cache_parent_key(

@@ -31,6 +31,26 @@ static func put_cache(
         request.guild_name,
         time_offset
     )
+    if result.item != null and result.item.members != null:
+        for member in result.item.members:
+            if member == null or member.user_id == null:
+                continue
+            Gs2GuildJoinedGuildCache.delete_cache(
+                cache,
+                request.namespace_name,
+                member.user_id,
+                result.item.guild_model_name,
+                result.item.name,
+                time_offset
+            )
+            cache.clear_list_cache(
+                "Gs2GuildJoinedGuild",
+                Gs2GuildJoinedGuildCache.cache_parent_key(
+                    request.namespace_name,
+                    member.user_id,
+                    time_offset
+                )
+            )
 
 
 static func invoke(

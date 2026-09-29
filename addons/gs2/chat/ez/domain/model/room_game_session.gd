@@ -43,7 +43,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzRoomGameSessionDomain)
 func delete_room(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -59,7 +58,6 @@ func delete_room(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzMessageGameSessionDomain)
 func post(
     metadata,
     category = null
@@ -155,7 +153,6 @@ func message(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzRoom)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

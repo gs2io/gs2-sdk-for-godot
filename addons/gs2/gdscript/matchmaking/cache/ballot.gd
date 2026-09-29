@@ -76,7 +76,6 @@ static func fetch(
     return Gs2AsyncResult.new(async_result.result, null)
 
 
-# 戻り値: [value, find]
 static func get_cache(
     cache: Gs2CacheDatabase,
     namespace_name,

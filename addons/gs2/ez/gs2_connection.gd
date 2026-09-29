@@ -15,14 +15,12 @@ class_name Gs2Connection
 extends RefCounted
 
 
-## サーバープッシュ通知を受信した (message: Gs2NotificationMessage)
 signal notification_received(message: Gs2NotificationMessage)
 
 var rest_session: Gs2RestSession
 var web_socket_session: Gs2WebSocketSession
 
 
-## steady_endpoint: Steady（専用フリート）の基点（https://<host>）。空なら共有クラウド
 func _init(
     credential: Gs2Credential,
     region: String = Gs2Region.AP_NORTHEAST_1,
@@ -45,8 +43,6 @@ func connect_session() -> Gs2AsyncResult:
     return Gs2AsyncResult.new(Gs2OpenResult.new(), null)
 
 
-## REST / WebSocket の両セッションを明示的に閉じる。
-## 次回の API 呼び出しは run() によって自動再接続される。
 func disconnect_session() -> void:
     web_socket_session.close()
     rest_session.close()
@@ -56,13 +52,10 @@ func is_disconnected() -> bool:
     return rest_session.credential.project_token == null
 
 
-## バージョンチェック等で再発行されたプロジェクトトークンを以後の通信に適用する。
 func update_project_token(project_token) -> void:
     rest_session.credential.project_token = project_token
 
 
-## API 呼び出しを実行する
-## セッション切断時は再接続、認証切れ時はゲームセッションの再認証を行ってリトライする
 func run(game_session: Gs2GameSessionBase, request_action: Callable) -> Gs2AsyncResult:
     var is_reopen_tried = false
     var is_authentication_tried = false

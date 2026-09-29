@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func release(
     node_model_names,
     speculative_execute: bool = true
@@ -53,7 +52,6 @@ func release(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func restrain(
     node_model_names,
     speculative_execute: bool = true
@@ -69,7 +67,6 @@ func restrain(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func reset(
     speculative_execute: bool = true
 ) -> Gs2AsyncResult:
@@ -85,7 +82,6 @@ func reset(
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2SkillTreeEzStatus)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

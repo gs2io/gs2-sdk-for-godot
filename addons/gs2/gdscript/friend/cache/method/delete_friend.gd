@@ -65,6 +65,14 @@ static func put_cache(
         cache,
         request.namespace_name,
         request.target_user_id,
+        true,
+        user_id,
+        time_offset
+    )
+    Gs2FriendFriendUserCache.delete_cache(
+        cache,
+        request.namespace_name,
+        request.target_user_id,
         null,
         user_id,
         time_offset

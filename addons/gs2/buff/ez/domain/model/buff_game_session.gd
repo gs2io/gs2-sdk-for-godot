@@ -35,7 +35,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2BuffEzBuffEntryModel[])
 func apply_buff(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(

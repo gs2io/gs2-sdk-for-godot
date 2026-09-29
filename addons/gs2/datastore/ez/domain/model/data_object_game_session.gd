@@ -51,7 +51,6 @@ func _init(
     _connection = connection
 
 
-# 戻り値: Gs2AsyncResult (result = PackedByteArray)
 func download(
 ) -> Gs2AsyncResult:
     var prepare_result = await prepare_download_own_data()
@@ -63,13 +62,11 @@ func download(
     return Gs2AsyncResult.new(response.body_bytes, null)
 
 
-# 戻り値: Gs2AsyncResult (result = PackedByteArray)
 func download_own(
 ) -> Gs2AsyncResult:
     return await download()
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func re_upload(
     data: PackedByteArray
 ) -> Gs2AsyncResult:
@@ -86,7 +83,6 @@ func re_upload(
     return await done_upload()
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func update_data_object(
     scope = null,
     allow_user_ids = null
@@ -106,7 +102,6 @@ func update_data_object(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func prepare_re_upload(
     content_type = null
 ) -> Gs2AsyncResult:
@@ -124,7 +119,6 @@ func prepare_re_upload(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func done_upload(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -140,7 +134,6 @@ func done_upload(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func delete_data_object(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -156,7 +149,6 @@ func delete_data_object(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func prepare_download_own_data(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -211,7 +203,6 @@ func data_object_history(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObject)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

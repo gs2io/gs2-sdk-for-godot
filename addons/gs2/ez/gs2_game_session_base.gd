@@ -12,7 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## C# の IGameSession に相当する型付き契約。
 @abstract
 class_name Gs2GameSessionBase
 extends RefCounted

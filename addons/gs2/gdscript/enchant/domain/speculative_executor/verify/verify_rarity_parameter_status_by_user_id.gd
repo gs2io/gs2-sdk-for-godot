@@ -31,7 +31,6 @@ static func _bad_request() -> Gs2Exception:
     return e
 
 
-# 戻り値: Gs2AsyncResult (result = 検証済み item / error = BadRequestException)
 static func transform(
     gs2: Gs2Domain,
     access_token,
@@ -54,7 +53,6 @@ static func transform(
                 return Gs2AsyncResult.new(null, _bad_request())
     return Gs2AsyncResult.new(item, null)
 # diff +++ end
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
     gs2,
     access_token,

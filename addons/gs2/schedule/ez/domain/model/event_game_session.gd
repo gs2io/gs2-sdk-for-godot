@@ -62,7 +62,6 @@ func repeat_schedule() -> Gs2ScheduleEzRepeatScheduleGameSessionDomain:
 # diff +++ end
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2ScheduleEzEvent)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

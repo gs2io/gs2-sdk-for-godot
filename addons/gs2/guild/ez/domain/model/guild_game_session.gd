@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)
 func update_guild(
     access_token,
     display_name,
@@ -75,7 +74,6 @@ func update_guild(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)
 func delete_member_from_guild(
     access_token,
     target_user_id
@@ -95,7 +93,6 @@ func delete_member_from_guild(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)
 func update_guild_member_role(
     access_token,
     target_user_id,
@@ -117,7 +114,6 @@ func update_guild_member_role(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)
 func delete_guild(
     access_token
 ) -> Gs2AsyncResult:
@@ -135,7 +131,6 @@ func delete_guild(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzIgnoreUserGameSessionDomain)
 func add_ignore_user(
     access_token,
     user_id
@@ -155,7 +150,6 @@ func add_ignore_user(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzLastGuildMasterActivityGameSessionDomain)
 func promote_senior_member(
     access_token
 ) -> Gs2AsyncResult:
@@ -257,7 +251,6 @@ func last_guild_master_activity(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuild)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

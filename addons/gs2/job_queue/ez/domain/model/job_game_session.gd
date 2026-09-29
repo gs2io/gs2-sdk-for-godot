@@ -60,7 +60,6 @@ func job_result(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2JobQueueEzJob)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

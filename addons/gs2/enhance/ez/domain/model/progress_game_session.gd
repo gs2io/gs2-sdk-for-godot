@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func start(
     rate_name,
     target_item_set_id,
@@ -64,7 +63,6 @@ func start(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func end(
     config = null,
     speculative_execute: bool = true
@@ -80,7 +78,6 @@ func end(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2EnhanceEzProgressGameSessionDomain)
 func delete_progress(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -98,7 +95,6 @@ func delete_progress(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2EnhanceEzProgress)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

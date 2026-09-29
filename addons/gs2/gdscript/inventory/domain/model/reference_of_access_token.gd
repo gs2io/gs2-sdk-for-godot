@@ -98,7 +98,7 @@ func verify(
         inventory_name,
         item_name,
         item_set_name,
-        (null if ref == null else ref)  # diff +++ (C# deny: result?.Item — ReferenceOf は文字列)
+        (null if ref == null else ref)  # diff +++
     )
     return Gs2AsyncResult.new(domain, null)
 
@@ -131,7 +131,7 @@ func delete(
         inventory_name,
         item_name,
         item_set_name,
-        (null if ref == null else ref)  # diff +++ (C# deny: result?.Item — ReferenceOf は文字列)
+        (null if ref == null else ref)  # diff +++
     )
     return Gs2AsyncResult.new(domain, null)
 

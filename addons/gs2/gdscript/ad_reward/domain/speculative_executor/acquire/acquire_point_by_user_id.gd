@@ -19,7 +19,6 @@ static func action() -> String:
     return "Gs2AdReward:AcquirePointByUserId"
 
 
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
     gs2: Gs2Domain,
     access_token,

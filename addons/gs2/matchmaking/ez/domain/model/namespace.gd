@@ -43,7 +43,6 @@ func _init(
 ):
     _domain = domain
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzBallotDomain)
 func vote(
     ballot_body,
     ballot_signature,
@@ -66,7 +65,6 @@ func vote(
         async_result.result,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzBallotDomain)
 func vote_multiple(
     signed_ballots = null,
     game_results = null,

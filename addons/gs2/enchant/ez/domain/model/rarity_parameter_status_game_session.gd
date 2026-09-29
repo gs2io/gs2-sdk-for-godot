@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EnchantEzRarityParameterStatusGameSessionDomain)
 func verify_rarity_parameter_status(
     verify_type,
     parameter_value_name,
@@ -64,7 +63,6 @@ func verify_rarity_parameter_status(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2EnchantEzRarityParameterStatus)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

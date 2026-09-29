@@ -182,7 +182,6 @@ func list_unsubscribe(type_name: String, parent_key: String, callback_id: int) -
     _list_cache_update_callback.get_or_add(type_name, {}).get_or_add(parent_key, {}).erase(callback_id)
 
 
-# 戻り値: [value, find]
 func get_cache(type_name: String, parent_key: String, key: String) -> Array:
     var parent = _cache.get(type_name, {}).get(parent_key)
     if parent != null and parent.has(key):
@@ -200,8 +199,6 @@ func list_cache(type_name: String, parent_key: String) -> Array:
     return result[0] if result[1] else []
 
 
-# 戻り値: [list, find, list_cache_context]
-# list_cache_context は require_list_cache_update() が呼ばれたあとのみ値が入ります
 func try_get_list(type_name: String, parent_key: String) -> Array:
     if not is_list_cached(type_name, parent_key):
         return [null, false, null]
@@ -219,7 +216,6 @@ func list_cache_force(type_name: String, parent_key: String) -> Array:
     return result[0] if result[1] else []
 
 
-# 戻り値: [list, find]
 func try_get_list_force(type_name: String, parent_key: String) -> Array:
     var now = now_ms()
     var values = _cache.get_or_add(type_name, {}).get_or_add(parent_key, {}).values()

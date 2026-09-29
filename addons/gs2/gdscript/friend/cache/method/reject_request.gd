@@ -47,6 +47,26 @@ static func invoke(
 ) -> Gs2AsyncResult:
     var async_result = await invoke_impl.call()
     if async_result.error != null:
+        if async_result.error is Gs2NotFoundException:
+            cache.delete(
+                "Gs2FriendFriendRequest",
+                Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                    request.namespace_name,
+                    user_id,
+                    time_offset
+                ),
+                Gs2FriendReceiveFriendRequestCache.cache_key(
+                    request.from_user_id
+                )
+            )
+            cache.clear_list_cache(
+                "Gs2FriendFriendRequest",
+                Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                    request.namespace_name,
+                    user_id,
+                    time_offset
+                )
+            )
         return async_result
     put_cache(
         async_result.result,

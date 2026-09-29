@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func acquire(
     speculative_execute: bool = true
 ) -> Gs2AsyncResult:
@@ -51,7 +50,6 @@ func acquire(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2ExchangeEzAwaitGameSessionDomain)
 func delete_await(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -69,7 +67,6 @@ func delete_await(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2ExchangeEzAwait)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

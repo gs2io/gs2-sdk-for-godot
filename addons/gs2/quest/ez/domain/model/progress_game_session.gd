@@ -34,7 +34,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func end(
     is_complete,
     rewards = null,
@@ -54,7 +53,6 @@ func end(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2QuestEzProgressGameSessionDomain)
 func delete_progress(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -72,7 +70,6 @@ func delete_progress(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2QuestEzProgress)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -45,7 +45,6 @@ func _init(
 ):
     _domain = domain
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzAccountDomain)
 func create(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -64,7 +63,6 @@ func create(
 
 # diff +++ start
 # Unity Namespace Domain parity: GetAuthorizationUrl belongs to the namespace axis.
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzNamespaceDomain)
 func get_authorization_url(
     type
 ) -> Gs2AsyncResult:
@@ -77,7 +75,6 @@ func get_authorization_url(
     authorization_url = null if async_result.result == null else async_result.result.authorization_url
     return Gs2AsyncResult.new(self, null)
 # diff +++ end
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzAccountDomain)
 func do_take_over(
     type,
     user_identifier,
@@ -98,7 +95,6 @@ func do_take_over(
         async_result.result,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2AccountEzAccountDomain)
 func do_take_over_open_id_connect(
     type,
     id_token

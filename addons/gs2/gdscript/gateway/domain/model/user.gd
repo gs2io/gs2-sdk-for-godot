@@ -104,6 +104,13 @@ func disconnect_all(
     var result = async_result.result
     var domain = self
     return Gs2AsyncResult.new(domain, null)
+func firebase_token(
+) -> Gs2GatewayFirebaseTokenDomain:
+    return Gs2GatewayFirebaseTokenDomain.new(
+        _gs2,
+        namespace_name,
+        user_id
+    )
 
 
 func web_socket_sessions(
@@ -159,13 +166,6 @@ func invalidate_web_socket_sessions(
 func web_socket_session(
 ) -> Gs2GatewayWebSocketSessionDomain:
     return Gs2GatewayWebSocketSessionDomain.new(
-        _gs2,
-        namespace_name,
-        user_id
-    )
-func firebase_token(
-) -> Gs2GatewayFirebaseTokenDomain:
-    return Gs2GatewayFirebaseTokenDomain.new(
         _gs2,
         namespace_name,
         user_id

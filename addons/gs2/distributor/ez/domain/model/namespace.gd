@@ -67,7 +67,6 @@ func _init(
 ):
     _domain = domain
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2DistributorEzNamespaceDomain)
 func batch_execute_api(
     request_payloads
 ) -> Gs2AsyncResult:

@@ -47,6 +47,23 @@ static func invoke(
 ) -> Gs2AsyncResult:
     var async_result = await invoke_impl.call()
     if async_result.error != null:
+        if async_result.error is Gs2NotFoundException:
+            Gs2GuildSendMemberRequestCache.delete_cache(
+                cache,
+                request.namespace_name,
+                request.user_id,
+                request.guild_model_name,
+                request.target_guild_name,
+                time_offset
+            )
+            cache.clear_list_cache(
+                "Gs2GuildSendMemberRequest",
+                Gs2GuildSendMemberRequestCache.cache_parent_key(
+                    request.namespace_name,
+                    request.user_id,
+                    time_offset
+                )
+            )
         return async_result
     put_cache(
         async_result.result,

@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuildGameSessionDomain)
 func update_member_metadata(
     metadata = null
 ) -> Gs2AsyncResult:
@@ -58,7 +57,6 @@ func update_member_metadata(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzJoinedGuildGameSessionDomain)
 func withdraw_guild(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -76,7 +74,6 @@ func withdraw_guild(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzJoinedGuild)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

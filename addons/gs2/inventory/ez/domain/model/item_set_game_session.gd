@@ -52,7 +52,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2InventoryEzItemSetGameSessionDomain)
 func get_item_with_signature(
     key_id = null
 ) -> Gs2AsyncResult:
@@ -70,7 +69,6 @@ func get_item_with_signature(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2InventoryEzItemSetGameSessionDomain)
 func consume(
     consume_count
 ) -> Gs2AsyncResult:
@@ -102,7 +100,6 @@ func reference_of(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2InventoryEzItemSet)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -126,22 +126,31 @@ func set_transaction_default_config(
 # diff --- start
 #    request: Gs2DistributorSetTransactionDefaultConfigByUserIdRequest
 # diff --- end
-    request: Gs2DistributorSetTransactionDefaultConfigRequest  # diff +++
+    request  # diff +++
 ) -> Gs2AsyncResult:
     request = request.with_context_stack(_gs2.default_context_stack if request.context_stack == null or request.context_stack == "" else request.context_stack)
 # diff --- start
 #    var async_result = await Gs2DistributorSetTransactionDefaultConfigByUserIdMethodCache.invoke(
 # diff --- end
-    var async_result = await Gs2DistributorSetTransactionDefaultConfigMethodCache.invoke(  # diff +++
-        _gs2.cache,
-        null,
-        null,
-        request,
-# diff --- start
-#        func(): return await _client.set_transaction_default_config_by_user_id(request)
-# diff --- end
-        func(): return await _client.set_transaction_default_config(request)  # diff +++
-    )
+# diff +++ start
+    var async_result = null
+    if request is Gs2DistributorSetTransactionDefaultConfigByUserIdRequest:
+        async_result = await Gs2DistributorSetTransactionDefaultConfigByUserIdMethodCache.invoke(
+            _gs2.cache,
+            null,
+            null,
+            request,
+            func(): return await _client.set_transaction_default_config_by_user_id(request)
+        )
+    else:
+        async_result = await Gs2DistributorSetTransactionDefaultConfigMethodCache.invoke(
+            _gs2.cache,
+            null,
+            null,
+            request,
+            func(): return await _client.set_transaction_default_config(request)
+        )
+# diff +++ end
     if async_result.error != null:
         return async_result
     var result = async_result.result

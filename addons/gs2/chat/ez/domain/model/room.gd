@@ -53,7 +53,6 @@ func message(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2ChatEzRoom)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

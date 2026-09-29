@@ -37,7 +37,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzGatheringGameSessionDomain)
 func update_gathering(
     attribute_ranges = null
 ) -> Gs2AsyncResult:
@@ -55,7 +54,6 @@ func update_gathering(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzGatheringGameSessionDomain)
 func ping(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -71,7 +69,6 @@ func ping(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzGatheringGameSessionDomain)
 func cancel_matchmaking(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -87,7 +84,6 @@ func cancel_matchmaking(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzGatheringGameSessionDomain)
 func early_complete_matchmaking(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -105,7 +101,6 @@ func early_complete_matchmaking(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2MatchmakingEzGathering)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

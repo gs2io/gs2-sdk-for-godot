@@ -27,7 +27,7 @@ static func put_cache(
     Gs2DictionaryEntryModelMasterCache.delete_cache(
         cache,
         request.namespace_name,
-        null,
+        request.entry_name,
         time_offset
     )
 

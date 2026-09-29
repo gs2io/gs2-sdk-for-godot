@@ -168,11 +168,6 @@ func handle_notification(
     pass
 
 
-## 一括取得（Gs2Distributor:DescribeUserData）で access_token のユーザーの全データを、各モデルのキャッシュへ入れる。
-## ログイン直後に 1 回 await すると、以後の Get / Describe はサーバーへ出ない。キー方式 v2 のプロジェクトでだけ使える（v1 はエラー）。
-## 各エントリは kind でモデルを示し、Core の put_user_data（service → 生成物 Gs2{Service}Cache.put_user_data）へ振り分ける。
-## 「リストが揃った印」は全ページを読み終えてから (service, kind, 親キー) ごとにまとめて立てる。途中で失敗したら印は立てない。
-## 読めないエントリは数えず続行する。result はキャッシュへ入れたエントリ数（int）。知らない service / kind は数えない。
 func load_user_data(access_token) -> Gs2AsyncResult:
     assert(access_token != null)
     var loaded = 0

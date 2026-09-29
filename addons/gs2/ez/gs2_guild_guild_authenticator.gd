@@ -36,7 +36,6 @@ func _init(
     _allow_concurrent_access = allow_concurrent_access
 
 
-## GS2-Guild の Assume により、ギルドを主体とするアクセストークンを取得する。
 func authentication(
     connection: Gs2Connection,
     user_game_session: Gs2GameSessionBase,

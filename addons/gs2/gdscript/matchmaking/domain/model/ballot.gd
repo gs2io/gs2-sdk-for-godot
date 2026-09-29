@@ -93,8 +93,16 @@ func model() -> Gs2AsyncResult:
         null
     )
     if pair[1]:
+# diff +++ start
+        if pair[0] != null:
+            self.body = pair[0].body
+            self.signature = pair[0].signature
+# diff +++ end
         return Gs2AsyncResult.new(pair[0], null)
-    return await Gs2MatchmakingBallotCache.fetch(
+# diff --- start
+#    return await Gs2MatchmakingBallotCache.fetch(
+# diff --- end
+    var fetched = await Gs2MatchmakingBallotCache.fetch(  # diff +++
         _gs2.cache,
         namespace_name,
         user_id,
@@ -109,6 +117,12 @@ func model() -> Gs2AsyncResult:
             var get_result = await get_(Gs2MatchmakingGetBallotByUserIdRequest.new())
             return get_result
     )
+# diff +++ start
+    if fetched.error == null and fetched.result != null:
+        self.body = fetched.result.body
+        self.signature = fetched.result.signature
+    return fetched
+# diff +++ end
 
 
 func invalidate() -> void:

@@ -40,7 +40,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2Money2EzSubscriptionStatusGameSessionDomain)
 func allocate_subscription_status(
     receipt
 ) -> Gs2AsyncResult:
@@ -58,7 +57,6 @@ func allocate_subscription_status(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2Money2EzSubscriptionStatusGameSessionDomain)
 func take_over_subscription_status(
     receipt
 ) -> Gs2AsyncResult:

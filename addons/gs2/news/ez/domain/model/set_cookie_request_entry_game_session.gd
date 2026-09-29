@@ -40,7 +40,6 @@ func _init(domain, game_session, connection):
     _connection = connection
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2NewsEzSetCookieRequestEntry)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -12,10 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## GS2 ドメイン API のルート。C# の Gs2.Core.Domain.Gs2 に相当する。
-## 使い方:
-##   var gs2 = Gs2Domain.new(rest_session, web_socket_session)
-##   var result = await gs2.account.namespace_("game-0001").account_access_token(token).model()
 class_name Gs2Domain
 extends RefCounted
 
@@ -151,7 +147,6 @@ func _init(
         wssession.notification_received.connect(_on_notification)
 
 
-## service_class_name (例: "Gs2Account") のサービスルートドメインを生成する
 func service_domain(service_class_name: String):
     var property_name = service_class_name.trim_prefix("Gs2").to_snake_case().replace("_2", "2")
     if property_name == "script":
@@ -187,8 +182,6 @@ func clear_cache_and_all_unsubscribe() -> void:
     cache.clear_and_all_unsubscribe()
 
 
-## 通知で届いた自動実行トランザクション/ジョブの結果をキャッシュに反映し、
-## 手動実行のジョブキューを消化する
 func dispatch(access_token) -> Gs2AsyncResult:
     if Gs2CacheDatabase.now_ms() - _last_ping_at > 5 * 60 * 1000:
         if web_socket_session != null and web_socket_session.has_method("ping"):
@@ -213,29 +206,11 @@ func dispatch(access_token) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null, null)
 
 
-## ユーザーの全データの一括取得（Gs2Distributor:DescribeUserData）でキャッシュを作る
-##
-## ★ログイン直後に 1 回 await すると、そのユーザーの全 GS2 サービスのデータ（スタミナ・インベントリ・
-##   ミッション進捗 …）が各モデルのキャッシュに載り、以後の Get / Describe はサーバーへ出ない。
-##   各エントリは kind でモデルを示し、サービスごとの生成物 `Gs2<Service>ServiceCache.put_user_data`
-##   （kind → モデルの振り分け。鍵の取り出しは各モデルキャッシュの `put_user_data`、sdk-gen の
-##   BaseModel.user_data_cache_keys）へ渡す。キー方式 v2 のプロジェクトでだけ使える（v1 は BadRequest）。
-##
-## ★「リストが揃った印」（Describe のイテレータがサーバーへ出ない条件）は、全ページを読み終えてから
-##   (service, kind, 親キー) の集合にまとめて立てる。途中で失敗したら印は立てない（入れた item は個別 Get の
-##   キャッシュとして残る）。エントリ単位の JSON の失敗は数えず続行する。
-##   ロード中に作ったイテレータは部分的なリストを返しうるので、他の呼び出しの前に await すること。
-##
-## 戻り値: result にキャッシュへ入れたエントリ数（int）。知らない service / kind（SDK が古い、または対応表に無い）は
-## 数えず捨てる。
 func load_user_data(access_token) -> Gs2AsyncResult:
     assert(access_token != null)
-    # 実態は distributor ドメイン（生成物 Gs2Distributor.load_user_data）。ここは糖衣
     return await distributor.load_user_data(access_token)
 
 
-## 一括取得の service 名（seed のディレクトリ名の綴り: "stamina" / "skill_tree" / "money2"）を
-## サービスキャッシュのクラス名 ("Gs2Stamina" / "Gs2SkillTree" / "Gs2Money2") の接頭辞に変換する
 static func user_data_service_class_prefix(service: String) -> String:
     var prefix = "Gs2"
     for part in service.split("_"):
@@ -245,19 +220,15 @@ static func user_data_service_class_prefix(service: String) -> String:
     return prefix
 
 
-## 一括取得の 1 エントリを、service の生成物 (Gs2<Service>ServiceCache.put_user_data) へ振り分けてキャッシュへ入れる。
-## 戻り値は親キー（知らない service / kind は null）。
 func put_user_data(service, namespace_name, user_id, time_offset, kind, payload):
     if service == null or kind == null:
         return null
     var service_cache = Gs2ClassRegistry.resolve(user_data_service_class_prefix(service) + "ServiceCache")
     if service_cache == null or not _script_has_method(service_cache, "put_user_data"):
         return null
-    # 1 件の JSON が読めなくても他のエントリは入れる（個別 API で取り直せる）
     return service_cache.put_user_data(cache, namespace_name, user_id, time_offset, kind, payload)
 
 
-## 一括取得で入れた (service, kind, 親キー) に「リストが揃った印」を立てる
 func set_list_cached(service, time_offset, kind, parent_key) -> bool:
     if service == null or kind == null or parent_key == null:
         return false
@@ -267,8 +238,6 @@ func set_list_cached(service, time_offset, kind, parent_key) -> bool:
     return service_cache.set_list_cached(cache, time_offset, kind, parent_key)
 
 
-## Gs2ClassRegistry.resolve が返すスクリプト（クラス）が static func を持つか
-## （Object.has_method はスクリプト資源自身のメソッドを見るので、クラスの static func には使えない）
 static func _script_has_method(script, method_name: String) -> bool:
     if script == null:
         return false
@@ -333,14 +302,12 @@ func update_cache_from_job_result(job, result, time_offset = null) -> void:
                 domain.update_cache_from_job_result(method, time_offset, job, result)
 
 
-## メインループに 1 フレーム譲る (SceneTree 以外の MainLoop では何もしない)
 static func yield_frame() -> void:
     var loop = Engine.get_main_loop()
     if loop is SceneTree:
         await loop.process_frame
 
 
-## 指定ミリ秒だけ待機する (ジョブキュー実行の競合リトライ間隔などに使用)
 static func wait_ms(ms) -> void:
     var deadline = Gs2CacheDatabase.now_ms() + ms
     while Gs2CacheDatabase.now_ms() < deadline:

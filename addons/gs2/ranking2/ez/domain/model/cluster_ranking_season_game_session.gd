@@ -46,7 +46,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzClusterRankingDataGameSessionDomain)
 func get_cluster_ranking_rank(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
@@ -62,7 +61,6 @@ func get_cluster_ranking_rank(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzClusterRankingScoreGameSessionDomain)
 func put_cluster_ranking(
     score,
     metadata = null

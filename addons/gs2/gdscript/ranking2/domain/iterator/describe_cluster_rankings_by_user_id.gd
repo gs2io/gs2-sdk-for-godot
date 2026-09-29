@@ -51,7 +51,6 @@ func _init(
     _last = false
 
 
-# 全ページを読み込んで Array を返す (Gs2AsyncResult.result = Array)
 func load() -> Gs2AsyncResult:
     var result = []
     _page_token = null

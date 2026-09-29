@@ -24,16 +24,23 @@ static func put_cache(
 ) -> void:
     if result == null:
         return
-    if result.item != null:
-        Gs2GuildJoinedGuildCache.put_cache(
-            result.item,
-            cache,
+    var withdrawn_user_id = result.item.user_id if result.item != null and result.item.user_id != null else request.user_id
+    Gs2GuildJoinedGuildCache.delete_cache(
+        cache,
+        request.namespace_name,
+        withdrawn_user_id,
+        request.guild_model_name,
+        request.guild_name,
+        time_offset
+    )
+    cache.clear_list_cache(
+        "Gs2GuildJoinedGuild",
+        Gs2GuildJoinedGuildCache.cache_parent_key(
             request.namespace_name,
-            (result.item.user_id if result.item != null else null),
-            (result.item.guild_model_name if result.item != null else null),
-            (result.item.guild_name if result.item != null else null),
+            withdrawn_user_id,
             time_offset
         )
+    )
     if result.guild != null:
         Gs2GuildGuildCache.put_cache(
             result.guild,

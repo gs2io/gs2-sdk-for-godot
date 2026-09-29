@@ -24,6 +24,10 @@ static func put_cache(
 ) -> void:
     if result == null:
         return
+    cache.clear_list_cache(
+        "Gs2DictionaryLike",
+        Gs2DictionaryLikeCache.cache_parent_key(request.namespace_name, user_id, time_offset)
+    )
 
 
 static func invoke(

@@ -45,7 +45,6 @@ func to_dict() -> Dictionary:
     return ret
 
 
-## request 内の #{key} プレースホルダを value で置換した新しいアクションを返す
 func apply_config(key, value) -> Gs2VerifyAction:
     var escaped = ""
     if value != null:

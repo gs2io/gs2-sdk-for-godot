@@ -48,7 +48,6 @@ func subscribe_ranking_season(
 # diff +++ end
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzSubscribeRankingModel)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

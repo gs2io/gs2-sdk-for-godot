@@ -12,7 +12,6 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## Ez 層のトランザクション待機。Unity SDK の EzTransactionDomain に相当する。
 class_name Gs2EzTransactionDomain
 extends RefCounted
 
@@ -27,9 +26,6 @@ func _init(domain: Gs2TransactionDomain):
     _domain = domain
 
 
-## トランザクションの完了を待つ。
-## all = false: このトランザクションのみ待ち、後続があれば result に返す
-## all = true: 後続のトランザクションも含めてすべて待つ (result = null)
 func wait(all: bool = false) -> Gs2AsyncResult:
     var result = await _domain.wait(all)
     if result.error != null:

@@ -41,7 +41,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzReceiveMemberRequestGameSessionDomain)
 # diff --- start
 # func accept_request(
 #     access_token
@@ -67,7 +66,6 @@ func accept_request(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzReceiveMemberRequestGameSessionDomain)
 # diff --- start
 # func reject_request(
 #     access_token
@@ -95,7 +93,6 @@ func reject_request(
     ), null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzReceiveMemberRequest)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,

@@ -43,7 +43,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzGlobalRankingScoreGameSessionDomain)
 func put_global_ranking(
     score,
     metadata = null
@@ -63,7 +62,6 @@ func put_global_ranking(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2Ranking2EzGlobalRankingDataGameSessionDomain)
 func get_global_ranking_rank(
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(

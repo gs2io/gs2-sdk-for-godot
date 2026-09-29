@@ -69,7 +69,6 @@ func last_guild_master_activity(
 # diff +++ start
 # Unity EzGuildDomain parity. A regular GameSession supplies the access token
 # required by the raw GuildDomain model operation.
-# 戻り値: Gs2AsyncResult (result = Gs2GuildEzGuild)
 func model(game_session) -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

@@ -15,7 +15,6 @@ class_name Gs2JobQueueJobDomainFactory
 extends RefCounted
 
 
-## PushByUserIdResult からジョブ実行待ちのトランザクションを構築する
 static func to_transaction(gs2, access_token, user_id, result) -> Gs2TransactionDomain:
     var actions = []
     if result.auto_run != null and result.auto_run:

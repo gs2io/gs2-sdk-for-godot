@@ -15,7 +15,6 @@ class_name Gs2StaminaAcquireActionSpeculativeExecutorIndex
 extends RefCounted
 
 
-# 戻り値: Gs2AsyncResult (result = コミット用 Callable / null)
 static func execute(
     gs2,
     access_token,

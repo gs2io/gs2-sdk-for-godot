@@ -45,6 +45,22 @@ static func put_cache(
             time_offset
         )
     # diff +++ end
+    Gs2GuildJoinedGuildCache.delete_cache(
+        cache,
+        request.namespace_name,
+        request.target_user_id,
+        request.guild_model_name,
+        user_id,
+        time_offset
+    )
+    cache.clear_list_cache(
+        "Gs2GuildJoinedGuild",
+        Gs2GuildJoinedGuildCache.cache_parent_key(
+            request.namespace_name,
+            request.target_user_id,
+            time_offset
+        )
+    )
 
 
 static func invoke(

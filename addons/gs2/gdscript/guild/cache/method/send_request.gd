@@ -50,6 +50,15 @@ static func put_cache(
             # diff +++ end
             time_offset
         )
+    if result.item != null:
+        cache.clear_list_cache(
+            "Gs2GuildJoinedGuild",
+            Gs2GuildJoinedGuildCache.cache_parent_key(
+                request.namespace_name,
+                user_id,
+                time_offset
+            )
+        )
 
 
 static func invoke(

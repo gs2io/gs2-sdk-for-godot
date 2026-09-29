@@ -34,7 +34,6 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func exchange(
     rate_name,
     count,
@@ -54,7 +53,6 @@ func exchange(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
-# 戻り値: Gs2AsyncResult (result = Gs2EzTransactionDomain)
 func incremental_exchange(
     rate_name,
     count,

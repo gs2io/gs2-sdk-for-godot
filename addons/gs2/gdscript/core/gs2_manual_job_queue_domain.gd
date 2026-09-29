@@ -12,14 +12,10 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-## ジョブキューを手動で実行して結果をキャッシュへ反映する。
-## C# の ManualJobQueueDomain / ManualJobQueueAccessTokenDomain 相当。
 class_name Gs2ManualJobQueueDomain
 extends Gs2TransactionDomain
 
 
-## サーバー側のジョブ実行ロック (ユーザー単位/TTL 10 秒) と競合した場合の
-## ConflictException などのリトライ上限時間
 const RUN_RETRY_TIMEOUT_MS = 15 * 1000
 
 static var _handled: Dictionary = {}
@@ -33,9 +29,6 @@ func _init(gs2_, access_token_, user_id_, namespace_name, job_name_):
     job_name = job_name_
 
 
-## RunByUserId / Run は直前のジョブ実行や dispatch とサーバー側のユーザー単位
-## ロックで競合すると 409 (jobQueue.job.job.error.conflict) を返すことがある。
-## recommend_auto_retry 対象のエラーは一定時間待って再試行する。
 static func _run_with_retry(run_impl: Callable) -> Gs2AsyncResult:
     var begin = Gs2CacheDatabase.now_ms()
     while true:
@@ -63,7 +56,6 @@ func _skip_callback() -> bool:
     return false
 
 
-# 戻り値: Gs2AsyncResult (result = 後続の Gs2TransactionDomain / null)
 func _handle_result(job, result) -> Gs2AsyncResult:
     var code = result.status_code if result.status_code != null else 0
     if int(code / 100.0) != 2:

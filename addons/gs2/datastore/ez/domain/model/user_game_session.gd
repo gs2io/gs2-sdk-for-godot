@@ -48,7 +48,6 @@ func _init(
     _connection = connection
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObject)
 func upload(
     scope,
     allow_user_ids,
@@ -72,7 +71,6 @@ func upload(
     return await done_result.result.model()
 
 
-# 戻り値: Gs2AsyncResult (result = PackedByteArray)
 func download(
     data_object_id
 ) -> Gs2AsyncResult:
@@ -85,7 +83,6 @@ func download(
     return Gs2AsyncResult.new(response.body_bytes, null)
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func prepare_upload(
     name = null,
     scope = null,
@@ -111,7 +108,6 @@ func prepare_upload(
         _game_session,
         _connection
     ), null)
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectGameSessionDomain)
 func prepare_download(
     data_object_id
 ) -> Gs2AsyncResult:

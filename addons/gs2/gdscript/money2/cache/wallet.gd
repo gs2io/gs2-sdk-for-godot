@@ -70,7 +70,6 @@ static func fetch(
     return Gs2AsyncResult.new(async_result.result, null)
 
 
-# 戻り値: [value, find]
 static func get_cache(
     cache: Gs2CacheDatabase,
     namespace_name,
@@ -115,6 +114,11 @@ static func put_cache(
     if find and value_revision > item_revision and item_revision > 1:
         return
     var ttl = 0
+    if item != null and item.shared_free_currency and (slot if slot != null else 0) == 0 and item.revision != 0:
+        cache.clear_list_cache(
+            "Gs2Money2Wallet",
+            cache_parent_key(namespace_name, user_id, time_offset)
+        )
     cache.put(
         "Gs2Money2Wallet",
         cache_parent_key(
@@ -128,17 +132,8 @@ static func put_cache(
         item,
         ttl
     )
-    if item != null and item.shared_free_currency and (slot if slot != null else 0) == 0:
-        cache.clear_list_cache(
-            "Gs2Money2Wallet",
-            cache_parent_key(namespace_name, user_id, time_offset)
-        )
 
 
-# Gs2Distributor:DescribeUserData（ユーザーの全データの一括取得）の 1 エントリ（この kind）をキャッシュへ入れる。
-# 鍵はエントリの namespace_name / 読み込むユーザーの user_id / モデル自身のプロパティ / 主キー GRN から取る
-# （sdk-gen の BaseModel.user_data_cache_keys）。戻り値は親キーで、呼び手が全ページを読み終えてから
-# Gs2Money2ServiceCache.set_list_cached(cache, time_offset, kind, parent_key) で「リストが揃った印」を立てる。
 static func put_user_data(
     item,
     cache: Gs2CacheDatabase,
@@ -146,7 +141,6 @@ static func put_user_data(
     user_id,
     time_offset
 ) -> String:
-    # put_cache は slot 0 の共有無償通貨で親の clear_list_cache を呼ぶ（入れた item が全部消える）ので通さず、直接入れる
     cache.put(
         "Gs2Money2Wallet",
         cache_parent_key(

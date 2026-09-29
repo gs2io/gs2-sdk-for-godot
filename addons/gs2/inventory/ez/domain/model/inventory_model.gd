@@ -68,7 +68,6 @@ func item_model(
     )
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2InventoryEzInventoryModel)
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

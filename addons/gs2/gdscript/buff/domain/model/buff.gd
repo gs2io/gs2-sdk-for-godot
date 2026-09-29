@@ -66,9 +66,6 @@ func apply(
     # return Gs2AsyncResult.new(domain, null)
     # diff --- end
     # diff +++ start
-    # C# deny は BuffEntryModels をドメインに保持し、newContextStack を持つ新しい Gs2 を返す。
-    # GDScript では既存の gs2 のデフォルトコンテキストスタックを更新し、キャッシュをリセットすることで
-    # 「新しい Gs2 (空キャッシュ + newContextStack)」に相当する状態へ切り替える。
     buff_entry_models = null if result == null else result.items
     new_context_stack = null if result == null else result.new_context_stack
     _gs2.default_context_stack = new_context_stack

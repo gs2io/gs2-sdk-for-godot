@@ -40,7 +40,6 @@ func _init(
 ):
     _domain = domain
     _connection = connection
-# 戻り値: Gs2AsyncResult (result = Gs2DatastoreEzDataObjectDomain)
 func restore_data_object(
     data_object_id
 ) -> Gs2AsyncResult:

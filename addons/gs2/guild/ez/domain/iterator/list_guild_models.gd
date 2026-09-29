@@ -30,7 +30,6 @@ func _init(
     )
 
 
-# 全ページを読み込んで Array を返す (Gs2AsyncResult.result = Array of Gs2GuildEzGuildModel)
 func load() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,

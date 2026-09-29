@@ -52,8 +52,6 @@ func _init(
     _connection = connection
 
 
-# 戻り値: Gs2AsyncResult (result = Gs2SeasonRatingEzBallot)  # diff ---
-# 戻り値: Gs2AsyncResult (result = Gs2SeasonRatingEzSignedBallot)  # diff +++
 func model() -> Gs2AsyncResult:
     var async_result = await _connection.run(
         null,
