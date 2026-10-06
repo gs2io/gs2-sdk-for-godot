@@ -624,9 +624,7 @@ func draw_by_user_id(request: Gs2LotteryDrawByUserIdRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("box.items.empty"):
-            return Gs2AsyncResult.new(null, Gs2LotteryEmptyException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LotteryErrorResolver.resolve("DrawByUserId", response.error))
     return Gs2AsyncResult.new(Gs2LotteryDrawByUserIdResult.from_dict(response.body), null)
 
 

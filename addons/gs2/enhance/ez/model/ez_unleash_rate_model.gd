@@ -19,6 +19,7 @@ var name = null
 var metadata = null
 var target_inventory_model_id = null
 var grade_model_id = null
+var group_key_hierarchy = []
 var grade_entries = []
 
 
@@ -42,6 +43,11 @@ func with_grade_model_id(v) -> Gs2EnhanceEzUnleashRateModel:
     return self
 
 
+func with_group_key_hierarchy(v) -> Gs2EnhanceEzUnleashRateModel:
+    group_key_hierarchy = v
+    return self
+
+
 func with_grade_entries(v) -> Gs2EnhanceEzUnleashRateModel:
     grade_entries = v
     return self
@@ -53,6 +59,7 @@ func to_model() -> Gs2EnhanceUnleashRateModel:
     ret.metadata = metadata
     ret.target_inventory_model_id = target_inventory_model_id
     ret.grade_model_id = grade_model_id
+    ret.group_key_hierarchy = null if group_key_hierarchy == null else group_key_hierarchy.map(func(v): return v)
     ret.grade_entries = null if grade_entries == null else grade_entries.map(func(v): return null if v == null else v.to_model())
     return ret
 
@@ -63,5 +70,6 @@ static func from_model(model) -> Gs2EnhanceEzUnleashRateModel:
     ret.metadata = model.metadata
     ret.target_inventory_model_id = model.target_inventory_model_id
     ret.grade_model_id = model.grade_model_id
+    ret.group_key_hierarchy = [] if model.group_key_hierarchy == null else model.group_key_hierarchy.map(func(v): return v)
     ret.grade_entries = [] if model.grade_entries == null else model.grade_entries.map(func(v): return Gs2EnhanceEzUnleashRateEntryModel.from_model(v))
     return ret

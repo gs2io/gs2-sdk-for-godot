@@ -529,11 +529,7 @@ func done_upload(request: Gs2DatastoreDoneUploadRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("dataObject.status.invalid"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreInvalidStatusException.new(response.error))
-        if response.error.has_error_code("dataObject.file.notUploaded"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreNotUploadedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2DatastoreErrorResolver.resolve("DoneUpload", response.error))
     return Gs2AsyncResult.new(Gs2DatastoreDoneUploadResult.from_dict(response.body), null)
 
 
@@ -556,11 +552,7 @@ func done_upload_by_user_id(request: Gs2DatastoreDoneUploadByUserIdRequest) -> G
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("dataObject.status.invalid"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreInvalidStatusException.new(response.error))
-        if response.error.has_error_code("dataObject.file.notUploaded"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreNotUploadedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2DatastoreErrorResolver.resolve("DoneUploadByUserId", response.error))
     return Gs2AsyncResult.new(Gs2DatastoreDoneUploadByUserIdResult.from_dict(response.body), null)
 
 
@@ -582,9 +574,7 @@ func delete_data_object(request: Gs2DatastoreDeleteDataObjectRequest) -> Gs2Asyn
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("DELETE", url, headers, query_strings, null)
     if response.error != null:
-        if response.error.has_error_code("dataObject.status.invalid"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreInvalidStatusException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2DatastoreErrorResolver.resolve("DeleteDataObject", response.error))
     return Gs2AsyncResult.new(Gs2DatastoreDeleteDataObjectResult.from_dict(response.body), null)
 
 
@@ -607,9 +597,7 @@ func delete_data_object_by_user_id(request: Gs2DatastoreDeleteDataObjectByUserId
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("DELETE", url, headers, query_strings, null)
     if response.error != null:
-        if response.error.has_error_code("dataObject.status.invalid"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreInvalidStatusException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2DatastoreErrorResolver.resolve("DeleteDataObjectByUserId", response.error))
     return Gs2AsyncResult.new(Gs2DatastoreDeleteDataObjectByUserIdResult.from_dict(response.body), null)
 
 
@@ -816,9 +804,7 @@ func restore_data_object(request: Gs2DatastoreRestoreDataObjectRequest) -> Gs2As
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("dataObject.status.invalid"):
-            return Gs2AsyncResult.new(null, Gs2DatastoreInvalidStatusException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2DatastoreErrorResolver.resolve("RestoreDataObject", response.error))
     return Gs2AsyncResult.new(Gs2DatastoreRestoreDataObjectResult.from_dict(response.body), null)
 
 

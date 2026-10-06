@@ -389,11 +389,7 @@ func use(request: Gs2SerialKeyUseRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("serialKey", "serialKey", "use", body)
     if response.error != null:
-        if response.error.has_error_code("code.status.invalid"):
-            return Gs2AsyncResult.new(null, Gs2SerialKeyAlreadyUsedException.new(response.error))
-        if response.error.has_error_code("code.code.notFound"):
-            return Gs2AsyncResult.new(null, Gs2SerialKeyCodeNotFoundException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2SerialKeyErrorResolver.resolve("Use", response.error))
     return Gs2AsyncResult.new(Gs2SerialKeyUseResult.from_dict(response.body), null)
 
 
@@ -415,7 +411,7 @@ func use_by_user_id(request: Gs2SerialKeyUseByUserIdRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("serialKey", "serialKey", "useByUserId", body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2SerialKeyErrorResolver.resolve("UseByUserId", response.error))
     return Gs2AsyncResult.new(Gs2SerialKeyUseByUserIdResult.from_dict(response.body), null)
 
 

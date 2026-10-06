@@ -96,25 +96,38 @@ func model() -> Gs2AsyncResult:
     )
     if pair[1]:
         return Gs2AsyncResult.new(pair[0], null)
-    return await Gs2FriendFriendRequestCache.fetch(
-        _gs2.cache,
-        namespace_name,
-        user_id,
-        target_user_id,
-        null,
-        func():
-            var get_result = await get_(Gs2FriendGetSendRequestByUserIdRequest.new())
-            return get_result
-    )
+    var get_result = await get_(Gs2FriendGetSendRequestByUserIdRequest.new())
+    if get_result.error != null:
+        if get_result.error is Gs2NotFoundException and get_result.error.errors.size() != 0 and get_result.error.errors[0].component in ["targetUserId", "sendBox"]:
+            _gs2.cache.put(
+                "Gs2FriendFriendRequest",
+                Gs2FriendSendFriendRequestCache.cache_parent_key(
+                    namespace_name,
+                    user_id,
+                    null
+                ),
+                Gs2FriendSendFriendRequestCache.cache_key(
+                    target_user_id
+                ),
+                null,
+                0
+            )
+            return Gs2AsyncResult.new(null, null)
+        return get_result
+    return get_result
 
 
 func invalidate() -> void:
-    Gs2FriendFriendRequestCache.delete_cache(
-        _gs2.cache,
-        namespace_name,
-        user_id,
-        target_user_id,
-        null
+    _gs2.cache.delete(
+        "Gs2FriendFriendRequest",
+        Gs2FriendSendFriendRequestCache.cache_parent_key(
+            namespace_name,
+            user_id,
+            null
+        ),
+        Gs2FriendSendFriendRequestCache.cache_key(
+            target_user_id
+        )
     )
 
 

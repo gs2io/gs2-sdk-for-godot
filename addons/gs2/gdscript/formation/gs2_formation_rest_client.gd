@@ -1281,7 +1281,7 @@ func set_form(request: Gs2FormationSetFormRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FormationErrorResolver.resolve("SetForm", response.error))
     return Gs2AsyncResult.new(Gs2FormationSetFormResult.from_dict(response.body), null)
 
 
@@ -1307,7 +1307,7 @@ func set_form_by_user_id(request: Gs2FormationSetFormByUserIdRequest) -> Gs2Asyn
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FormationErrorResolver.resolve("SetFormByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FormationSetFormByUserIdResult.from_dict(response.body), null)
 
 
@@ -1334,7 +1334,7 @@ func set_form_with_signature(request: Gs2FormationSetFormWithSignatureRequest) -
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FormationErrorResolver.resolve("SetFormWithSignature", response.error))
     return Gs2AsyncResult.new(Gs2FormationSetFormWithSignatureResult.from_dict(response.body), null)
 
 
@@ -1613,7 +1613,7 @@ func set_property_form(request: Gs2FormationSetPropertyFormRequest) -> Gs2AsyncR
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FormationErrorResolver.resolve("SetPropertyForm", response.error))
     return Gs2AsyncResult.new(Gs2FormationSetPropertyFormResult.from_dict(response.body), null)
 
 
@@ -1639,7 +1639,7 @@ func set_property_form_by_user_id(request: Gs2FormationSetPropertyFormByUserIdRe
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FormationErrorResolver.resolve("SetPropertyFormByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FormationSetPropertyFormByUserIdResult.from_dict(response.body), null)
 
 
@@ -1666,7 +1666,7 @@ func set_property_form_with_signature(request: Gs2FormationSetPropertyFormWithSi
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FormationErrorResolver.resolve("SetPropertyFormWithSignature", response.error))
     return Gs2AsyncResult.new(Gs2FormationSetPropertyFormWithSignatureResult.from_dict(response.body), null)
 
 

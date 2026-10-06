@@ -1753,9 +1753,7 @@ func acquire_item_set_by_user_id(request: Gs2InventoryAcquireItemSetByUserIdRequ
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("AcquireItemSetByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryAcquireItemSetByUserIdResult.from_dict(response.body), null)
 
 
@@ -1783,9 +1781,7 @@ func acquire_item_set_with_grade_by_user_id(request: Gs2InventoryAcquireItemSetW
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("AcquireItemSetWithGradeByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryAcquireItemSetWithGradeByUserIdResult.from_dict(response.body), null)
 
 
@@ -1812,11 +1808,7 @@ func consume_item_set(request: Gs2InventoryConsumeItemSetRequest) -> Gs2AsyncRes
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        if response.error.has_error_code("itemSet.count.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2InventoryInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("ConsumeItemSet", response.error))
     return Gs2AsyncResult.new(Gs2InventoryConsumeItemSetResult.from_dict(response.body), null)
 
 
@@ -1844,11 +1836,7 @@ func consume_item_set_by_user_id(request: Gs2InventoryConsumeItemSetByUserIdRequ
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        if response.error.has_error_code("itemSet.count.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2InventoryInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("ConsumeItemSetByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryConsumeItemSetByUserIdResult.from_dict(response.body), null)
 
 
@@ -2488,9 +2476,7 @@ func acquire_simple_items_by_user_id(request: Gs2InventoryAcquireSimpleItemsByUs
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("AcquireSimpleItemsByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryAcquireSimpleItemsByUserIdResult.from_dict(response.body), null)
 
 
@@ -2514,11 +2500,7 @@ func consume_simple_items(request: Gs2InventoryConsumeSimpleItemsRequest) -> Gs2
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        if response.error.has_error_code("itemSet.count.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2InventoryInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("ConsumeSimpleItems", response.error))
     return Gs2AsyncResult.new(Gs2InventoryConsumeSimpleItemsResult.from_dict(response.body), null)
 
 
@@ -2543,11 +2525,7 @@ func consume_simple_items_by_user_id(request: Gs2InventoryConsumeSimpleItemsByUs
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        if response.error.has_error_code("itemSet.count.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2InventoryInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("ConsumeSimpleItemsByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryConsumeSimpleItemsByUserIdResult.from_dict(response.body), null)
 
 
@@ -2572,9 +2550,7 @@ func set_simple_items_by_user_id(request: Gs2InventorySetSimpleItemsByUserIdRequ
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("SetSimpleItemsByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventorySetSimpleItemsByUserIdResult.from_dict(response.body), null)
 
 
@@ -2852,9 +2828,7 @@ func acquire_big_item_by_user_id(request: Gs2InventoryAcquireBigItemByUserIdRequ
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("AcquireBigItemByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryAcquireBigItemByUserIdResult.from_dict(response.body), null)
 
 
@@ -2879,11 +2853,7 @@ func consume_big_item(request: Gs2InventoryConsumeBigItemRequest) -> Gs2AsyncRes
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        if response.error.has_error_code("itemSet.count.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2InventoryInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("ConsumeBigItem", response.error))
     return Gs2AsyncResult.new(Gs2InventoryConsumeBigItemResult.from_dict(response.body), null)
 
 
@@ -2909,11 +2879,7 @@ func consume_big_item_by_user_id(request: Gs2InventoryConsumeBigItemByUserIdRequ
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        if response.error.has_error_code("itemSet.count.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2InventoryInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("ConsumeBigItemByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventoryConsumeBigItemByUserIdResult.from_dict(response.body), null)
 
 
@@ -2939,9 +2905,7 @@ func set_big_item_by_user_id(request: Gs2InventorySetBigItemByUserIdRequest) -> 
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("itemSet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2InventoryConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InventoryErrorResolver.resolve("SetBigItemByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InventorySetBigItemByUserIdResult.from_dict(response.body), null)
 
 

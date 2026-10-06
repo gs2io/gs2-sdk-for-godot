@@ -59,7 +59,7 @@ func _skip_callback() -> bool:
 func _handle_result(job, result) -> Gs2AsyncResult:
     var code = result.status_code if result.status_code != null else 0
     if int(code / 100.0) != 2:
-        return Gs2AsyncResult.new(null, Gs2Exception.extract_error(result.result, code))
+        return Gs2AsyncResult.new(null, Gs2Exception.resolve_job_script(job.script_id, Gs2Exception.extract_error(result.result, code)))
     if not _skip_callback():
         gs2.update_cache_from_job_result(job, result, _time_offset())
     var next_transactions = []

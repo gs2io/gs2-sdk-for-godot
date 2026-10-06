@@ -651,7 +651,7 @@ func create_guild(request: Gs2GuildCreateGuildRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("CreateGuild", response.error))
     return Gs2AsyncResult.new(Gs2GuildCreateGuildResult.from_dict(response.body), null)
 
 
@@ -696,7 +696,7 @@ func create_guild_by_user_id(request: Gs2GuildCreateGuildByUserIdRequest) -> Gs2
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("CreateGuildByUserId", response.error))
     return Gs2AsyncResult.new(Gs2GuildCreateGuildByUserIdResult.from_dict(response.body), null)
 
 
@@ -845,9 +845,7 @@ func delete_member(request: Gs2GuildDeleteMemberRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("DELETE", url, headers, query_strings, null)
     if response.error != null:
-        if response.error.has_error_code("guild.member.master.require"):
-            return Gs2AsyncResult.new(null, Gs2GuildGuildMasterRequiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("DeleteMember", response.error))
     return Gs2AsyncResult.new(Gs2GuildDeleteMemberResult.from_dict(response.body), null)
 
 
@@ -869,9 +867,7 @@ func delete_member_by_guild_name(request: Gs2GuildDeleteMemberByGuildNameRequest
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("guild.member.master.require"):
-            return Gs2AsyncResult.new(null, Gs2GuildGuildMasterRequiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("DeleteMemberByGuildName", response.error))
     return Gs2AsyncResult.new(Gs2GuildDeleteMemberByGuildNameResult.from_dict(response.body), null)
 
 
@@ -1232,9 +1228,7 @@ func assume(request: Gs2GuildAssumeRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("guild.member.notFound"):
-            return Gs2AsyncResult.new(null, Gs2GuildNotIncludedGuildMemberException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("Assume", response.error))
     return Gs2AsyncResult.new(Gs2GuildAssumeResult.from_dict(response.body), null)
 
 
@@ -1258,9 +1252,7 @@ func assume_by_user_id(request: Gs2GuildAssumeByUserIdRequest) -> Gs2AsyncResult
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("guild.member.notFound"):
-            return Gs2AsyncResult.new(null, Gs2GuildNotIncludedGuildMemberException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("AssumeByUserId", response.error))
     return Gs2AsyncResult.new(Gs2GuildAssumeByUserIdResult.from_dict(response.body), null)
 
 
@@ -1528,9 +1520,7 @@ func withdrawal(request: Gs2GuildWithdrawalRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("DELETE", url, headers, query_strings, null)
     if response.error != null:
-        if response.error.has_error_code("guild.member.master.require"):
-            return Gs2AsyncResult.new(null, Gs2GuildGuildMasterRequiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("Withdrawal", response.error))
     return Gs2AsyncResult.new(Gs2GuildWithdrawalResult.from_dict(response.body), null)
 
 
@@ -1554,9 +1544,7 @@ func withdrawal_by_user_id(request: Gs2GuildWithdrawalByUserIdRequest) -> Gs2Asy
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("DELETE", url, headers, query_strings, null)
     if response.error != null:
-        if response.error.has_error_code("guild.member.master.require"):
-            return Gs2AsyncResult.new(null, Gs2GuildGuildMasterRequiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("WithdrawalByUserId", response.error))
     return Gs2AsyncResult.new(Gs2GuildWithdrawalByUserIdResult.from_dict(response.body), null)
 
 
@@ -1855,11 +1843,7 @@ func accept_request(request: Gs2GuildAcceptRequestRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("user.joinedGuild.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumJoinedGuildsReachedException.new(response.error))
-        if response.error.has_error_code("guild.members.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumMembersReachedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("AcceptRequest", response.error))
     return Gs2AsyncResult.new(Gs2GuildAcceptRequestResult.from_dict(response.body), null)
 
 
@@ -1881,11 +1865,7 @@ func accept_request_by_guild_name(request: Gs2GuildAcceptRequestByGuildNameReque
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("user.joinedGuild.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumJoinedGuildsReachedException.new(response.error))
-        if response.error.has_error_code("guild.members.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumMembersReachedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("AcceptRequestByGuildName", response.error))
     return Gs2AsyncResult.new(Gs2GuildAcceptRequestByGuildNameResult.from_dict(response.body), null)
 
 
@@ -2047,17 +2027,7 @@ func send_request(request: Gs2GuildSendRequestRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("guild.members.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumMembersReachedException.new(response.error))
-        if response.error.has_error_code("user.joinedGuild.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumJoinedGuildsReachedException.new(response.error))
-        if response.error.has_error_code("guild.receiveRequests.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumReceiveRequestsReachedException.new(response.error))
-        if response.error.has_error_code("guild.sendRequests.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumSendRequestsReachedException.new(response.error))
-        if response.error.has_error_code("guild.sendRequests.notMeetJoinRequirements"):
-            return Gs2AsyncResult.new(null, Gs2GuildDotMeetJoinRequirementsException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("SendRequest", response.error))
     return Gs2AsyncResult.new(Gs2GuildSendRequestResult.from_dict(response.body), null)
 
 
@@ -2083,17 +2053,7 @@ func send_request_by_user_id(request: Gs2GuildSendRequestByUserIdRequest) -> Gs2
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("guild.members.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumMembersReachedException.new(response.error))
-        if response.error.has_error_code("user.joinedGuild.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumJoinedGuildsReachedException.new(response.error))
-        if response.error.has_error_code("guild.receiveRequests.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumReceiveRequestsReachedException.new(response.error))
-        if response.error.has_error_code("guild.sendRequests.tooMany"):
-            return Gs2AsyncResult.new(null, Gs2GuildMaximumSendRequestsReachedException.new(response.error))
-        if response.error.has_error_code("guild.sendRequests.notMeetJoinRequirements"):
-            return Gs2AsyncResult.new(null, Gs2GuildDotMeetJoinRequirementsException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2GuildErrorResolver.resolve("SendRequestByUserId", response.error))
     return Gs2AsyncResult.new(Gs2GuildSendRequestByUserIdResult.from_dict(response.body), null)
 
 

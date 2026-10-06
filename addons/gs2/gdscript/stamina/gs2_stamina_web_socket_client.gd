@@ -697,9 +697,7 @@ func consume_stamina(request: Gs2StaminaConsumeStaminaRequest) -> Gs2AsyncResult
         body["xGs2DryRun"] = "true"
     var response = await session.send("stamina", "stamina", "consumeStamina", body)
     if response.error != null:
-        if response.error.has_error_code("stamina.stamina.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2StaminaInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2StaminaErrorResolver.resolve("ConsumeStamina", response.error))
     return Gs2AsyncResult.new(Gs2StaminaConsumeStaminaResult.from_dict(response.body), null)
 
 
@@ -723,9 +721,7 @@ func consume_stamina_by_user_id(request: Gs2StaminaConsumeStaminaByUserIdRequest
         body["xGs2DryRun"] = "true"
     var response = await session.send("stamina", "stamina", "consumeStaminaByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("stamina.stamina.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2StaminaInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2StaminaErrorResolver.resolve("ConsumeStaminaByUserId", response.error))
     return Gs2AsyncResult.new(Gs2StaminaConsumeStaminaByUserIdResult.from_dict(response.body), null)
 
 

@@ -301,9 +301,7 @@ func count_up(request: Gs2LimitCountUpRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("limit", "counter", "countUp", body)
     if response.error != null:
-        if response.error.has_error_code("limit.counter.overflow"):
-            return Gs2AsyncResult.new(null, Gs2LimitOverflowException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LimitErrorResolver.resolve("CountUp", response.error))
     return Gs2AsyncResult.new(Gs2LimitCountUpResult.from_dict(response.body), null)
 
 
@@ -331,9 +329,7 @@ func count_up_by_user_id(request: Gs2LimitCountUpByUserIdRequest) -> Gs2AsyncRes
         body["xGs2DryRun"] = "true"
     var response = await session.send("limit", "counter", "countUpByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("limit.counter.overflow"):
-            return Gs2AsyncResult.new(null, Gs2LimitOverflowException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LimitErrorResolver.resolve("CountUpByUserId", response.error))
     return Gs2AsyncResult.new(Gs2LimitCountUpByUserIdResult.from_dict(response.body), null)
 
 

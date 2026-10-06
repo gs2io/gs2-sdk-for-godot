@@ -442,9 +442,7 @@ func deposit_by_user_id(request: Gs2Money2DepositByUserIdRequest) -> Gs2AsyncRes
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2Money2ConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("DepositByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Money2DepositByUserIdResult.from_dict(response.body), null)
 
 
@@ -470,11 +468,7 @@ func withdraw(request: Gs2Money2WithdrawRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2Money2ConflictException.new(response.error))
-        if response.error.has_error_code("wallet.balance.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2Money2InsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("Withdraw", response.error))
     return Gs2AsyncResult.new(Gs2Money2WithdrawResult.from_dict(response.body), null)
 
 
@@ -501,11 +495,7 @@ func withdraw_by_user_id(request: Gs2Money2WithdrawByUserIdRequest) -> Gs2AsyncR
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2Money2ConflictException.new(response.error))
-        if response.error.has_error_code("wallet.balance.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2Money2InsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("WithdrawByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Money2WithdrawByUserIdResult.from_dict(response.body), null)
 
 
@@ -615,9 +605,7 @@ func verify_receipt(request: Gs2Money2VerifyReceiptRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("receipt.payload.invalid"):
-            return Gs2AsyncResult.new(null, Gs2Money2ReceiptInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("VerifyReceipt", response.error))
     return Gs2AsyncResult.new(Gs2Money2VerifyReceiptResult.from_dict(response.body), null)
 
 
@@ -642,9 +630,7 @@ func verify_receipt_by_user_id(request: Gs2Money2VerifyReceiptByUserIdRequest) -
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("receipt.payload.invalid"):
-            return Gs2AsyncResult.new(null, Gs2Money2ReceiptInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("VerifyReceiptByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Money2VerifyReceiptByUserIdResult.from_dict(response.body), null)
 
 
@@ -767,9 +753,7 @@ func allocate_subscription_status(request: Gs2Money2AllocateSubscriptionStatusRe
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("subscription.transaction.used"):
-            return Gs2AsyncResult.new(null, Gs2Money2AlreadyUsedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("AllocateSubscriptionStatus", response.error))
     return Gs2AsyncResult.new(Gs2Money2AllocateSubscriptionStatusResult.from_dict(response.body), null)
 
 
@@ -793,9 +777,7 @@ func allocate_subscription_status_by_user_id(request: Gs2Money2AllocateSubscript
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("subscription.transaction.used"):
-            return Gs2AsyncResult.new(null, Gs2Money2AlreadyUsedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("AllocateSubscriptionStatusByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Money2AllocateSubscriptionStatusByUserIdResult.from_dict(response.body), null)
 
 
@@ -818,9 +800,7 @@ func takeover_subscription_status(request: Gs2Money2TakeoverSubscriptionStatusRe
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("subscription.transaction.used"):
-            return Gs2AsyncResult.new(null, Gs2Money2LockPeriodNotElapsedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("TakeoverSubscriptionStatus", response.error))
     return Gs2AsyncResult.new(Gs2Money2TakeoverSubscriptionStatusResult.from_dict(response.body), null)
 
 
@@ -844,9 +824,7 @@ func takeover_subscription_status_by_user_id(request: Gs2Money2TakeoverSubscript
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("subscription.transaction.used"):
-            return Gs2AsyncResult.new(null, Gs2Money2LockPeriodNotElapsedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("TakeoverSubscriptionStatusByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Money2TakeoverSubscriptionStatusByUserIdResult.from_dict(response.body), null)
 
 

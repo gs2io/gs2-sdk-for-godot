@@ -86,11 +86,11 @@ func _run() -> Gs2AsyncResult:
                     .with_key_id(_stamp_sheet_encryption_key_id)
             )
             if async_result.error != null:
-                return async_result
+                return Gs2AsyncResult.new(null, Gs2Exception.resolve_action(_task_action(verify_tasks[i]), async_result.error))
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
             if int(code / 100.0) != 2:
-                return Gs2AsyncResult.new(null, Gs2Exception.extract_error(async_result.result.result, code))
+                return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(_task_action(verify_tasks[i]), async_result.result.result, code))
         else:
             var async_result = await client.run_verify_task(
                 Gs2DistributorRunVerifyTaskRequest.new()
@@ -103,11 +103,11 @@ func _run() -> Gs2AsyncResult:
                 if async_result.error is Gs2NotFoundException:
                     gs2.transaction_configuration.namespace_name = null
                     return await _run()
-                return async_result
+                return Gs2AsyncResult.new(null, Gs2Exception.resolve_action(_task_action(verify_tasks[i]), async_result.error))
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
             if int(code / 100.0) != 2:
-                return Gs2AsyncResult.new(null, Gs2Exception.extract_error(async_result.result.result, code))
+                return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(_task_action(verify_tasks[i]), async_result.result.result, code))
     for i in stamp_tasks.size():
         var stamp_task_json = JSON.parse_string(stamp_tasks[i])
         var stamp_task_payload_json = JSON.parse_string(stamp_task_json["body"])
@@ -119,11 +119,11 @@ func _run() -> Gs2AsyncResult:
                     .with_key_id(_stamp_sheet_encryption_key_id)
             )
             if async_result.error != null:
-                return async_result
+                return Gs2AsyncResult.new(null, Gs2Exception.resolve_action(stamp_task_payload_json.get("action"), async_result.error))
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
             if int(code / 100.0) != 2:
-                return Gs2AsyncResult.new(null, Gs2Exception.extract_error(async_result.result.result, code))
+                return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(stamp_task_payload_json.get("action"), async_result.result.result, code))
             gs2.transaction_configuration.consume_action_event_handler.call(
                 gs2.cache,
                 "%s[%d]" % [str(stamp_sheet_payload_json.get("transactionId")), i],
@@ -144,11 +144,11 @@ func _run() -> Gs2AsyncResult:
                 if async_result.error is Gs2NotFoundException:
                     gs2.transaction_configuration.namespace_name = null
                     return await _run()
-                return async_result
+                return Gs2AsyncResult.new(null, Gs2Exception.resolve_action(stamp_task_payload_json.get("action"), async_result.error))
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
             if int(code / 100.0) != 2:
-                return Gs2AsyncResult.new(null, Gs2Exception.extract_error(async_result.result.result, code))
+                return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(stamp_task_payload_json.get("action"), async_result.result.result, code))
             gs2.transaction_configuration.consume_action_event_handler.call(
                 gs2.cache,
                 "%s[%d]" % [str(stamp_sheet_payload_json.get("transactionId")), i],
@@ -167,10 +167,10 @@ func _run() -> Gs2AsyncResult:
                 .with_key_id(_stamp_sheet_encryption_key_id)
         )
         if async_result.error != null:
-            return async_result
+            return Gs2AsyncResult.new(null, Gs2Exception.resolve_action(action_name, async_result.error))
         var code = async_result.result.status_code if async_result.result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2AsyncResult.new(null, Gs2Exception.extract_error(async_result.result.result, code))
+            return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(action_name, async_result.result.result, code))
         gs2.transaction_configuration.acquire_action_event_handler.call(
             gs2.cache,
             stamp_sheet_payload_json.get("transactionId"),
@@ -192,10 +192,10 @@ func _run() -> Gs2AsyncResult:
             if async_result.error is Gs2NotFoundException:
                 gs2.transaction_configuration.namespace_name = null
                 return await _run()
-            return async_result
+            return Gs2AsyncResult.new(null, Gs2Exception.resolve_action(action_name, async_result.error))
         var code = async_result.result.status_code if async_result.result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2AsyncResult.new(null, Gs2Exception.extract_error(async_result.result.result, code))
+            return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(action_name, async_result.result.result, code))
         gs2.transaction_configuration.acquire_action_event_handler.call(
             gs2.cache,
             stamp_sheet_payload_json.get("transactionId"),
@@ -206,3 +206,11 @@ func _run() -> Gs2AsyncResult:
         )
         result_payload = async_result.result.result if async_result.result.result != null and async_result.result.result != "" else "{}"
     return _handle_result(action_name, result_payload)
+
+
+static func _task_action(task):
+    var task_json = JSON.parse_string(task) if task is String else null
+    if not (task_json is Dictionary) or not (task_json.get("body") is String):
+        return null
+    var payload = JSON.parse_string(task_json.get("body"))
+    return payload.get("action") if payload is Dictionary else null

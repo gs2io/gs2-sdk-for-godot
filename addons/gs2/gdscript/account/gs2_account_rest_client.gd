@@ -520,11 +520,7 @@ func authentication(request: Gs2AccountAuthenticationRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("account.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2AccountPasswordIncorrectException.new(response.error))
-        if response.error.has_error_code("account.banned.infinity"):
-            return Gs2AsyncResult.new(null, Gs2AccountBannedInfinityException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("Authentication", response.error))
     return Gs2AsyncResult.new(Gs2AccountAuthenticationResult.from_dict(response.body), null)
 
 
@@ -598,7 +594,7 @@ func create_take_over(request: Gs2AccountCreateTakeOverRequest) -> Gs2AsyncResul
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("CreateTakeOver", response.error))
     return Gs2AsyncResult.new(Gs2AccountCreateTakeOverResult.from_dict(response.body), null)
 
 
@@ -626,7 +622,7 @@ func create_take_over_by_user_id(request: Gs2AccountCreateTakeOverByUserIdReques
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("CreateTakeOverByUserId", response.error))
     return Gs2AsyncResult.new(Gs2AccountCreateTakeOverByUserIdResult.from_dict(response.body), null)
 
 
@@ -651,7 +647,7 @@ func create_take_over_open_id_connect(request: Gs2AccountCreateTakeOverOpenIdCon
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("CreateTakeOverOpenIdConnect", response.error))
     return Gs2AsyncResult.new(Gs2AccountCreateTakeOverOpenIdConnectResult.from_dict(response.body), null)
 
 
@@ -677,7 +673,7 @@ func create_take_over_open_id_connect_and_by_user_id(request: Gs2AccountCreateTa
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("CreateTakeOverOpenIdConnectAndByUserId", response.error))
     return Gs2AsyncResult.new(Gs2AccountCreateTakeOverOpenIdConnectAndByUserIdResult.from_dict(response.body), null)
 
 
@@ -744,9 +740,7 @@ func update_take_over(request: Gs2AccountUpdateTakeOverRequest) -> Gs2AsyncResul
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("account.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2AccountPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("UpdateTakeOver", response.error))
     return Gs2AsyncResult.new(Gs2AccountUpdateTakeOverResult.from_dict(response.body), null)
 
 
@@ -773,9 +767,7 @@ func update_take_over_by_user_id(request: Gs2AccountUpdateTakeOverByUserIdReques
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("account.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2AccountPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("UpdateTakeOverByUserId", response.error))
     return Gs2AsyncResult.new(Gs2AccountUpdateTakeOverByUserIdResult.from_dict(response.body), null)
 
 
@@ -863,9 +855,7 @@ func do_take_over(request: Gs2AccountDoTakeOverRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("account.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2AccountPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("DoTakeOver", response.error))
     return Gs2AsyncResult.new(Gs2AccountDoTakeOverResult.from_dict(response.body), null)
 
 

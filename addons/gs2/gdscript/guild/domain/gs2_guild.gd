@@ -419,6 +419,7 @@ func handle_notification(
             "Gs2GuildSendMemberRequest",
             Gs2GuildSendMemberRequestCache.cache_parent_key(
                 n.namespace_name,
+                n.guild_model_name,
                 n.from_user_id,
                 null
             )
@@ -463,6 +464,7 @@ func handle_notification(
             "Gs2GuildSendMemberRequest",
             Gs2GuildSendMemberRequestCache.cache_parent_key(
                 n.namespace_name,
+                n.guild_model_name,
                 n.joined_user_id,
                 null
             )

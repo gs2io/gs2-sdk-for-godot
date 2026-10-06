@@ -385,9 +385,7 @@ func accept(request: Gs2VersionAcceptRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("version", "acceptVersion", "accept", body)
     if response.error != null:
-        if response.error.has_error_code("version.accept.version.invalid"):
-            return Gs2AsyncResult.new(null, Gs2VersionAcceptVersionInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2VersionErrorResolver.resolve("Accept", response.error))
     return Gs2AsyncResult.new(Gs2VersionAcceptResult.from_dict(response.body), null)
 
 
@@ -411,9 +409,7 @@ func accept_by_user_id(request: Gs2VersionAcceptByUserIdRequest) -> Gs2AsyncResu
         body["xGs2DryRun"] = "true"
     var response = await session.send("version", "acceptVersion", "acceptByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("version.accept.version.invalid"):
-            return Gs2AsyncResult.new(null, Gs2VersionAcceptVersionInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2VersionErrorResolver.resolve("AcceptByUserId", response.error))
     return Gs2AsyncResult.new(Gs2VersionAcceptByUserIdResult.from_dict(response.body), null)
 
 
@@ -437,9 +433,7 @@ func reject(request: Gs2VersionRejectRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("version", "acceptVersion", "reject", body)
     if response.error != null:
-        if response.error.has_error_code("version.accept.version.invalid"):
-            return Gs2AsyncResult.new(null, Gs2VersionAcceptVersionInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2VersionErrorResolver.resolve("Reject", response.error))
     return Gs2AsyncResult.new(Gs2VersionRejectResult.from_dict(response.body), null)
 
 
@@ -463,9 +457,7 @@ func reject_by_user_id(request: Gs2VersionRejectByUserIdRequest) -> Gs2AsyncResu
         body["xGs2DryRun"] = "true"
     var response = await session.send("version", "acceptVersion", "rejectByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("version.accept.version.invalid"):
-            return Gs2AsyncResult.new(null, Gs2VersionAcceptVersionInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2VersionErrorResolver.resolve("RejectByUserId", response.error))
     return Gs2AsyncResult.new(Gs2VersionRejectByUserIdResult.from_dict(response.body), null)
 
 

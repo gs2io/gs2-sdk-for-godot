@@ -42,15 +42,15 @@ func _handle_transaction_result(result):
     for action_result in (result.verify_results if result.verify_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2Exception.extract_error(action_result.verify_result, code)
+            return Gs2Exception.extract_error_for_action(action_result.action, action_result.verify_result, code)
     for action_result in (result.consume_results if result.consume_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2Exception.extract_error(action_result.consume_result, code)
+            return Gs2Exception.extract_error_for_action(action_result.action, action_result.consume_result, code)
     for action_result in (result.acquire_results if result.acquire_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2Exception.extract_error(action_result.acquire_result, code)
+            return Gs2Exception.extract_error_for_action(action_result.action, action_result.acquire_result, code)
     if result.has_error != null and result.has_error:
         for action_result in (result.acquire_results if result.acquire_results != null else []):
             if action_result.acquire_result == null or action_result.acquire_result == "":
@@ -123,7 +123,7 @@ func _handle_metadata(metadata):
                 var action_result = transaction_result.verify_results[i]
                 var code = action_result.status_code if action_result.status_code != null else 999
                 if int(code / 100.0) != 2:
-                    return Gs2Exception.extract_error(action_result.verify_result, code)
+                    return Gs2Exception.extract_error_for_action(action_result.action, action_result.verify_result, code)
                 gs2.transaction_configuration.verify_action_event_handler.call(
                     gs2.cache,
                     "%s[%d]" % [str(transaction_id), i],
@@ -137,7 +137,7 @@ func _handle_metadata(metadata):
                 var action_result = transaction_result.consume_results[i]
                 var code = action_result.status_code if action_result.status_code != null else 999
                 if int(code / 100.0) != 2:
-                    return Gs2Exception.extract_error(action_result.consume_result, code)
+                    return Gs2Exception.extract_error_for_action(action_result.action, action_result.consume_result, code)
                 gs2.transaction_configuration.consume_action_event_handler.call(
                     gs2.cache,
                     "%s[%d]" % [str(transaction_id), i],
@@ -150,7 +150,7 @@ func _handle_metadata(metadata):
             for action_result in transaction_result.acquire_results:
                 var code = action_result.status_code if action_result.status_code != null else 999
                 if int(code / 100.0) != 2:
-                    return Gs2Exception.extract_error(action_result.acquire_result, code)
+                    return Gs2Exception.extract_error_for_action(action_result.action, action_result.acquire_result, code)
                 gs2.transaction_configuration.acquire_action_event_handler.call(
                     gs2.cache,
                     transaction_id,

@@ -18,12 +18,14 @@ extends RefCounted
 
 static func cache_parent_key(
     namespace_name,
+    guild_model_name,
     user_id,
     time_offset
 ) -> String:
     return ":".join([
         "guild",
         Gs2CacheDatabase.stringify(namespace_name),
+        Gs2CacheDatabase.stringify(guild_model_name),
         Gs2CacheDatabase.stringify(user_id),
         "0" if time_offset == null else str(time_offset),
         "SendMemberRequest",
@@ -89,6 +91,7 @@ static func get_cache(
         "Gs2GuildSendMemberRequest",
         cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             time_offset
         ),
@@ -114,6 +117,7 @@ static func put_cache(
         "Gs2GuildSendMemberRequest",
         cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             time_offset
         ),
@@ -145,6 +149,7 @@ static func put_user_data(
     )
     return cache_parent_key(
         namespace_name,
+        item.target_guild_model_name,
         user_id,
         time_offset
     )
@@ -165,6 +170,7 @@ static func delete_cache(
         "Gs2GuildSendMemberRequest",
         cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             time_offset
         ),
@@ -178,6 +184,7 @@ static func delete_cache(
 static func list_subscribe(
     cache: Gs2CacheDatabase,
     namespace_name,
+    guild_model_name,
     user_id,
     time_offset,
     callback: Callable
@@ -186,6 +193,7 @@ static func list_subscribe(
         "Gs2GuildSendMemberRequest",
         cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             time_offset
         ),
@@ -196,6 +204,7 @@ static func list_subscribe(
 static func list_unsubscribe(
     cache: Gs2CacheDatabase,
     namespace_name,
+    guild_model_name,
     user_id,
     time_offset,
     callback_id: int
@@ -204,6 +213,7 @@ static func list_unsubscribe(
         "Gs2GuildSendMemberRequest",
         cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             time_offset
         ),

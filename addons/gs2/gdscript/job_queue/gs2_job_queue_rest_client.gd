@@ -389,9 +389,7 @@ func run(request: Gs2JobQueueRunRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("jobQueue.execution.conflict"):
-            return Gs2AsyncResult.new(null, Gs2JobQueueConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2JobQueueErrorResolver.resolve("Run", response.error))
     return Gs2AsyncResult.new(Gs2JobQueueRunResult.from_dict(response.body), null)
 
 
@@ -413,9 +411,7 @@ func run_by_user_id(request: Gs2JobQueueRunByUserIdRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("jobQueue.execution.conflict"):
-            return Gs2AsyncResult.new(null, Gs2JobQueueConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2JobQueueErrorResolver.resolve("RunByUserId", response.error))
     return Gs2AsyncResult.new(Gs2JobQueueRunByUserIdResult.from_dict(response.body), null)
 
 

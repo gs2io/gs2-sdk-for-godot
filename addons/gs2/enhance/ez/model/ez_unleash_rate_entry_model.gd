@@ -16,11 +16,18 @@ extends RefCounted
 
 
 var grade_value = 0
+var type = null
 var need_count = 0
+var recipes = []
 
 
 func with_grade_value(v) -> Gs2EnhanceEzUnleashRateEntryModel:
     grade_value = v
+    return self
+
+
+func with_type(v) -> Gs2EnhanceEzUnleashRateEntryModel:
+    type = v
     return self
 
 
@@ -29,15 +36,24 @@ func with_need_count(v) -> Gs2EnhanceEzUnleashRateEntryModel:
     return self
 
 
+func with_recipes(v) -> Gs2EnhanceEzUnleashRateEntryModel:
+    recipes = v
+    return self
+
+
 func to_model() -> Gs2EnhanceUnleashRateEntryModel:
     var ret = Gs2EnhanceUnleashRateEntryModel.new()
     ret.grade_value = grade_value
+    ret.type = type
     ret.need_count = need_count
+    ret.recipes = null if recipes == null else recipes.map(func(v): return null if v == null else v.to_model())
     return ret
 
 
 static func from_model(model) -> Gs2EnhanceEzUnleashRateEntryModel:
     var ret = Gs2EnhanceEzUnleashRateEntryModel.new()
     ret.grade_value = 0 if model.grade_value == null else model.grade_value
+    ret.type = model.type
     ret.need_count = 0 if model.need_count == null else model.need_count
+    ret.recipes = [] if model.recipes == null else model.recipes.map(func(v): return Gs2EnhanceEzUnleashRecipe.from_model(v))
     return ret

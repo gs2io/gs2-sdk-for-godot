@@ -545,6 +545,8 @@ func create_unleash_rate_model_master(request: Gs2EnhanceCreateUnleashRateModelM
         body["targetInventoryModelId"] = request.target_inventory_model_id
     if request.grade_model_id != null:
         body["gradeModelId"] = request.grade_model_id
+    if request.group_key_hierarchy != null:
+        body["groupKeyHierarchy"] = request.group_key_hierarchy
     if request.grade_entries != null:
         body["gradeEntries"] = request.grade_entries.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
@@ -591,6 +593,8 @@ func update_unleash_rate_model_master(request: Gs2EnhanceUpdateUnleashRateModelM
         body["targetInventoryModelId"] = request.target_inventory_model_id
     if request.grade_model_id != null:
         body["gradeModelId"] = request.grade_model_id
+    if request.group_key_hierarchy != null:
+        body["groupKeyHierarchy"] = request.group_key_hierarchy
     if request.grade_entries != null:
         body["gradeEntries"] = request.grade_entries.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
@@ -710,6 +714,10 @@ func unleash(request: Gs2EnhanceUnleashRequest) -> Gs2AsyncResult:
         body["targetItemSetId"] = request.target_item_set_id
     if request.materials != null:
         body["materials"] = request.materials
+    if request.recipe_name != null:
+        body["recipeName"] = request.recipe_name
+    if request.recipe_materials != null:
+        body["recipeMaterials"] = request.recipe_materials.map(func(v): return null if v == null else v.to_dict())
     if request.config != null:
         body["config"] = request.config.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
@@ -739,6 +747,10 @@ func unleash_by_user_id(request: Gs2EnhanceUnleashByUserIdRequest) -> Gs2AsyncRe
         body["targetItemSetId"] = request.target_item_set_id
     if request.materials != null:
         body["materials"] = request.materials
+    if request.recipe_name != null:
+        body["recipeName"] = request.recipe_name
+    if request.recipe_materials != null:
+        body["recipeMaterials"] = request.recipe_materials.map(func(v): return null if v == null else v.to_dict())
     if request.config != null:
         body["config"] = request.config.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:

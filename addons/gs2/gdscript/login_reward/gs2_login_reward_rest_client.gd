@@ -592,9 +592,7 @@ func receive(request: Gs2LoginRewardReceiveRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("loginReward.bonus.alreadyReceived"):
-            return Gs2AsyncResult.new(null, Gs2LoginRewardAlreadyReceivedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LoginRewardErrorResolver.resolve("Receive", response.error))
     return Gs2AsyncResult.new(Gs2LoginRewardReceiveResult.from_dict(response.body), null)
 
 
@@ -619,9 +617,7 @@ func receive_by_user_id(request: Gs2LoginRewardReceiveByUserIdRequest) -> Gs2Asy
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("loginReward.bonus.alreadyReceived"):
-            return Gs2AsyncResult.new(null, Gs2LoginRewardAlreadyReceivedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LoginRewardErrorResolver.resolve("ReceiveByUserId", response.error))
     return Gs2AsyncResult.new(Gs2LoginRewardReceiveByUserIdResult.from_dict(response.body), null)
 
 
@@ -647,9 +643,7 @@ func missed_receive(request: Gs2LoginRewardMissedReceiveRequest) -> Gs2AsyncResu
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("loginReward.bonus.alreadyReceived"):
-            return Gs2AsyncResult.new(null, Gs2LoginRewardAlreadyReceivedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LoginRewardErrorResolver.resolve("MissedReceive", response.error))
     return Gs2AsyncResult.new(Gs2LoginRewardMissedReceiveResult.from_dict(response.body), null)
 
 
@@ -676,9 +670,7 @@ func missed_receive_by_user_id(request: Gs2LoginRewardMissedReceiveByUserIdReque
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("loginReward.bonus.alreadyReceived"):
-            return Gs2AsyncResult.new(null, Gs2LoginRewardAlreadyReceivedException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2LoginRewardErrorResolver.resolve("MissedReceiveByUserId", response.error))
     return Gs2AsyncResult.new(Gs2LoginRewardMissedReceiveByUserIdResult.from_dict(response.body), null)
 
 

@@ -777,9 +777,7 @@ func start(request: Gs2QuestStartRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("quest.progress.exists"):
-            return Gs2AsyncResult.new(null, Gs2QuestInProgressException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2QuestErrorResolver.resolve("Start", response.error))
     return Gs2AsyncResult.new(Gs2QuestStartResult.from_dict(response.body), null)
 
 
@@ -807,9 +805,7 @@ func start_by_user_id(request: Gs2QuestStartByUserIdRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("quest.progress.exists"):
-            return Gs2AsyncResult.new(null, Gs2QuestInProgressException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2QuestErrorResolver.resolve("StartByUserId", response.error))
     return Gs2AsyncResult.new(Gs2QuestStartByUserIdResult.from_dict(response.body), null)
 
 

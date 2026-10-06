@@ -21,6 +21,7 @@ var description = null
 var metadata = null
 var target_inventory_model_id = null
 var grade_model_id = null
+var group_key_hierarchy = null
 var grade_entries = null
 var created_at = null
 var updated_at = null
@@ -54,6 +55,11 @@ func with_target_inventory_model_id(v) -> Gs2EnhanceUnleashRateModelMaster:
 
 func with_grade_model_id(v) -> Gs2EnhanceUnleashRateModelMaster:
     grade_model_id = v
+    return self
+
+
+func with_group_key_hierarchy(v) -> Gs2EnhanceUnleashRateModelMaster:
+    group_key_hierarchy = v
     return self
 
 
@@ -131,6 +137,7 @@ static func from_dict(data) -> Gs2EnhanceUnleashRateModelMaster:
     ret.metadata = null if data.get("metadata") == null else str(data.get("metadata"))
     ret.target_inventory_model_id = null if data.get("targetInventoryModelId") == null else str(data.get("targetInventoryModelId"))
     ret.grade_model_id = null if data.get("gradeModelId") == null else str(data.get("gradeModelId"))
+    ret.group_key_hierarchy = null if data.get("groupKeyHierarchy") == null else data.get("groupKeyHierarchy").map(func(v): return str(v))
     ret.grade_entries = null if data.get("gradeEntries") == null else data.get("gradeEntries").map(func(v): return Gs2EnhanceUnleashRateEntryModel.from_dict(v))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
     ret.updated_at = null if data.get("updatedAt") == null else int(data.get("updatedAt"))
@@ -146,6 +153,7 @@ func to_dict() -> Dictionary:
     ret["metadata"] = metadata
     ret["targetInventoryModelId"] = target_inventory_model_id
     ret["gradeModelId"] = grade_model_id
+    ret["groupKeyHierarchy"] = group_key_hierarchy
     ret["gradeEntries"] = null if grade_entries == null else grade_entries.map(func(v): return null if v == null else v.to_dict())
     ret["createdAt"] = created_at
     ret["updatedAt"] = updated_at

@@ -41,13 +41,16 @@ static func extract_error(message, status_code_) -> Gs2Exception:
     )
     var ret = load(script_path).new() as Gs2Exception
     ret.status_code = status_code_
-    var parsed = message
-    if message is String:
-        parsed = null
-        if message != "":
-            var json = JSON.new()
-            if json.parse(message) == OK:
-                parsed = json.data
+    var parsed = _parse_json(message)
+    if parsed is Dictionary:
+        if parsed.get("metadata") is Dictionary:
+            ret.metadata = parsed.get("metadata")
+        if parsed.get("errors") is Array:
+            parsed = parsed.get("errors")
+        elif parsed.get("code") == null and parsed.get("message") is String:
+            var inner = _parse_json(parsed.get("message"))
+            if inner is Array:
+                parsed = inner
     if parsed is Array:
         for v in parsed:
             if v is Dictionary:
@@ -60,6 +63,53 @@ static func extract_error(message, status_code_) -> Gs2Exception:
         request_error.message = message
         ret.errors.append(request_error)
     return ret
+
+
+static func extract_error_for_action(action, message, status_code_) -> Gs2Exception:
+    return resolve_action(action, extract_error(message, status_code_))
+
+
+static func resolve_action(action, error: Gs2Exception) -> Gs2Exception:
+    if error == null or not (action is String):
+        return error
+    var separator = action.find(":")
+    if separator <= 0 or separator == action.length() - 1:
+        return error
+    return resolve(action.substr(0, separator), action.substr(separator + 1), error)
+
+
+static func resolve_job_script(script_id, error: Gs2Exception) -> Gs2Exception:
+    if error == null or not (script_id is String):
+        return error
+    var script_name = script_id.substr(script_id.rfind(":") + 1)
+    if not script_name.begins_with("execute_"):
+        return error
+    var words = script_name.substr("execute_".length()).split("_")
+    for i in range(1, words.size()):
+        var service = "Gs2" + "_".join(words.slice(0, i)).to_pascal_case()
+        if Gs2ClassRegistry.resolve(service + "ErrorResolver") != null:
+            return resolve(service, "_".join(words.slice(i)).to_pascal_case(), error)
+    return error
+
+
+static func resolve(service: String, method: String, error: Gs2Exception) -> Gs2Exception:
+    if error == null:
+        return null
+    var resolver = Gs2ClassRegistry.resolve(service + "ErrorResolver")
+    if resolver == null:
+        return error
+    return resolver.resolve(method, error)
+
+
+static func _parse_json(message):
+    if not (message is String):
+        return message
+    if message == "":
+        return null
+    var json = JSON.new()
+    if json.parse(message) != OK:
+        return null
+    return json.data
 
 
 static func session_not_open() -> Gs2Exception:

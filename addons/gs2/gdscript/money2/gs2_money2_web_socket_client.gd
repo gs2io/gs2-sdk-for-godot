@@ -217,9 +217,7 @@ func deposit_by_user_id(request: Gs2Money2DepositByUserIdRequest) -> Gs2AsyncRes
         body["xGs2DryRun"] = "true"
     var response = await session.send("money2", "wallet", "depositByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2Money2ConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Money2ErrorResolver.resolve("DepositByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Money2DepositByUserIdResult.from_dict(response.body), null)
 
 

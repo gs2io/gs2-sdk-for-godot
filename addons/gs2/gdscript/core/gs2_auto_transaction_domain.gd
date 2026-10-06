@@ -46,15 +46,15 @@ func _handle_result(result) -> Gs2AsyncResult:
     for action_result in (result.verify_results if result.verify_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2AsyncResult.new(null, Gs2Exception.extract_error(action_result.verify_result, code))
+            return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(action_result.action, action_result.verify_result, code))
     for action_result in (result.consume_results if result.consume_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2AsyncResult.new(null, Gs2Exception.extract_error(action_result.consume_result, code))
+            return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(action_result.action, action_result.consume_result, code))
     for action_result in (result.acquire_results if result.acquire_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2AsyncResult.new(null, Gs2Exception.extract_error(action_result.acquire_result, code))
+            return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(action_result.action, action_result.acquire_result, code))
     if result.verify_results != null:
         for i in result.verify_results.size():
             var action_result = result.verify_results[i]

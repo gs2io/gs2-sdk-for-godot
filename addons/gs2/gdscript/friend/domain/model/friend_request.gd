@@ -53,12 +53,16 @@ func model() -> Gs2AsyncResult:
 
 
 func invalidate() -> void:
-    Gs2FriendFriendRequestCache.delete_cache(
-        _gs2.cache,
-        namespace_name,
-        user_id,
-        target_user_id,
-        null
+    _gs2.cache.delete(
+        "Gs2FriendFriendRequest",
+        Gs2FriendSendFriendRequestCache.cache_parent_key(
+            namespace_name,
+            user_id,
+            null
+        ),
+        Gs2FriendSendFriendRequestCache.cache_key(
+            target_user_id
+        )
     )
 
 

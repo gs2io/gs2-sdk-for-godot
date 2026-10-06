@@ -1091,9 +1091,7 @@ func increase_counter_by_user_id(request: Gs2MissionIncreaseCounterByUserIdReque
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("counter.increase.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MissionConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MissionErrorResolver.resolve("IncreaseCounterByUserId", response.error))
     return Gs2AsyncResult.new(Gs2MissionIncreaseCounterByUserIdResult.from_dict(response.body), null)
 
 
@@ -1118,9 +1116,7 @@ func set_counter_by_user_id(request: Gs2MissionSetCounterByUserIdRequest) -> Gs2
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("counter.increase.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MissionConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MissionErrorResolver.resolve("SetCounterByUserId", response.error))
     return Gs2AsyncResult.new(Gs2MissionSetCounterByUserIdResult.from_dict(response.body), null)
 
 
@@ -1144,9 +1140,7 @@ func decrease_counter(request: Gs2MissionDecreaseCounterRequest) -> Gs2AsyncResu
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("counter.increase.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MissionConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MissionErrorResolver.resolve("DecreaseCounter", response.error))
     return Gs2AsyncResult.new(Gs2MissionDecreaseCounterResult.from_dict(response.body), null)
 
 
@@ -1171,9 +1165,7 @@ func decrease_counter_by_user_id(request: Gs2MissionDecreaseCounterByUserIdReque
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("counter.increase.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MissionConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MissionErrorResolver.resolve("DecreaseCounterByUserId", response.error))
     return Gs2AsyncResult.new(Gs2MissionDecreaseCounterByUserIdResult.from_dict(response.body), null)
 
 

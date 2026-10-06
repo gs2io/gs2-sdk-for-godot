@@ -20,6 +20,8 @@ var rate_name = null
 var access_token = null
 var target_item_set_id = null
 var materials = null
+var recipe_name = null
+var recipe_materials = null
 var config = null
 var duplication_avoider = null
 
@@ -49,6 +51,16 @@ func with_materials(v) -> Gs2EnhanceUnleashRequest:
     return self
 
 
+func with_recipe_name(v) -> Gs2EnhanceUnleashRequest:
+    recipe_name = v
+    return self
+
+
+func with_recipe_materials(v) -> Gs2EnhanceUnleashRequest:
+    recipe_materials = v
+    return self
+
+
 func with_config(v) -> Gs2EnhanceUnleashRequest:
     config = v
     return self
@@ -68,6 +80,8 @@ static func from_dict(data) -> Gs2EnhanceUnleashRequest:
     ret.access_token = null if data.get("accessToken") == null else str(data.get("accessToken"))
     ret.target_item_set_id = null if data.get("targetItemSetId") == null else str(data.get("targetItemSetId"))
     ret.materials = null if data.get("materials") == null else data.get("materials").map(func(v): return str(v))
+    ret.recipe_name = null if data.get("recipeName") == null else str(data.get("recipeName"))
+    ret.recipe_materials = null if data.get("recipeMaterials") == null else data.get("recipeMaterials").map(func(v): return Gs2EnhanceUnleashMaterialSelection.from_dict(v))
     ret.config = null if data.get("config") == null else data.get("config").map(func(v): return Gs2EnhanceConfig.from_dict(v))
     return ret
 
@@ -79,5 +93,7 @@ func to_dict() -> Dictionary:
     ret["accessToken"] = access_token
     ret["targetItemSetId"] = target_item_set_id
     ret["materials"] = materials
+    ret["recipeName"] = recipe_name
+    ret["recipeMaterials"] = null if recipe_materials == null else recipe_materials.map(func(v): return null if v == null else v.to_dict())
     ret["config"] = null if config == null else config.map(func(v): return null if v == null else v.to_dict())
     return ret

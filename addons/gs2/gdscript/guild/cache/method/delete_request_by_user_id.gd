@@ -60,6 +60,7 @@ static func invoke(
                 "Gs2GuildSendMemberRequest",
                 Gs2GuildSendMemberRequestCache.cache_parent_key(
                     request.namespace_name,
+                    request.guild_model_name,
                     request.user_id,
                     time_offset
                 )

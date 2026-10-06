@@ -125,6 +125,8 @@ static func next_from_result_json(
 static func recommend_auto_retry(error) -> bool:
     if error == null:
         return false
+    if error.has_method("recommend_auto_retry"):
+        return error.recommend_auto_retry()
     return (
         error is Gs2QuotaLimitExceededException
         or error is Gs2ConflictException

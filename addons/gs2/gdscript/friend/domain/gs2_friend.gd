@@ -295,22 +295,35 @@ func handle_notification(
         if notification == null:
             return
         var n = notification
+        _gs2.cache.delete(
+            "Gs2FriendFriendRequest",
+            Gs2FriendSendFriendRequestCache.cache_parent_key(
+                n.namespace_name,
+                n.user_id,
+                null
+            ),
+            Gs2FriendSendFriendRequestCache.cache_key(
+                n.target_user_id
+            )
+        )
         _gs2.cache.clear_list_cache(
             "Gs2FriendFriendRequest",
-            Gs2FriendFriendRequestCache.cache_parent_key(
+            Gs2FriendSendFriendRequestCache.cache_parent_key(
                 n.namespace_name,
                 n.user_id,
                 null
             )
         )
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriend",
-            Gs2FriendFriendCache.cache_parent_key(
-                n.namespace_name,
-                n.user_id,
-                null
+        for with_profile in [false, true, null]:
+            _gs2.cache.clear_list_cache(
+                "Gs2FriendFriendUser",
+                Gs2FriendFriendUserCache.cache_parent_key(
+                    n.namespace_name,
+                    n.user_id,
+                    with_profile,
+                    null
+                )
             )
-        )
         accept_request_notification.emit(notification)
         return
     if action == "RejectRequestNotification":
@@ -318,17 +331,20 @@ func handle_notification(
         if notification == null:
             return
         var n = notification
-        _gs2.cache.clear_list_cache(
+        _gs2.cache.delete(
             "Gs2FriendFriendRequest",
-            Gs2FriendFriendRequestCache.cache_parent_key(
+            Gs2FriendSendFriendRequestCache.cache_parent_key(
                 n.namespace_name,
                 n.user_id,
                 null
+            ),
+            Gs2FriendSendFriendRequestCache.cache_key(
+                n.target_user_id
             )
         )
         _gs2.cache.clear_list_cache(
-            "Gs2FriendFriend",
-            Gs2FriendFriendCache.cache_parent_key(
+            "Gs2FriendFriendRequest",
+            Gs2FriendSendFriendRequestCache.cache_parent_key(
                 n.namespace_name,
                 n.user_id,
                 null
@@ -366,14 +382,6 @@ func handle_notification(
         if notification == null:
             return
         var n = notification
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriendRequest",
-            Gs2FriendSendFriendRequestCache.cache_parent_key(
-                n.namespace_name,
-                n.user_id,
-                null
-            )
-        )
         _gs2.cache.clear_list_cache(
             "Gs2FriendFriendRequest",
             Gs2FriendReceiveFriendRequestCache.cache_parent_key(

@@ -33,7 +33,7 @@ static func put_cache(
             time_offset
         ),
         Gs2FriendReceiveFriendRequestCache.cache_key(
-            (result.item.target_user_id if result.item != null else null)
+            (result.item.user_id if result.item != null else null)
         ),
         result.item,
         0

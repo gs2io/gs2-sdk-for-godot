@@ -323,9 +323,7 @@ func deposit_by_user_id(request: Gs2MoneyDepositByUserIdRequest) -> Gs2AsyncResu
         body["xGs2DryRun"] = "true"
     var response = await session.send("money", "wallet", "depositByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MoneyConflictException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MoneyErrorResolver.resolve("DepositByUserId", response.error))
     return Gs2AsyncResult.new(Gs2MoneyDepositByUserIdResult.from_dict(response.body), null)
 
 
@@ -351,11 +349,7 @@ func withdraw(request: Gs2MoneyWithdrawRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("money", "wallet", "withdraw", body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MoneyConflictException.new(response.error))
-        if response.error.has_error_code("wallet.balance.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2MoneyInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MoneyErrorResolver.resolve("Withdraw", response.error))
     return Gs2AsyncResult.new(Gs2MoneyWithdrawResult.from_dict(response.body), null)
 
 
@@ -381,11 +375,7 @@ func withdraw_by_user_id(request: Gs2MoneyWithdrawByUserIdRequest) -> Gs2AsyncRe
         body["xGs2DryRun"] = "true"
     var response = await session.send("money", "wallet", "withdrawByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("wallet.operation.conflict"):
-            return Gs2AsyncResult.new(null, Gs2MoneyConflictException.new(response.error))
-        if response.error.has_error_code("wallet.balance.insufficient"):
-            return Gs2AsyncResult.new(null, Gs2MoneyInsufficientException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MoneyErrorResolver.resolve("WithdrawByUserId", response.error))
     return Gs2AsyncResult.new(Gs2MoneyWithdrawByUserIdResult.from_dict(response.body), null)
 
 
@@ -445,9 +435,7 @@ func record_receipt(request: Gs2MoneyRecordReceiptRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("money", "receipt", "recordReceipt", body)
     if response.error != null:
-        if response.error.has_error_code("receipt.payload.invalid"):
-            return Gs2AsyncResult.new(null, Gs2MoneyReceiptInvalidException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2MoneyErrorResolver.resolve("RecordReceipt", response.error))
     return Gs2AsyncResult.new(Gs2MoneyRecordReceiptResult.from_dict(response.body), null)
 
 

@@ -599,7 +599,7 @@ func register_black_list(request: Gs2FriendRegisterBlackListRequest) -> Gs2Async
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("RegisterBlackList", response.error))
     return Gs2AsyncResult.new(Gs2FriendRegisterBlackListResult.from_dict(response.body), null)
 
 
@@ -622,7 +622,7 @@ func register_black_list_by_user_id(request: Gs2FriendRegisterBlackListByUserIdR
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("RegisterBlackListByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FriendRegisterBlackListByUserIdResult.from_dict(response.body), null)
 
 
@@ -785,7 +785,7 @@ func follow(request: Gs2FriendFollowRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("Follow", response.error))
     return Gs2AsyncResult.new(Gs2FriendFollowResult.from_dict(response.body), null)
 
 
@@ -808,7 +808,7 @@ func follow_by_user_id(request: Gs2FriendFollowByUserIdRequest) -> Gs2AsyncResul
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("FollowByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FriendFollowByUserIdResult.from_dict(response.body), null)
 
 
@@ -920,7 +920,7 @@ func add_friend(request: Gs2FriendAddFriendRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("AddFriend", response.error))
     return Gs2AsyncResult.new(Gs2FriendAddFriendResult.from_dict(response.body), null)
 
 
@@ -943,7 +943,7 @@ func add_friend_by_user_id(request: Gs2FriendAddFriendByUserIdRequest) -> Gs2Asy
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("AddFriendByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FriendAddFriendByUserIdResult.from_dict(response.body), null)
 
 
@@ -1106,7 +1106,7 @@ func send_request(request: Gs2FriendSendRequestRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("SendRequest", response.error))
     return Gs2AsyncResult.new(Gs2FriendSendRequestResult.from_dict(response.body), null)
 
 
@@ -1129,7 +1129,7 @@ func send_request_by_user_id(request: Gs2FriendSendRequestByUserIdRequest) -> Gs
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("SendRequestByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FriendSendRequestByUserIdResult.from_dict(response.body), null)
 
 
@@ -1292,7 +1292,7 @@ func accept_request(request: Gs2FriendAcceptRequestRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("AcceptRequest", response.error))
     return Gs2AsyncResult.new(Gs2FriendAcceptRequestResult.from_dict(response.body), null)
 
 
@@ -1315,7 +1315,7 @@ func accept_request_by_user_id(request: Gs2FriendAcceptRequestByUserIdRequest) -
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2FriendErrorResolver.resolve("AcceptRequestByUserId", response.error))
     return Gs2AsyncResult.new(Gs2FriendAcceptRequestByUserIdResult.from_dict(response.body), null)
 
 

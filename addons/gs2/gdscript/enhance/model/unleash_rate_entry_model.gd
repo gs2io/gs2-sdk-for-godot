@@ -16,11 +16,18 @@ extends RefCounted
 
 
 var grade_value = null
+var type = null
 var need_count = null
+var recipes = null
 
 
 func with_grade_value(v) -> Gs2EnhanceUnleashRateEntryModel:
     grade_value = v
+    return self
+
+
+func with_type(v) -> Gs2EnhanceUnleashRateEntryModel:
+    type = v
     return self
 
 
@@ -29,17 +36,26 @@ func with_need_count(v) -> Gs2EnhanceUnleashRateEntryModel:
     return self
 
 
+func with_recipes(v) -> Gs2EnhanceUnleashRateEntryModel:
+    recipes = v
+    return self
+
+
 static func from_dict(data) -> Gs2EnhanceUnleashRateEntryModel:
     if data == null:
         return null
     var ret = Gs2EnhanceUnleashRateEntryModel.new()
     ret.grade_value = null if data.get("gradeValue") == null else int(data.get("gradeValue"))
+    ret.type = null if data.get("type") == null else str(data.get("type"))
     ret.need_count = null if data.get("needCount") == null else int(data.get("needCount"))
+    ret.recipes = null if data.get("recipes") == null else data.get("recipes").map(func(v): return Gs2EnhanceUnleashRecipe.from_dict(v))
     return ret
 
 
 func to_dict() -> Dictionary:
     var ret = {}
     ret["gradeValue"] = grade_value
+    ret["type"] = type
     ret["needCount"] = need_count
+    ret["recipes"] = null if recipes == null else recipes.map(func(v): return null if v == null else v.to_dict())
     return ret

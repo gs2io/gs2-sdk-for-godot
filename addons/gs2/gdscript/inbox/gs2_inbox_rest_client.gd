@@ -503,9 +503,7 @@ func open_message(request: Gs2InboxOpenMessageRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("inbox.message.expired"):
-            return Gs2AsyncResult.new(null, Gs2InboxMessageExpiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InboxErrorResolver.resolve("OpenMessage", response.error))
     return Gs2AsyncResult.new(Gs2InboxOpenMessageResult.from_dict(response.body), null)
 
 
@@ -528,9 +526,7 @@ func open_message_by_user_id(request: Gs2InboxOpenMessageByUserIdRequest) -> Gs2
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("inbox.message.expired"):
-            return Gs2AsyncResult.new(null, Gs2InboxMessageExpiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InboxErrorResolver.resolve("OpenMessageByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InboxOpenMessageByUserIdResult.from_dict(response.body), null)
 
 
@@ -577,9 +573,7 @@ func read_message(request: Gs2InboxReadMessageRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("inbox.message.expired"):
-            return Gs2AsyncResult.new(null, Gs2InboxMessageExpiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InboxErrorResolver.resolve("ReadMessage", response.error))
     return Gs2AsyncResult.new(Gs2InboxReadMessageResult.from_dict(response.body), null)
 
 
@@ -604,9 +598,7 @@ func read_message_by_user_id(request: Gs2InboxReadMessageByUserIdRequest) -> Gs2
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("inbox.message.expired"):
-            return Gs2AsyncResult.new(null, Gs2InboxMessageExpiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InboxErrorResolver.resolve("ReadMessageByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InboxReadMessageByUserIdResult.from_dict(response.body), null)
 
 
@@ -631,9 +623,7 @@ func batch_read_messages(request: Gs2InboxBatchReadMessagesRequest) -> Gs2AsyncR
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("inbox.message.expired"):
-            return Gs2AsyncResult.new(null, Gs2InboxMessageExpiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InboxErrorResolver.resolve("BatchReadMessages", response.error))
     return Gs2AsyncResult.new(Gs2InboxBatchReadMessagesResult.from_dict(response.body), null)
 
 
@@ -659,9 +649,7 @@ func batch_read_messages_by_user_id(request: Gs2InboxBatchReadMessagesByUserIdRe
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("inbox.message.expired"):
-            return Gs2AsyncResult.new(null, Gs2InboxMessageExpiredException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2InboxErrorResolver.resolve("BatchReadMessagesByUserId", response.error))
     return Gs2AsyncResult.new(Gs2InboxBatchReadMessagesByUserIdResult.from_dict(response.body), null)
 
 

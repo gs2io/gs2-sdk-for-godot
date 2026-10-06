@@ -55,6 +55,7 @@ func load() -> Gs2AsyncResult:
         
         Gs2GuildSendMemberRequestCache.cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             null
         )
@@ -93,6 +94,7 @@ func load() -> Gs2AsyncResult:
         
         Gs2GuildSendMemberRequestCache.cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             null
         )

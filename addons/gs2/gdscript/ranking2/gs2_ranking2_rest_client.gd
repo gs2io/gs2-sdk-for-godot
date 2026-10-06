@@ -840,7 +840,7 @@ func receive_global_ranking_received_reward(request: Gs2Ranking2ReceiveGlobalRan
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("ReceiveGlobalRankingReceivedReward", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2ReceiveGlobalRankingReceivedRewardResult.from_dict(response.body), null)
 
 
@@ -866,7 +866,7 @@ func receive_global_ranking_received_reward_by_user_id(request: Gs2Ranking2Recei
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("ReceiveGlobalRankingReceivedRewardByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2ReceiveGlobalRankingReceivedRewardByUserIdResult.from_dict(response.body), null)
 
 
@@ -1315,7 +1315,7 @@ func put_cluster_ranking_score(request: Gs2Ranking2PutClusterRankingScoreRequest
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("PutClusterRankingScore", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2PutClusterRankingScoreResult.from_dict(response.body), null)
 
 
@@ -1343,7 +1343,7 @@ func put_cluster_ranking_score_by_user_id(request: Gs2Ranking2PutClusterRankingS
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("PUT", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("PutClusterRankingScoreByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2PutClusterRankingScoreByUserIdResult.from_dict(response.body), null)
 
 
@@ -1633,7 +1633,7 @@ func receive_cluster_ranking_received_reward(request: Gs2Ranking2ReceiveClusterR
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("ReceiveClusterRankingReceivedReward", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2ReceiveClusterRankingReceivedRewardResult.from_dict(response.body), null)
 
 
@@ -1660,7 +1660,7 @@ func receive_cluster_ranking_received_reward_by_user_id(request: Gs2Ranking2Rece
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("ReceiveClusterRankingReceivedRewardByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2ReceiveClusterRankingReceivedRewardByUserIdResult.from_dict(response.body), null)
 
 

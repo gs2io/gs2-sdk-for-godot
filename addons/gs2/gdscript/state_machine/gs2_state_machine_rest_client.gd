@@ -600,9 +600,7 @@ func report(request: Gs2StateMachineReportRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        if response.error.has_error_code("stateMachine.state.mismatch"):
-            return Gs2AsyncResult.new(null, Gs2StateMachineStateMismatchException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2StateMachineErrorResolver.resolve("Report", response.error))
     return Gs2AsyncResult.new(Gs2StateMachineReportResult.from_dict(response.body), null)
 
 

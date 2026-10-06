@@ -99,6 +99,7 @@ func subscribe_model(callback: Callable) -> int:
         "Gs2GuildSendMemberRequest",
         Gs2GuildSendMemberRequestCache.cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             null
         ),
@@ -116,6 +117,7 @@ func unsubscribe_model(callback_id: int) -> void:
         "Gs2GuildSendMemberRequest",
         Gs2GuildSendMemberRequestCache.cache_parent_key(
             namespace_name,
+            guild_model_name,
             user_id,
             null
         ),

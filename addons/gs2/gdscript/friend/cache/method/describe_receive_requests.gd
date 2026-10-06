@@ -25,13 +25,18 @@ static func put_cache(
     if result == null:
         return
     for item in (result.items if result.items != null else []):
-        Gs2FriendFriendRequestCache.put_cache(
+        cache.put(
+            "Gs2FriendFriendRequest",
+            Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                request.namespace_name,
+                user_id,
+                time_offset
+            ),
+            Gs2FriendReceiveFriendRequestCache.cache_key(
+                item.user_id
+            ),
             item,
-            cache,
-            request.namespace_name,
-            user_id,
-            item.target_user_id,
-            time_offset
+            0
         )
 
 

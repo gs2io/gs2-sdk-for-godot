@@ -593,7 +593,7 @@ func put_cluster_ranking_score(request: Gs2Ranking2PutClusterRankingScoreRequest
         body["xGs2DryRun"] = "true"
     var response = await session.send("ranking2", "clusterRankingScore", "putClusterRankingScore", body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("PutClusterRankingScore", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2PutClusterRankingScoreResult.from_dict(response.body), null)
 
 
@@ -621,7 +621,7 @@ func put_cluster_ranking_score_by_user_id(request: Gs2Ranking2PutClusterRankingS
         body["xGs2DryRun"] = "true"
     var response = await session.send("ranking2", "clusterRankingScore", "putClusterRankingScoreByUserId", body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2Ranking2ErrorResolver.resolve("PutClusterRankingScoreByUserId", response.error))
     return Gs2AsyncResult.new(Gs2Ranking2PutClusterRankingScoreByUserIdResult.from_dict(response.body), null)
 
 

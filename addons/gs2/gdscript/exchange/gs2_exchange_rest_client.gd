@@ -1040,7 +1040,7 @@ func acquire(request: Gs2ExchangeAcquireRequest) -> Gs2AsyncResult:
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2ExchangeErrorResolver.resolve("Acquire", response.error))
     return Gs2AsyncResult.new(Gs2ExchangeAcquireResult.from_dict(response.body), null)
 
 
@@ -1065,7 +1065,7 @@ func acquire_by_user_id(request: Gs2ExchangeAcquireByUserIdRequest) -> Gs2AsyncR
         headers["X-GS2-DRY-RUN"] = "true"
     var response = await session.send("POST", url, headers, {}, body)
     if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2ExchangeErrorResolver.resolve("AcquireByUserId", response.error))
     return Gs2AsyncResult.new(Gs2ExchangeAcquireByUserIdResult.from_dict(response.body), null)
 
 

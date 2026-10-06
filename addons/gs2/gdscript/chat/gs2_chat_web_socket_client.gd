@@ -181,13 +181,7 @@ func post(request: Gs2ChatPostRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("chat", "message", "post", body)
     if response.error != null:
-        if response.error.has_error_code("room.allowUserIds.notInclude"):
-            return Gs2AsyncResult.new(null, Gs2ChatNoAccessPrivilegesException.new(response.error))
-        if response.error.has_error_code("room.password.require"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordRequiredException.new(response.error))
-        if response.error.has_error_code("room.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2ChatErrorResolver.resolve("Post", response.error))
     return Gs2AsyncResult.new(Gs2ChatPostResult.from_dict(response.body), null)
 
 
@@ -215,13 +209,7 @@ func post_by_user_id(request: Gs2ChatPostByUserIdRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("chat", "message", "postByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("room.allowUserIds.notInclude"):
-            return Gs2AsyncResult.new(null, Gs2ChatNoAccessPrivilegesException.new(response.error))
-        if response.error.has_error_code("room.password.require"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordRequiredException.new(response.error))
-        if response.error.has_error_code("room.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2ChatErrorResolver.resolve("PostByUserId", response.error))
     return Gs2AsyncResult.new(Gs2ChatPostByUserIdResult.from_dict(response.body), null)
 
 
@@ -245,13 +233,7 @@ func get_message(request: Gs2ChatGetMessageRequest) -> Gs2AsyncResult:
         body["xGs2DryRun"] = "true"
     var response = await session.send("chat", "message", "getMessage", body)
     if response.error != null:
-        if response.error.has_error_code("room.allowUserIds.notInclude"):
-            return Gs2AsyncResult.new(null, Gs2ChatNoAccessPrivilegesException.new(response.error))
-        if response.error.has_error_code("room.password.require"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordRequiredException.new(response.error))
-        if response.error.has_error_code("room.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2ChatErrorResolver.resolve("GetMessage", response.error))
     return Gs2AsyncResult.new(Gs2ChatGetMessageResult.from_dict(response.body), null)
 
 
@@ -275,13 +257,7 @@ func get_message_by_user_id(request: Gs2ChatGetMessageByUserIdRequest) -> Gs2Asy
         body["xGs2DryRun"] = "true"
     var response = await session.send("chat", "message", "getMessageByUserId", body)
     if response.error != null:
-        if response.error.has_error_code("room.allowUserIds.notInclude"):
-            return Gs2AsyncResult.new(null, Gs2ChatNoAccessPrivilegesException.new(response.error))
-        if response.error.has_error_code("room.password.require"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordRequiredException.new(response.error))
-        if response.error.has_error_code("room.password.invalid"):
-            return Gs2AsyncResult.new(null, Gs2ChatPasswordIncorrectException.new(response.error))
-        return Gs2AsyncResult.new(null, response.error)
+        return Gs2AsyncResult.new(null, Gs2ChatErrorResolver.resolve("GetMessageByUserId", response.error))
     return Gs2AsyncResult.new(Gs2ChatGetMessageByUserIdResult.from_dict(response.body), null)
 
 
