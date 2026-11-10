@@ -21,6 +21,7 @@ var target_type = null
 var target_model = null
 var target_action = null
 var expression = null
+var priority = 0
 var apply_period_schedule_event_id = null
 
 
@@ -54,6 +55,11 @@ func with_expression(v) -> Gs2BuffEzBuffEntryModel:
     return self
 
 
+func with_priority(v) -> Gs2BuffEzBuffEntryModel:
+    priority = v
+    return self
+
+
 func with_apply_period_schedule_event_id(v) -> Gs2BuffEzBuffEntryModel:
     apply_period_schedule_event_id = v
     return self
@@ -67,6 +73,7 @@ func to_model() -> Gs2BuffBuffEntryModel:
     ret.target_model = null if target_model == null else target_model.to_model()
     ret.target_action = null if target_action == null else target_action.to_model()
     ret.expression = expression
+    ret.priority = priority
     ret.apply_period_schedule_event_id = apply_period_schedule_event_id
     return ret
 
@@ -79,5 +86,6 @@ static func from_model(model) -> Gs2BuffEzBuffEntryModel:
     ret.target_model = null if model.target_model == null else Gs2BuffEzBuffTargetModel.from_model(model.target_model)
     ret.target_action = null if model.target_action == null else Gs2BuffEzBuffTargetAction.from_model(model.target_action)
     ret.expression = model.expression
+    ret.priority = 0 if model.priority == null else model.priority
     ret.apply_period_schedule_event_id = model.apply_period_schedule_event_id
     return ret

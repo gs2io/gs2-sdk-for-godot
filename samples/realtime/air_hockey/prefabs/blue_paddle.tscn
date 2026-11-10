@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://samples/realtime/air_hockey/hockey_disc.gd" id="1_h1asj"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_entity.gd" id="2_o2dpr"]
+[ext_resource type="Resource" path="res://samples/realtime/air_hockey/generated/BluePaddleState.realtimeschema" id="3_udddv"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_transform_2d.gd" id="4_1uq20"]
+[ext_resource type="Script" path="res://samples/realtime/air_hockey/paddle_movement.gd" id="5_8yfsd"]
+
+[node name="BluePaddle" type="Node2D" unique_id=1548271423]
+
+[node name="Disc" type="Node2D" parent="." unique_id=2009565028]
+script = ExtResource("1_h1asj")
+radius = 32.0
+color = Color(0.3, 0.6, 1, 1)
+
+[node name="Entity" type="Node" parent="." unique_id=1354923960]
+script = ExtResource("2_o2dpr")
+schema = ExtResource("3_udddv")
+controlled_nodes = Array[NodePath]([NodePath("../Movement")])
+
+[node name="Transform" type="Node" parent="." unique_id=1237592778]
+script = ExtResource("4_1uq20")
+sync_rotation = false
+
+[node name="Movement" type="Node" parent="." unique_id=66937865]
+script = ExtResource("5_8yfsd")

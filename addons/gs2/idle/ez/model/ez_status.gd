@@ -19,6 +19,7 @@ var category_name = null
 var random_seed = 0
 var idle_minutes = 0
 var maximum_idle_minutes = 0
+var next_rewards_at = 0
 
 
 func with_category_name(v) -> Gs2IdleEzStatus:
@@ -41,12 +42,18 @@ func with_maximum_idle_minutes(v) -> Gs2IdleEzStatus:
     return self
 
 
+func with_next_rewards_at(v) -> Gs2IdleEzStatus:
+    next_rewards_at = v
+    return self
+
+
 func to_model() -> Gs2IdleStatus:
     var ret = Gs2IdleStatus.new()
     ret.category_name = category_name
     ret.random_seed = random_seed
     ret.idle_minutes = idle_minutes
     ret.maximum_idle_minutes = maximum_idle_minutes
+    ret.next_rewards_at = next_rewards_at
     return ret
 
 
@@ -56,4 +63,5 @@ static func from_model(model) -> Gs2IdleEzStatus:
     ret.random_seed = 0 if model.random_seed == null else model.random_seed
     ret.idle_minutes = 0 if model.idle_minutes == null else model.idle_minutes
     ret.maximum_idle_minutes = 0 if model.maximum_idle_minutes == null else model.maximum_idle_minutes
+    ret.next_rewards_at = 0 if model.next_rewards_at == null else model.next_rewards_at
     return ret

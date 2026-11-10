@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_entity.gd" id="1_wmuka"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_transform_3d.gd" id="2_bqgsv"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_shared_object.gd" id="3_vi56v"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0w5xo"]
+albedo_color = Color(0.95, 0.75, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rad55"]
+material = SubResource("StandardMaterial3D_0w5xo")
+size = Vector3(0.8, 0.8, 0.8)
+
+[node name="Box" type="Node3D" unique_id=1987643369]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=785773637]
+mesh = SubResource("BoxMesh_rad55")
+
+[node name="Entity" type="Node" parent="." unique_id=1259612248]
+script = ExtResource("1_wmuka")
+
+[node name="Transform" type="Node" parent="." unique_id=261759768]
+script = ExtResource("2_bqgsv")
+
+[node name="Shared" type="Node" parent="." unique_id=2088148646]
+script = ExtResource("3_vi56v")

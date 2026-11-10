@@ -109,17 +109,6 @@ func unsubscribe_distributor_models(
     )
 
 
-func distributor_model(
-    distributor_name
-) -> Gs2DistributorEzDistributorModelDomain:
-    return Gs2DistributorEzDistributorModelDomain.new(
-        _domain.distributor_model(
-            distributor_name
-        ),
-        _connection
-    )
-
-
 func user(
     user_id
 ) -> Gs2DistributorEzUserDomain:
@@ -139,5 +128,16 @@ func me(
             game_session.access_token
         ),
         game_session,
+        _connection
+    )
+
+
+func distributor_model(
+    distributor_name
+) -> Gs2DistributorEzDistributorModelDomain:
+    return Gs2DistributorEzDistributorModelDomain.new(
+        _domain.distributor_model(
+            distributor_name
+        ),
         _connection
     )

@@ -21,6 +21,7 @@ var display_item_id = null
 var user_id = null
 var quantity = null
 var config = null
+var route_key = null
 var time_offset_token = null
 var duplication_avoider = null
 
@@ -55,6 +56,11 @@ func with_config(v) -> Gs2ShowcaseBuyByUserIdRequest:
     return self
 
 
+func with_route_key(v) -> Gs2ShowcaseBuyByUserIdRequest:
+    route_key = v
+    return self
+
+
 func with_time_offset_token(v) -> Gs2ShowcaseBuyByUserIdRequest:
     time_offset_token = v
     return self
@@ -75,6 +81,7 @@ static func from_dict(data) -> Gs2ShowcaseBuyByUserIdRequest:
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
     ret.quantity = null if data.get("quantity") == null else int(data.get("quantity"))
     ret.config = null if data.get("config") == null else data.get("config").map(func(v): return Gs2ShowcaseConfig.from_dict(v))
+    ret.route_key = null if data.get("routeKey") == null else str(data.get("routeKey"))
     ret.time_offset_token = null if data.get("timeOffsetToken") == null else str(data.get("timeOffsetToken"))
     return ret
 
@@ -87,5 +94,6 @@ func to_dict() -> Dictionary:
     ret["userId"] = user_id
     ret["quantity"] = quantity
     ret["config"] = null if config == null else config.map(func(v): return null if v == null else v.to_dict())
+    ret["routeKey"] = route_key
     ret["timeOffsetToken"] = time_offset_token
     return ret

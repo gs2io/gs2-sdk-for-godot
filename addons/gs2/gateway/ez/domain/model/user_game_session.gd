@@ -45,20 +45,20 @@ func _init(
     _connection = connection
 
 
-func web_socket_session(
-) -> Gs2GatewayEzWebSocketSessionGameSessionDomain:
-    return Gs2GatewayEzWebSocketSessionGameSessionDomain.new(
-        _domain.web_socket_session(
+func firebase_token(
+) -> Gs2GatewayEzFirebaseTokenGameSessionDomain:
+    return Gs2GatewayEzFirebaseTokenGameSessionDomain.new(
+        _domain.firebase_token(
         ),
         _game_session,
         _connection
     )
 
 
-func firebase_token(
-) -> Gs2GatewayEzFirebaseTokenGameSessionDomain:
-    return Gs2GatewayEzFirebaseTokenGameSessionDomain.new(
-        _domain.firebase_token(
+func web_socket_session(
+) -> Gs2GatewayEzWebSocketSessionGameSessionDomain:
+    return Gs2GatewayEzWebSocketSessionGameSessionDomain.new(
+        _domain.web_socket_session(
         ),
         _game_session,
         _connection

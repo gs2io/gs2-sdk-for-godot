@@ -21,6 +21,7 @@ var release_verify_actions = []
 var release_consume_actions = []
 var return_acquire_actions = []
 var restrain_return_rate = 0
+var premise_node_names = []
 
 
 func with_name(v) -> Gs2SkillTreeEzNodeModel:
@@ -53,6 +54,11 @@ func with_restrain_return_rate(v) -> Gs2SkillTreeEzNodeModel:
     return self
 
 
+func with_premise_node_names(v) -> Gs2SkillTreeEzNodeModel:
+    premise_node_names = v
+    return self
+
+
 func to_model() -> Gs2SkillTreeNodeModel:
     var ret = Gs2SkillTreeNodeModel.new()
     ret.name = name
@@ -61,6 +67,7 @@ func to_model() -> Gs2SkillTreeNodeModel:
     ret.release_consume_actions = null if release_consume_actions == null else release_consume_actions.map(func(v): return null if v == null else v.to_model())
     ret.return_acquire_actions = null if return_acquire_actions == null else return_acquire_actions.map(func(v): return null if v == null else v.to_model())
     ret.restrain_return_rate = restrain_return_rate
+    ret.premise_node_names = null if premise_node_names == null else premise_node_names.map(func(v): return v)
     return ret
 
 
@@ -72,4 +79,5 @@ static func from_model(model) -> Gs2SkillTreeEzNodeModel:
     ret.release_consume_actions = [] if model.release_consume_actions == null else model.release_consume_actions.map(func(v): return Gs2EzConsumeAction.from_model(v))
     ret.return_acquire_actions = [] if model.return_acquire_actions == null else model.return_acquire_actions.map(func(v): return Gs2EzAcquireAction.from_model(v))
     ret.restrain_return_rate = 0 if model.restrain_return_rate == null else model.restrain_return_rate
+    ret.premise_node_names = [] if model.premise_node_names == null else model.premise_node_names.map(func(v): return v)
     return ret

@@ -113,3 +113,26 @@ func take_over_subscription_status(game_session, namespace_name, receipt) -> Gs2
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2Money2EzTakeOverSubscriptionStatusResult.from_model(async_result.result), null)
+
+
+func get_store_content_model(namespace_name, content_name) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2Money2GetStoreContentModelRequest.new()
+        request.namespace_name = namespace_name
+        request.content_name = content_name
+        return await _rest_client.get_store_content_model(request)
+    var async_result = await _connection.run(null, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2Money2EzGetStoreContentModelResult.from_model(async_result.result), null)
+
+
+func list_store_content_models(namespace_name) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2Money2DescribeStoreContentModelsRequest.new()
+        request.namespace_name = namespace_name
+        return await _rest_client.describe_store_content_models(request)
+    var async_result = await _connection.run(null, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2Money2EzListStoreContentModelsResult.from_model(async_result.result), null)

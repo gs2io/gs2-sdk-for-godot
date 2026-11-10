@@ -20,7 +20,10 @@ var metadata = null
 var default_maximum_member_count = 0
 var maximum_member_count = 0
 var roles = []
+var inactivity_period_days = 0
 var rejoin_cool_time_minutes = 0
+var max_concurrent_join_guilds = 0
+var max_concurrent_guild_master_count = 0
 
 
 func with_name(v) -> Gs2GuildEzGuildModel:
@@ -48,8 +51,23 @@ func with_roles(v) -> Gs2GuildEzGuildModel:
     return self
 
 
+func with_inactivity_period_days(v) -> Gs2GuildEzGuildModel:
+    inactivity_period_days = v
+    return self
+
+
 func with_rejoin_cool_time_minutes(v) -> Gs2GuildEzGuildModel:
     rejoin_cool_time_minutes = v
+    return self
+
+
+func with_max_concurrent_join_guilds(v) -> Gs2GuildEzGuildModel:
+    max_concurrent_join_guilds = v
+    return self
+
+
+func with_max_concurrent_guild_master_count(v) -> Gs2GuildEzGuildModel:
+    max_concurrent_guild_master_count = v
     return self
 
 
@@ -60,7 +78,10 @@ func to_model() -> Gs2GuildGuildModel:
     ret.default_maximum_member_count = default_maximum_member_count
     ret.maximum_member_count = maximum_member_count
     ret.roles = null if roles == null else roles.map(func(v): return null if v == null else v.to_model())
+    ret.inactivity_period_days = inactivity_period_days
     ret.rejoin_cool_time_minutes = rejoin_cool_time_minutes
+    ret.max_concurrent_join_guilds = max_concurrent_join_guilds
+    ret.max_concurrent_guild_master_count = max_concurrent_guild_master_count
     return ret
 
 
@@ -71,5 +92,8 @@ static func from_model(model) -> Gs2GuildEzGuildModel:
     ret.default_maximum_member_count = 0 if model.default_maximum_member_count == null else model.default_maximum_member_count
     ret.maximum_member_count = 0 if model.maximum_member_count == null else model.maximum_member_count
     ret.roles = [] if model.roles == null else model.roles.map(func(v): return Gs2GuildEzRoleModel.from_model(v))
+    ret.inactivity_period_days = 0 if model.inactivity_period_days == null else model.inactivity_period_days
     ret.rejoin_cool_time_minutes = 0 if model.rejoin_cool_time_minutes == null else model.rejoin_cool_time_minutes
+    ret.max_concurrent_join_guilds = 0 if model.max_concurrent_join_guilds == null else model.max_concurrent_join_guilds
+    ret.max_concurrent_guild_master_count = 0 if model.max_concurrent_guild_master_count == null else model.max_concurrent_guild_master_count
     return ret

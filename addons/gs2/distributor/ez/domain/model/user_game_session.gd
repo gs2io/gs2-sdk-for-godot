@@ -16,7 +16,7 @@ extends RefCounted
 
 
 var _domain: Gs2DistributorUserAccessTokenDomain
-var _game_session: Gs2GameSessionBase
+var _game_session: Variant
 var _connection: Gs2Connection
 var next_page_token: Variant:
     get:
@@ -31,7 +31,7 @@ var user_id: Variant:
 
 func _init(
     domain: Gs2DistributorUserAccessTokenDomain,
-    game_session: Gs2GameSessionBase,
+    game_session: Variant,
     connection: Gs2Connection
 ):
     _domain = domain

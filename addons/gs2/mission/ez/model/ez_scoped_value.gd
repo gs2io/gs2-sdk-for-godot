@@ -19,6 +19,7 @@ var scope_type = null
 var reset_type = null
 var condition_name = null
 var value = 0
+var next_reset_at = 0
 
 
 func with_scope_type(v) -> Gs2MissionEzScopedValue:
@@ -41,12 +42,18 @@ func with_value(v) -> Gs2MissionEzScopedValue:
     return self
 
 
+func with_next_reset_at(v) -> Gs2MissionEzScopedValue:
+    next_reset_at = v
+    return self
+
+
 func to_model() -> Gs2MissionScopedValue:
     var ret = Gs2MissionScopedValue.new()
     ret.scope_type = scope_type
     ret.reset_type = reset_type
     ret.condition_name = condition_name
     ret.value = value
+    ret.next_reset_at = next_reset_at
     return ret
 
 
@@ -56,4 +63,5 @@ static func from_model(model) -> Gs2MissionEzScopedValue:
     ret.reset_type = model.reset_type
     ret.condition_name = model.condition_name
     ret.value = 0 if model.value == null else model.value
+    ret.next_reset_at = 0 if model.next_reset_at == null else model.next_reset_at
     return ret

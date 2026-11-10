@@ -18,6 +18,10 @@ extends RefCounted
 var subscribe_ranking_model_id = null
 var name = null
 var metadata = null
+var minimum_value = 0
+var maximum_value = 0
+var sum = false
+var order_direction = null
 var entry_period_event_id = null
 var access_period_event_id = null
 
@@ -37,6 +41,26 @@ func with_metadata(v) -> Gs2Ranking2EzSubscribeRankingModel:
     return self
 
 
+func with_minimum_value(v) -> Gs2Ranking2EzSubscribeRankingModel:
+    minimum_value = v
+    return self
+
+
+func with_maximum_value(v) -> Gs2Ranking2EzSubscribeRankingModel:
+    maximum_value = v
+    return self
+
+
+func with_sum(v) -> Gs2Ranking2EzSubscribeRankingModel:
+    sum = v
+    return self
+
+
+func with_order_direction(v) -> Gs2Ranking2EzSubscribeRankingModel:
+    order_direction = v
+    return self
+
+
 func with_entry_period_event_id(v) -> Gs2Ranking2EzSubscribeRankingModel:
     entry_period_event_id = v
     return self
@@ -52,6 +76,10 @@ func to_model() -> Gs2Ranking2SubscribeRankingModel:
     ret.subscribe_ranking_model_id = subscribe_ranking_model_id
     ret.name = name
     ret.metadata = metadata
+    ret.minimum_value = minimum_value
+    ret.maximum_value = maximum_value
+    ret.sum = sum
+    ret.order_direction = order_direction
     ret.entry_period_event_id = entry_period_event_id
     ret.access_period_event_id = access_period_event_id
     return ret
@@ -62,6 +90,10 @@ static func from_model(model) -> Gs2Ranking2EzSubscribeRankingModel:
     ret.subscribe_ranking_model_id = model.subscribe_ranking_model_id
     ret.name = model.name
     ret.metadata = model.metadata
+    ret.minimum_value = 0 if model.minimum_value == null else model.minimum_value
+    ret.maximum_value = 0 if model.maximum_value == null else model.maximum_value
+    ret.sum = false if model.sum == null else model.sum
+    ret.order_direction = model.order_direction
     ret.entry_period_event_id = model.entry_period_event_id
     ret.access_period_event_id = model.access_period_event_id
     return ret

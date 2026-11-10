@@ -74,6 +74,19 @@ func delete(game_session, namespace_name, version_name) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2VersionEzDeleteResult.from_model(async_result.result), null)
 
 
+func get_(game_session, namespace_name, version_name) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2VersionGetAcceptVersionRequest.new()
+        request.namespace_name = namespace_name
+        request.access_token = game_session.access_token.token
+        request.version_name = version_name
+        return await _rest_client.get_accept_version(request)
+    var async_result = await _connection.run(game_session, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2VersionEzGetResult.from_model(async_result.result), null)
+
+
 func list(game_session, namespace_name, page_token = null, limit = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2VersionDescribeAcceptVersionsRequest.new()

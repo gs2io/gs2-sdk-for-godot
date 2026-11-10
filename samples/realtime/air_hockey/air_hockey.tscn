@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://samples/realtime/air_hockey/air_hockey_sample.gd" id="1_uaruf"]
+[ext_resource type="Script" path="res://samples/realtime/air_hockey/hockey_board.gd" id="2_s0hjg"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_world.gd" id="3_bqq0i"]
+[ext_resource type="Resource" path="res://samples/realtime/air_hockey/air_hockey_catalog.tres" id="4_lm7nw"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_session.gd" id="5_cys3b"]
+
+[node name="AirHockey" type="Node2D" unique_id=1399559164]
+script = ExtResource("1_uaruf")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=787174580]
+position = Vector2(-230, 0)
+zoom = Vector2(0.6, 0.6)
+
+[node name="Board" type="Node2D" parent="." unique_id=1733450681]
+script = ExtResource("2_s0hjg")
+
+[node name="Score" type="Label" parent="Board" unique_id=348178517]
+offset_left = -200.0
+offset_top = -400.0
+offset_right = 200.0
+offset_bottom = -320.0
+theme_override_font_sizes/font_size = 32
+text = "-"
+horizontal_alignment = 1
+
+[node name="World" type="Node" parent="." unique_id=168829312]
+process_mode = 3
+process_priority = 100
+script = ExtResource("3_bqq0i")
+catalog = ExtResource("4_lm7nw")
+
+[node name="Session" type="Node" parent="." unique_id=492281103 node_paths=PackedStringArray("world")]
+process_mode = 3
+process_priority = -100
+script = ExtResource("5_cys3b")
+world = NodePath("../World")

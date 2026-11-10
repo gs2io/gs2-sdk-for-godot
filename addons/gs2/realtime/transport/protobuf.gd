@@ -42,12 +42,19 @@ static func concat(parts: Array) -> PackedByteArray:
 
 
 static func decode_fields(data: PackedByteArray) -> Dictionary:
+    var fields = try_decode_fields(data)
+    return {} if fields == null else fields
+
+
+## The fields of a message, or null when data is not a well-formed message (decode_fields
+## gives {} for both an empty and a malformed message).
+static func try_decode_fields(data: PackedByteArray):
     var fields = {}
     var offset = 0
     while offset < data.size():
         var key_result = _read_varint(data, offset)
         if key_result == null:
-            return {}
+            return null
         var key = key_result[0]
         offset = key_result[1]
         var field_number = key >> 3
@@ -56,31 +63,31 @@ static func decode_fields(data: PackedByteArray) -> Dictionary:
         if wire_type == 0:
             var value_result = _read_varint(data, offset)
             if value_result == null:
-                return {}
+                return null
             value = value_result[0]
             offset = value_result[1]
         elif wire_type == 2:
             var length_result = _read_varint(data, offset)
             if length_result == null:
-                return {}
+                return null
             var length = length_result[0]
             offset = length_result[1]
             if length < 0 or offset + length > data.size():
-                return {}
+                return null
             value = data.slice(offset, offset + length)
             offset += length
         elif wire_type == 1:
             if offset + 8 > data.size():
-                return {}
+                return null
             value = data.slice(offset, offset + 8)
             offset += 8
         elif wire_type == 5:
             if offset + 4 > data.size():
-                return {}
+                return null
             value = data.slice(offset, offset + 4)
             offset += 4
         else:
-            return {}
+            return null
         if not fields.has(field_number):
             fields[field_number] = []
         fields[field_number].append(value)

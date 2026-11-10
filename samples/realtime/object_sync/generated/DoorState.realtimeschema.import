@@ -1,0 +1,14 @@
+[remap]
+
+importer="gs2.realtime.schema"
+type="Resource"
+uid="uid://cklinmuup1noc"
+path="res://.godot/imported/DoorState.realtimeschema-d471b62dbdcba0993dcb59ea791dfdc6.res"
+
+[deps]
+
+source_file="res://samples/realtime/object_sync/generated/DoorState.realtimeschema"
+dest_files=["res://.godot/imported/DoorState.realtimeschema-d471b62dbdcba0993dcb59ea791dfdc6.res"]
+
+[params]
+

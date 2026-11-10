@@ -22,6 +22,8 @@ var transaction_setting = null
 var transaction_setting_v2 = null
 var server_type = null
 var server_spec = null
+var sync_setting = null
+var state_machine_setting = null
 var create_notification = null
 var log_setting = null
 var created_at = null
@@ -61,6 +63,16 @@ func with_server_type(v) -> Gs2RealtimeNamespace:
 
 func with_server_spec(v) -> Gs2RealtimeNamespace:
     server_spec = v
+    return self
+
+
+func with_sync_setting(v) -> Gs2RealtimeNamespace:
+    sync_setting = v
+    return self
+
+
+func with_state_machine_setting(v) -> Gs2RealtimeNamespace:
+    state_machine_setting = v
     return self
 
 
@@ -133,6 +145,8 @@ static func from_dict(data) -> Gs2RealtimeNamespace:
     ret.transaction_setting_v2 = null if data.get("transactionSettingV2") == null else Gs2RealtimeTransactionSettingV2.from_dict(data.get("transactionSettingV2"))
     ret.server_type = null if data.get("serverType") == null else str(data.get("serverType"))
     ret.server_spec = null if data.get("serverSpec") == null else str(data.get("serverSpec"))
+    ret.sync_setting = null if data.get("syncSetting") == null else Gs2RealtimeSyncSetting.from_dict(data.get("syncSetting"))
+    ret.state_machine_setting = null if data.get("stateMachineSetting") == null else Gs2RealtimeStateMachineSetting.from_dict(data.get("stateMachineSetting"))
     ret.create_notification = null if data.get("createNotification") == null else Gs2RealtimeNotificationSetting.from_dict(data.get("createNotification"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2RealtimeLogSetting.from_dict(data.get("logSetting"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
@@ -150,6 +164,8 @@ func to_dict() -> Dictionary:
     ret["transactionSettingV2"] = null if transaction_setting_v2 == null else transaction_setting_v2.to_dict()
     ret["serverType"] = server_type
     ret["serverSpec"] = server_spec
+    ret["syncSetting"] = null if sync_setting == null else sync_setting.to_dict()
+    ret["stateMachineSetting"] = null if state_machine_setting == null else state_machine_setting.to_dict()
     ret["createNotification"] = null if create_notification == null else create_notification.to_dict()
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     ret["createdAt"] = created_at

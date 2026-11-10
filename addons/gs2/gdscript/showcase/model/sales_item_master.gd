@@ -22,6 +22,7 @@ var metadata = null
 var verify_actions = null
 var consume_actions = null
 var acquire_actions = null
+var bonuses = null
 var created_at = null
 var updated_at = null
 var revision = null
@@ -59,6 +60,11 @@ func with_consume_actions(v) -> Gs2ShowcaseSalesItemMaster:
 
 func with_acquire_actions(v) -> Gs2ShowcaseSalesItemMaster:
     acquire_actions = v
+    return self
+
+
+func with_bonuses(v) -> Gs2ShowcaseSalesItemMaster:
+    bonuses = v
     return self
 
 
@@ -132,6 +138,7 @@ static func from_dict(data) -> Gs2ShowcaseSalesItemMaster:
     ret.verify_actions = null if data.get("verifyActions") == null else data.get("verifyActions").map(func(v): return Gs2VerifyAction.from_dict(v))
     ret.consume_actions = null if data.get("consumeActions") == null else data.get("consumeActions").map(func(v): return Gs2ConsumeAction.from_dict(v))
     ret.acquire_actions = null if data.get("acquireActions") == null else data.get("acquireActions").map(func(v): return Gs2AcquireAction.from_dict(v))
+    ret.bonuses = null if data.get("bonuses") == null else data.get("bonuses").map(func(v): return Gs2ShowcaseBonus.from_dict(v))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
     ret.updated_at = null if data.get("updatedAt") == null else int(data.get("updatedAt"))
     ret.revision = null if data.get("revision") == null else int(data.get("revision"))
@@ -147,6 +154,7 @@ func to_dict() -> Dictionary:
     ret["verifyActions"] = null if verify_actions == null else verify_actions.map(func(v): return null if v == null else v.to_dict())
     ret["consumeActions"] = null if consume_actions == null else consume_actions.map(func(v): return null if v == null else v.to_dict())
     ret["acquireActions"] = null if acquire_actions == null else acquire_actions.map(func(v): return null if v == null else v.to_dict())
+    ret["bonuses"] = null if bonuses == null else bonuses.map(func(v): return null if v == null else v.to_dict())
     ret["createdAt"] = created_at
     ret["updatedAt"] = updated_at
     ret["revision"] = revision

@@ -1,0 +1,30 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_entity.gd" id="1_utyur"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_transform_3d.gd" id="2_djgqv"]
+[ext_resource type="Script" path="res://samples/realtime/object_sync/player_movement.gd" id="3_x4vxw"]
+[ext_resource type="Script" path="res://samples/realtime/object_sync/sample_pulse.gd" id="4_y2f82"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkddk"]
+albedo_color = Color(0.25, 0.55, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f1a7y"]
+material = SubResource("StandardMaterial3D_hkddk")
+
+[node name="Player" type="Node3D" unique_id=1268651738]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=1074238426]
+mesh = SubResource("BoxMesh_f1a7y")
+
+[node name="Entity" type="Node" parent="." unique_id=1670911032]
+script = ExtResource("1_utyur")
+controlled_nodes = Array[NodePath]([NodePath("../Movement")])
+
+[node name="Transform" type="Node" parent="." unique_id=1354519974]
+script = ExtResource("2_djgqv")
+
+[node name="Movement" type="Node" parent="." unique_id=549544517]
+script = ExtResource("3_x4vxw")
+
+[node name="Pulse" type="Node" parent="." unique_id=2098705951]
+script = ExtResource("4_y2f82")

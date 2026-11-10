@@ -55,6 +55,10 @@ func create_namespace(request: Gs2RealtimeCreateNamespaceRequest) -> Gs2AsyncRes
         body["serverType"] = request.server_type
     if request.server_spec != null:
         body["serverSpec"] = request.server_spec
+    if request.sync_setting != null:
+        body["syncSetting"] = request.sync_setting.to_dict()
+    if request.state_machine_setting != null:
+        body["stateMachineSetting"] = request.state_machine_setting.to_dict()
     if request.create_notification != null:
         body["createNotification"] = request.create_notification.to_dict()
     if request.log_setting != null:
@@ -120,6 +124,10 @@ func update_namespace(request: Gs2RealtimeUpdateNamespaceRequest) -> Gs2AsyncRes
         body["serverType"] = request.server_type
     if request.server_spec != null:
         body["serverSpec"] = request.server_spec
+    if request.sync_setting != null:
+        body["syncSetting"] = request.sync_setting.to_dict()
+    if request.state_machine_setting != null:
+        body["stateMachineSetting"] = request.state_machine_setting.to_dict()
     if request.create_notification != null:
         body["createNotification"] = request.create_notification.to_dict()
     if request.log_setting != null:

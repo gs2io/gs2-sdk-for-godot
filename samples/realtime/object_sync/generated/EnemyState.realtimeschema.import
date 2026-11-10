@@ -1,0 +1,14 @@
+[remap]
+
+importer="gs2.realtime.schema"
+type="Resource"
+uid="uid://bguajqwhhruki"
+path="res://.godot/imported/EnemyState.realtimeschema-13e981a87d873cc9fcfb778edff2d574.res"
+
+[deps]
+
+source_file="res://samples/realtime/object_sync/generated/EnemyState.realtimeschema"
+dest_files=["res://.godot/imported/EnemyState.realtimeschema-13e981a87d873cc9fcfb778edff2d574.res"]
+
+[params]
+

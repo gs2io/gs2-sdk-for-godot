@@ -1,0 +1,51 @@
+{
+  "formatVersion": 1,
+  "name": "EnemyState",
+  "prefab": 4,
+  "rules": "d1934cda",
+  "mode": "server",
+  "fields": [
+    {
+      "name": "PositionX",
+      "slot": 0,
+      "type": "Float",
+      "precisionBits": 1008981770
+    },
+    {
+      "name": "PositionY",
+      "slot": 1,
+      "type": "Float",
+      "precisionBits": 1008981770
+    },
+    {
+      "name": "PositionZ",
+      "slot": 2,
+      "type": "Float",
+      "precisionBits": 1008981770
+    },
+    {
+      "name": "RotationX",
+      "slot": 3,
+      "type": "Float",
+      "precisionBits": 1035206656
+    },
+    {
+      "name": "RotationY",
+      "slot": 4,
+      "type": "Float",
+      "precisionBits": 1035206656
+    },
+    {
+      "name": "RotationZ",
+      "slot": 5,
+      "type": "Float",
+      "precisionBits": 1035206656
+    },
+    {
+      "name": "Health",
+      "slot": 6,
+      "type": "Float",
+      "precisionBits": 1008981770
+    }
+  ]
+}

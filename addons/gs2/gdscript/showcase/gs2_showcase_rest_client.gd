@@ -345,6 +345,8 @@ func create_sales_item_master(request: Gs2ShowcaseCreateSalesItemMasterRequest) 
         body["consumeActions"] = request.consume_actions.map(func(v): return null if v == null else v.to_dict())
     if request.acquire_actions != null:
         body["acquireActions"] = request.acquire_actions.map(func(v): return null if v == null else v.to_dict())
+    if request.bonuses != null:
+        body["bonuses"] = request.bonuses.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.dry_run:
@@ -391,6 +393,8 @@ func update_sales_item_master(request: Gs2ShowcaseUpdateSalesItemMasterRequest) 
         body["consumeActions"] = request.consume_actions.map(func(v): return null if v == null else v.to_dict())
     if request.acquire_actions != null:
         body["acquireActions"] = request.acquire_actions.map(func(v): return null if v == null else v.to_dict())
+    if request.bonuses != null:
+        body["bonuses"] = request.bonuses.map(func(v): return null if v == null else v.to_dict())
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.dry_run:
@@ -866,6 +870,8 @@ func buy_by_user_id(request: Gs2ShowcaseBuyByUserIdRequest) -> Gs2AsyncResult:
         body["quantity"] = request.quantity
     if request.config != null:
         body["config"] = request.config.map(func(v): return null if v == null else v.to_dict())
+    if request.route_key != null:
+        body["routeKey"] = request.route_key
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:

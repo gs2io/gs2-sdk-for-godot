@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_entity.gd" id="1_4tmdp"]
+[ext_resource type="Resource" path="res://samples/realtime/object_sync/generated/DoorState.realtimeschema" id="2_l7fmb"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_transform_3d.gd" id="3_btp7e"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_shared_object.gd" id="4_03yvq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iig5y"]
+albedo_color = Color(0.55, 0.35, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jw87n"]
+material = SubResource("StandardMaterial3D_iig5y")
+size = Vector3(1, 2, 0.1)
+
+[node name="Door" type="Node3D" unique_id=1090969282]
+
+[node name="Panel" type="MeshInstance3D" parent="." unique_id=698137072]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("BoxMesh_jw87n")
+
+[node name="Entity" type="Node" parent="." unique_id=719238907]
+script = ExtResource("1_4tmdp")
+schema = ExtResource("2_l7fmb")
+
+[node name="Transform" type="Node" parent="." unique_id=365994130]
+script = ExtResource("3_btp7e")
+
+[node name="Shared" type="Node" parent="." unique_id=1030523516]
+script = ExtResource("4_03yvq")

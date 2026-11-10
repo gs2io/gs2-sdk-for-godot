@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://samples/realtime/object_sync/object_sync_sample.gd" id="1_p0ary"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_world.gd" id="2_tpsn1"]
+[ext_resource type="Resource" path="res://samples/realtime/object_sync/object_sync_catalog.tres" id="3_x3x1s"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_session.gd" id="4_kjj1l"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lybdt"]
+albedo_color = Color(0.35, 0.4, 0.35, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_db4ts"]
+material = SubResource("StandardMaterial3D_lybdt")
+size = Vector2(14, 12)
+
+[node name="ObjectSync" type="Node3D" unique_id=655669972]
+script = ExtResource("1_p0ary")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=1424295565]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 9, 9)
+
+[node name="Light" type="DirectionalLight3D" parent="." unique_id=1562988334]
+transform = Transform3D(0.8660254, -0.43301272, 0.24999999, 0, 0.49999997, 0.86602545, -0.5, -0.75, 0.43301266, 0, 0, 0)
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=817497655]
+mesh = SubResource("PlaneMesh_db4ts")
+
+[node name="World" type="Node" parent="." unique_id=1615558207]
+process_mode = 3
+process_priority = 100
+script = ExtResource("2_tpsn1")
+catalog = ExtResource("3_x3x1s")
+
+[node name="Session" type="Node" parent="." unique_id=1962999760 node_paths=PackedStringArray("world")]
+process_mode = 3
+process_priority = -100
+script = ExtResource("4_kjj1l")
+world = NodePath("../World")

@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_entity.gd" id="1_d11a0"]
+[ext_resource type="Resource" path="res://samples/realtime/object_sync/generated/EnemyState.realtimeschema" id="2_f3nht"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/resources/gs2_network_property_binding.gd" id="3_bhyid"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_transform_3d.gd" id="4_lo4hk"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_shared_object.gd" id="5_5a85f"]
+[ext_resource type="Script" path="res://samples/realtime/object_sync/sample_health_bar.gd" id="6_iiff7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nqts7"]
+albedo_color = Color(0.9, 0.25, 0.25, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oorkv"]
+material = SubResource("StandardMaterial3D_nqts7")
+radius = 0.4
+height = 1.5
+
+[sub_resource type="Resource" id="Resource_lqvxa"]
+script = ExtResource("3_bhyid")
+field = "Health"
+target = NodePath("../HealthBar")
+method = &"set_health"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2p1pk"]
+albedo_color = Color(0.3, 0.9, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ps31v"]
+material = SubResource("StandardMaterial3D_2p1pk")
+size = Vector3(1, 0.1, 0.15)
+
+[node name="Enemy" type="Node3D" unique_id=711943504]
+
+[node name="Body" type="MeshInstance3D" parent="." unique_id=612464344]
+mesh = SubResource("CapsuleMesh_oorkv")
+
+[node name="Entity" type="Node" parent="." unique_id=662727947]
+script = ExtResource("1_d11a0")
+schema = ExtResource("2_f3nht")
+property_bindings = Array[ExtResource("3_bhyid")]([SubResource("Resource_lqvxa")])
+
+[node name="Transform" type="Node" parent="." unique_id=818807397]
+script = ExtResource("4_lo4hk")
+
+[node name="Shared" type="Node" parent="." unique_id=643950521]
+script = ExtResource("5_5a85f")
+
+[node name="HealthBar" type="Node3D" parent="." unique_id=488697522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1.1, 0)
+script = ExtResource("6_iiff7")
+
+[node name="Bar" type="MeshInstance3D" parent="HealthBar" unique_id=1634885671]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+mesh = SubResource("BoxMesh_ps31v")

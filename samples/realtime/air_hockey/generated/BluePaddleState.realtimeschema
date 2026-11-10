@@ -1,0 +1,27 @@
+{
+  "formatVersion": 1,
+  "name": "BluePaddleState",
+  "prefab": 5,
+  "rules": "c63380e8",
+  "mode": "lease",
+  "fields": [
+    {
+      "name": "PositionX",
+      "slot": 0,
+      "type": "Float",
+      "precisionBits": 1065353216
+    },
+    {
+      "name": "PositionY",
+      "slot": 1,
+      "type": "Float",
+      "precisionBits": 1065353216
+    },
+    {
+      "name": "PositionZ",
+      "slot": 2,
+      "type": "Float",
+      "precisionBits": 1065353216
+    }
+  ]
+}

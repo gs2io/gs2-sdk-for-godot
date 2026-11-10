@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://samples/realtime/air_hockey/hockey_disc.gd" id="1_bgumg"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_entity.gd" id="2_khhbr"]
+[ext_resource type="Resource" path="res://samples/realtime/air_hockey/generated/PuckState.realtimeschema" id="3_131sl"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/resources/gs2_network_property_binding.gd" id="4_xp7hf"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_network_transform_2d.gd" id="5_2nim1"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/nodes/gs2_shared_object.gd" id="6_y7iuu"]
+[ext_resource type="Script" path="res://samples/realtime/air_hockey/hockey_score.gd" id="7_2gbyg"]
+
+[sub_resource type="Resource" id="Resource_1iqvu"]
+script = ExtResource("4_xp7hf")
+field = "BlueScore"
+target = NodePath("../Score")
+method = &"set_blue"
+
+[sub_resource type="Resource" id="Resource_iifuq"]
+script = ExtResource("4_xp7hf")
+field = "RedScore"
+target = NodePath("../Score")
+method = &"set_red"
+
+[sub_resource type="Resource" id="Resource_p4glc"]
+script = ExtResource("4_xp7hf")
+field = "Phase"
+target = NodePath("../Score")
+method = &"set_phase"
+
+[sub_resource type="Resource" id="Resource_o2d36"]
+script = ExtResource("4_xp7hf")
+field = "Hits"
+target = NodePath("../Score")
+method = &"set_hits"
+
+[node name="Puck" type="Node2D" unique_id=23207686]
+
+[node name="Disc" type="Node2D" parent="." unique_id=1431721275]
+script = ExtResource("1_bgumg")
+color = Color(0.95, 0.95, 0.9, 1)
+
+[node name="Entity" type="Node" parent="." unique_id=1090205525]
+script = ExtResource("2_khhbr")
+schema = ExtResource("3_131sl")
+property_bindings = Array[ExtResource("4_xp7hf")]([SubResource("Resource_1iqvu"), SubResource("Resource_iifuq"), SubResource("Resource_p4glc"), SubResource("Resource_o2d36")])
+
+[node name="Transform" type="Node" parent="." unique_id=1335617132]
+script = ExtResource("5_2nim1")
+sync_rotation = false
+
+[node name="Shared" type="Node" parent="." unique_id=1751770744]
+script = ExtResource("6_y7iuu")
+
+[node name="Score" type="Node" parent="." unique_id=641836318]
+script = ExtResource("7_2gbyg")

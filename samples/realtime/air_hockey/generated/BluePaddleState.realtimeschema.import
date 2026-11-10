@@ -1,0 +1,14 @@
+[remap]
+
+importer="gs2.realtime.schema"
+type="Resource"
+uid="uid://sjnktquq0c5k"
+path="res://.godot/imported/BluePaddleState.realtimeschema-e63a7b492056c87446cbeb2bd2fab3a3.res"
+
+[deps]
+
+source_file="res://samples/realtime/air_hockey/generated/BluePaddleState.realtimeschema"
+dest_files=["res://.godot/imported/BluePaddleState.realtimeschema-e63a7b492056c87446cbeb2bd2fab3a3.res"]
+
+[params]
+

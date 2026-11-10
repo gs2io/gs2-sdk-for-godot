@@ -18,6 +18,7 @@ extends RefCounted
 var mission_group_name = null
 var completed_mission_task_names = []
 var received_mission_task_names = []
+var next_reset_at = 0
 
 
 func with_mission_group_name(v) -> Gs2MissionEzComplete:
@@ -35,11 +36,17 @@ func with_received_mission_task_names(v) -> Gs2MissionEzComplete:
     return self
 
 
+func with_next_reset_at(v) -> Gs2MissionEzComplete:
+    next_reset_at = v
+    return self
+
+
 func to_model() -> Gs2MissionComplete:
     var ret = Gs2MissionComplete.new()
     ret.mission_group_name = mission_group_name
     ret.completed_mission_task_names = null if completed_mission_task_names == null else completed_mission_task_names.map(func(v): return v)
     ret.received_mission_task_names = null if received_mission_task_names == null else received_mission_task_names.map(func(v): return v)
+    ret.next_reset_at = next_reset_at
     return ret
 
 
@@ -48,4 +55,5 @@ static func from_model(model) -> Gs2MissionEzComplete:
     ret.mission_group_name = model.mission_group_name
     ret.completed_mission_task_names = [] if model.completed_mission_task_names == null else model.completed_mission_task_names.map(func(v): return v)
     ret.received_mission_task_names = [] if model.received_mission_task_names == null else model.received_mission_task_names.map(func(v): return v)
+    ret.next_reset_at = 0 if model.next_reset_at == null else model.next_reset_at
     return ret

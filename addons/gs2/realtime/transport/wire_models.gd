@@ -60,3 +60,30 @@ static func decode_error(data: PackedByteArray) -> Gs2RealtimeTransportError:
     result.status_code = Gs2RealtimeProtobuf.first_varint(fields, 2)
     result.message = Gs2RealtimeProtobuf.first_string(fields, 3)
     return result
+
+
+## A datagram of the UDP side channel (RUDPSendContainer): this connection's id and
+## secret from HelloResult, a packet number and a container packed by Gs2RealtimeMessenger.
+static func encode_rudp_send(
+    connection_id: int, secret: int, packet_number: int, container: PackedByteArray
+) -> PackedByteArray:
+    return Gs2RealtimeProtobuf.concat([
+        Gs2RealtimeProtobuf.field_varint(1, connection_id),
+        Gs2RealtimeProtobuf.field_varint(2, secret),
+        Gs2RealtimeProtobuf.field_varint(3, packet_number),
+        Gs2RealtimeProtobuf.field_bytes(4, container),
+    ])
+
+
+## A datagram from the room (RUDPReceiveContainer), or null when it is not well formed.
+## container is the room's packed container (empty for a bare acknowledgement).
+static func decode_rudp_receive(data: PackedByteArray):
+    var fields = Gs2RealtimeProtobuf.try_decode_fields(data)
+    if fields == null:
+        return null
+    return {
+        "last_receive_packet_number": Gs2RealtimeProtobuf.first_varint(fields, 1),
+        "receive_message_bit_flags": Gs2RealtimeProtobuf.first_varint(fields, 2),
+        "container": Gs2RealtimeProtobuf.first_bytes(fields, 3),
+        "has_container": fields.has(3),
+    }

@@ -3,6 +3,10 @@ class_name Gs2RealtimeMessenger
 extends RefCounted
 
 
+## An upper bound on what pack adds to a payload (message type, Any wrapper, HMAC and their
+## length prefixes) plus the WebSocket frame header, for Gs2RealtimeSession.can_send.
+const OVERHEAD_BYTES = 128
+
 var _key = PackedByteArray()
 
 
@@ -45,7 +49,8 @@ func _hmac(data: PackedByteArray) -> PackedByteArray:
     var context = HMACContext.new()
     if context.start(HashingContext.HASH_SHA256, _key) != OK:
         return PackedByteArray()
-    if context.update(data) != OK:
+    # HMACContext.update refuses empty input; the HMAC of an empty message is just finish().
+    if not data.is_empty() and context.update(data) != OK:
         return PackedByteArray()
     return context.finish()
 

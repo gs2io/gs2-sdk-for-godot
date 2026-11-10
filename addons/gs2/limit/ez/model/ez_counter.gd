@@ -19,6 +19,7 @@ var counter_id = null
 var limit_name = null
 var name = null
 var count = 0
+var next_reset_at = 0
 var created_at = 0
 var updated_at = 0
 
@@ -43,6 +44,11 @@ func with_count(v) -> Gs2LimitEzCounter:
     return self
 
 
+func with_next_reset_at(v) -> Gs2LimitEzCounter:
+    next_reset_at = v
+    return self
+
+
 func with_created_at(v) -> Gs2LimitEzCounter:
     created_at = v
     return self
@@ -59,6 +65,7 @@ func to_model() -> Gs2LimitCounter:
     ret.limit_name = limit_name
     ret.name = name
     ret.count = count
+    ret.next_reset_at = next_reset_at
     ret.created_at = created_at
     ret.updated_at = updated_at
     return ret
@@ -70,6 +77,7 @@ static func from_model(model) -> Gs2LimitEzCounter:
     ret.limit_name = model.limit_name
     ret.name = model.name
     ret.count = 0 if model.count == null else model.count
+    ret.next_reset_at = 0 if model.next_reset_at == null else model.next_reset_at
     ret.created_at = 0 if model.created_at == null else model.created_at
     ret.updated_at = 0 if model.updated_at == null else model.updated_at
     return ret

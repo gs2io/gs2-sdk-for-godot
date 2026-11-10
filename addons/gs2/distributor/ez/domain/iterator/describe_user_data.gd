@@ -15,15 +15,15 @@ class_name Gs2DistributorEzDescribeUserDataIterator
 extends RefCounted
 
 
-var _domain: Gs2DistributorUserAccessTokenDomain
-var _game_session: Gs2GameSessionBase
+var _domain: Variant
+var _game_session: Variant
 var _connection: Gs2Connection
-var _it: Gs2DistributorDescribeUserDataIterator
+var _it: Variant
 
 
 func _init(
-    domain: Gs2DistributorUserAccessTokenDomain,
-    game_session: Gs2GameSessionBase,
+    domain,
+    game_session: Variant,
     connection: Gs2Connection
 ):
     _domain = domain

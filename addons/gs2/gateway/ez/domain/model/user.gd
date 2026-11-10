@@ -42,6 +42,15 @@ func _init(
     _connection = connection
 
 
+func firebase_token(
+) -> Gs2GatewayEzFirebaseTokenDomain:
+    return Gs2GatewayEzFirebaseTokenDomain.new(
+        _domain.firebase_token(
+        ),
+        _connection
+    )
+
+
 func web_socket_session(
 ) -> Gs2GatewayEzWebSocketSessionDomain:
     return Gs2GatewayEzWebSocketSessionDomain.new(

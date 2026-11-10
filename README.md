@@ -113,6 +113,21 @@ ez.chat.post_notification.connect(func(notification: Gs2ChatPostNotification):
 )
 ```
 
+## リアルタイム（オブジェクト同期とルール）
+
+GS2-Realtime のルームで、オブジェクト・フィールド・RPC・ルームイベントを同期できます。
+
+- **ノード:** `Gs2NetworkWorld` / `Gs2NetworkSession` を置き、ネットワークで同期するシーンのルートの子に `Gs2NetworkEntity` と `Gs2NetworkTransform2D` / `3D` を置きます。
+- **RPC:** `net_rpc_<name>` という名前のメソッドが自動でバインドされます。
+- **ルール:** ルームのルールは GDScript で書けます。ルールのスクリプトから、サーバーで動く GSL と、ゲームが使うクラス（schema のアクセサ、予測など）を生成します。
+
+詳しくは次を参照してください。
+
+- [オブジェクト同期](addons/gs2/realtime/sync/README.md)
+- [GDScript でルールを書く](addons/gs2/realtime/rules/README.md)
+
+ルールのビルドには、[リリース](https://github.com/gs2io/gs2-sdk-for-godot/releases) で配布する `gs2-realtime-compiler` を使います（プロジェクト > ツール > GS2 > Build Realtime Rules）。
+
 ## ドキュメント
 
 - [GS2 ドキュメント](https://docs.gs2.io/ja/)

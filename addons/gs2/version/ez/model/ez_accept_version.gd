@@ -18,6 +18,7 @@ extends RefCounted
 var version_name = null
 var user_id = null
 var version = null
+var status = null
 
 
 func with_version_name(v) -> Gs2VersionEzAcceptVersion:
@@ -35,11 +36,17 @@ func with_version(v) -> Gs2VersionEzAcceptVersion:
     return self
 
 
+func with_status(v) -> Gs2VersionEzAcceptVersion:
+    status = v
+    return self
+
+
 func to_model() -> Gs2VersionAcceptVersion:
     var ret = Gs2VersionAcceptVersion.new()
     ret.version_name = version_name
     ret.user_id = user_id
     ret.version = null if version == null else version.to_model()
+    ret.status = status
     return ret
 
 
@@ -48,4 +55,5 @@ static func from_model(model) -> Gs2VersionEzAcceptVersion:
     ret.version_name = model.version_name
     ret.user_id = model.user_id
     ret.version = null if model.version == null else Gs2VersionEzVersion.from_model(model.version)
+    ret.status = model.status
     return ret

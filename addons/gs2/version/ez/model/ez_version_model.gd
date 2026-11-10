@@ -22,6 +22,7 @@ var error_version = null
 var scope = null
 var current_version = null
 var need_signature = false
+var approve_requirement = null
 
 
 func with_name(v) -> Gs2VersionEzVersionModel:
@@ -59,6 +60,11 @@ func with_need_signature(v) -> Gs2VersionEzVersionModel:
     return self
 
 
+func with_approve_requirement(v) -> Gs2VersionEzVersionModel:
+    approve_requirement = v
+    return self
+
+
 func to_model() -> Gs2VersionVersionModel:
     var ret = Gs2VersionVersionModel.new()
     ret.name = name
@@ -68,6 +74,7 @@ func to_model() -> Gs2VersionVersionModel:
     ret.scope = scope
     ret.current_version = null if current_version == null else current_version.to_model()
     ret.need_signature = need_signature
+    ret.approve_requirement = approve_requirement
     return ret
 
 
@@ -80,4 +87,5 @@ static func from_model(model) -> Gs2VersionEzVersionModel:
     ret.scope = model.scope
     ret.current_version = null if model.current_version == null else Gs2VersionEzVersion.from_model(model.current_version)
     ret.need_signature = false if model.need_signature == null else model.need_signature
+    ret.approve_requirement = model.approve_requirement
     return ret

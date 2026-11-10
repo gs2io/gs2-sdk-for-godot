@@ -17,6 +17,7 @@ extends RefCounted
 
 var status_id = null
 var user_id = null
+var property_id = null
 var released_node_names = []
 
 
@@ -30,6 +31,11 @@ func with_user_id(v) -> Gs2SkillTreeEzStatus:
     return self
 
 
+func with_property_id(v) -> Gs2SkillTreeEzStatus:
+    property_id = v
+    return self
+
+
 func with_released_node_names(v) -> Gs2SkillTreeEzStatus:
     released_node_names = v
     return self
@@ -39,6 +45,7 @@ func to_model() -> Gs2SkillTreeStatus:
     var ret = Gs2SkillTreeStatus.new()
     ret.status_id = status_id
     ret.user_id = user_id
+    ret.property_id = property_id
     ret.released_node_names = null if released_node_names == null else released_node_names.map(func(v): return v)
     return ret
 
@@ -47,5 +54,6 @@ static func from_model(model) -> Gs2SkillTreeEzStatus:
     var ret = Gs2SkillTreeEzStatus.new()
     ret.status_id = model.status_id
     ret.user_id = model.user_id
+    ret.property_id = model.property_id
     ret.released_node_names = [] if model.released_node_names == null else model.released_node_names.map(func(v): return v)
     return ret

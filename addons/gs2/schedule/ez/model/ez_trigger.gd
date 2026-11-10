@@ -17,7 +17,7 @@ extends RefCounted
 
 var trigger_id = null
 var name = null
-var created_at = 0
+var triggered_at = 0
 var expires_at = 0
 
 
@@ -31,8 +31,8 @@ func with_name(v) -> Gs2ScheduleEzTrigger:
     return self
 
 
-func with_created_at(v) -> Gs2ScheduleEzTrigger:
-    created_at = v
+func with_triggered_at(v) -> Gs2ScheduleEzTrigger:
+    triggered_at = v
     return self
 
 
@@ -45,7 +45,7 @@ func to_model() -> Gs2ScheduleTrigger:
     var ret = Gs2ScheduleTrigger.new()
     ret.trigger_id = trigger_id
     ret.name = name
-    ret.created_at = created_at
+    ret.triggered_at = triggered_at
     ret.expires_at = expires_at
     return ret
 
@@ -54,6 +54,6 @@ static func from_model(model) -> Gs2ScheduleEzTrigger:
     var ret = Gs2ScheduleEzTrigger.new()
     ret.trigger_id = model.trigger_id
     ret.name = model.name
-    ret.created_at = 0 if model.created_at == null else model.created_at
+    ret.triggered_at = 0 if model.triggered_at == null else model.triggered_at
     ret.expires_at = 0 if model.expires_at == null else model.expires_at
     return ret

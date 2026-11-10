@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="Gs2NetworkPrefabCatalog" format=3]
+
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/resources/gs2_network_prefab_entry.gd" id="1_rppk2"]
+[ext_resource type="PackedScene" path="res://samples/realtime/air_hockey/prefabs/blue_paddle.tscn" id="2_os2ci"]
+[ext_resource type="PackedScene" path="res://samples/realtime/air_hockey/prefabs/red_paddle.tscn" id="3_w2fuu"]
+[ext_resource type="PackedScene" path="res://samples/realtime/air_hockey/prefabs/puck.tscn" id="4_jlrhb"]
+[ext_resource type="Script" path="res://addons/gs2/realtime/sync/resources/gs2_network_prefab_catalog.gd" id="5_qyi38"]
+
+[sub_resource type="Resource" id="Resource_himrr"]
+script = ExtResource("1_rppk2")
+id = 5
+scene = ExtResource("2_os2ci")
+
+[sub_resource type="Resource" id="Resource_qukgy"]
+script = ExtResource("1_rppk2")
+id = 6
+scene = ExtResource("3_w2fuu")
+
+[sub_resource type="Resource" id="Resource_rf3bw"]
+script = ExtResource("1_rppk2")
+id = 7
+scene = ExtResource("4_jlrhb")
+
+[resource]
+script = ExtResource("5_qyi38")
+prefabs = Array[ExtResource("1_rppk2")]([SubResource("Resource_himrr"), SubResource("Resource_qukgy"), SubResource("Resource_rf3bw")])

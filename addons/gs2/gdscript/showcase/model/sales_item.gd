@@ -20,6 +20,7 @@ var metadata = null
 var verify_actions = null
 var consume_actions = null
 var acquire_actions = null
+var bonuses = null
 
 
 func with_name(v) -> Gs2ShowcaseSalesItem:
@@ -47,6 +48,11 @@ func with_acquire_actions(v) -> Gs2ShowcaseSalesItem:
     return self
 
 
+func with_bonuses(v) -> Gs2ShowcaseSalesItem:
+    bonuses = v
+    return self
+
+
 static func from_dict(data) -> Gs2ShowcaseSalesItem:
     if data == null:
         return null
@@ -56,6 +62,7 @@ static func from_dict(data) -> Gs2ShowcaseSalesItem:
     ret.verify_actions = null if data.get("verifyActions") == null else data.get("verifyActions").map(func(v): return Gs2VerifyAction.from_dict(v))
     ret.consume_actions = null if data.get("consumeActions") == null else data.get("consumeActions").map(func(v): return Gs2ConsumeAction.from_dict(v))
     ret.acquire_actions = null if data.get("acquireActions") == null else data.get("acquireActions").map(func(v): return Gs2AcquireAction.from_dict(v))
+    ret.bonuses = null if data.get("bonuses") == null else data.get("bonuses").map(func(v): return Gs2ShowcaseBonus.from_dict(v))
     return ret
 
 
@@ -66,4 +73,5 @@ func to_dict() -> Dictionary:
     ret["verifyActions"] = null if verify_actions == null else verify_actions.map(func(v): return null if v == null else v.to_dict())
     ret["consumeActions"] = null if consume_actions == null else consume_actions.map(func(v): return null if v == null else v.to_dict())
     ret["acquireActions"] = null if acquire_actions == null else acquire_actions.map(func(v): return null if v == null else v.to_dict())
+    ret["bonuses"] = null if bonuses == null else bonuses.map(func(v): return null if v == null else v.to_dict())
     return ret

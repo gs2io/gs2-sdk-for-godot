@@ -1,0 +1,14 @@
+[remap]
+
+importer="gs2.realtime.schema"
+type="Resource"
+uid="uid://ctkrtysk1p3ie"
+path="res://.godot/imported/PuckState.realtimeschema-8822b8a299f0e763a90b66c3ad50a68e.res"
+
+[deps]
+
+source_file="res://samples/realtime/air_hockey/generated/PuckState.realtimeschema"
+dest_files=["res://.godot/imported/PuckState.realtimeschema-8822b8a299f0e763a90b66c3ad50a68e.res"]
+
+[params]
+

@@ -45,6 +45,30 @@ func _init(
     _connection = connection
 
 
+func store_content_models(
+) -> Gs2Money2EzListStoreContentModelsIterator:
+    return Gs2Money2EzListStoreContentModelsIterator.new(
+        _domain,
+        _connection
+    )
+
+
+func subscribe_store_content_models(
+    callback: Callable
+) -> int:
+    return _domain.subscribe_store_content_models(
+        func(items): callback.call([] if items == null else items.map(func(v): return Gs2Money2EzStoreContentModel.from_model(v)))
+    )
+
+
+func unsubscribe_store_content_models(
+    callback_id: int
+) -> void:
+    _domain.unsubscribe_store_content_models(
+        callback_id
+    )
+
+
 func user(
     user_id
 ) -> Gs2Money2EzUserDomain:
@@ -64,5 +88,16 @@ func me(
             game_session.access_token
         ),
         game_session,
+        _connection
+    )
+
+
+func store_content_model(
+    content_name
+) -> Gs2Money2EzStoreContentModelDomain:
+    return Gs2Money2EzStoreContentModelDomain.new(
+        _domain.store_content_model(
+            content_name
+        ),
         _connection
     )

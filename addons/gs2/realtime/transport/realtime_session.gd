@@ -16,16 +16,51 @@ signal error_received_with_metadata(error, metadata)
 signal general_error(error)
 signal closed
 
+## The lifecycle of a session, as Unity's RealtimeSessionState.
+enum State {
+    ## Created; connect_session has not been called yet.
+    IDLE,
+    ## The WebSocket is opening.
+    OPENING,
+    ## Open; Hello sent, waiting for the room's HelloResult.
+    GREETING,
+    ## The room accepted Hello.
+    CONNECTED,
+    ## close was called.
+    CLOSING,
+    ## Closed after being connected.
+    CLOSED,
+    ## The connection or Hello failed (connection_error says why).
+    FAILED,
+}
+
 const CONNECT_TIMEOUT_MSEC = 60 * 1000
 const HELLO_TIMEOUT_MSEC = 30 * 1000
 
 var connected = false
 var my_connection_id = 0
 var profile = PackedByteArray()
+## The current lifecycle state.
+var state: State = State.IDLE
+## Registration secret for the UDP side channel, from HelloResult (0 when the room has no UDP).
+var udp_secret: int = 0
+## Why connect_session failed (state is FAILED): the room's answer or the transport's error.
+var connection_error = null
+## The room's address and key, as given; Gs2RealtimeUdpChannel uses them.
+var ip_address: String:
+    get:
+        return _ip_address
+var port: int:
+    get:
+        return _port
+var encryption_key: String:
+    get:
+        return _encryption_key
 
 var _access_token = null
-var _ip_address = null
+var _ip_address = ""
 var _port = 0
+var _encryption_key = ""
 var _messenger = null
 var _socket = null
 var _pumping = false
@@ -33,6 +68,8 @@ var _dispatching = false
 var _hello_done = false
 var _hello_error = null
 var _events: Array = []
+# Room messages received before HelloResult, handled right after it, in order.
+var _early: Array[PackedByteArray] = []
 
 
 func _init(
@@ -45,6 +82,7 @@ func _init(
     _access_token = access_token
     _ip_address = ip_address
     _port = port
+    _encryption_key = encryption_key
     _messenger = Gs2RealtimeMessenger.new(encryption_key)
     profile = initial_profile
 
@@ -54,11 +92,15 @@ func connect_session() -> Gs2AsyncResult:
         return Gs2AsyncResult.new(true, null)
     _hello_done = false
     _hello_error = null
+    _early.clear()
+    udp_secret = 0
+    connection_error = null
+    state = State.OPENING
     _socket = WebSocketPeer.new()
     var connect_error = _socket.connect_to_url("ws://%s:%d/" % [_ip_address, _port])
     if connect_error != OK:
         _socket = null
-        return Gs2AsyncResult.new(null, _transport_error("realtime.connect.failed"))
+        return Gs2AsyncResult.new(null, _fail(_transport_error("realtime.connect.failed")))
     var connect_deadline = Time.get_ticks_msec() + CONNECT_TIMEOUT_MSEC
     while (
         _socket != null
@@ -69,22 +111,26 @@ func connect_session() -> Gs2AsyncResult:
         await Engine.get_main_loop().process_frame
     if _socket == null or _socket.get_ready_state() != WebSocketPeer.STATE_OPEN:
         _socket = null
-        return Gs2AsyncResult.new(null, _transport_error("realtime.connect.failed"))
+        return Gs2AsyncResult.new(null, _fail(_transport_error("realtime.connect.failed")))
+    state = State.GREETING
     _start_pump()
     var send_error = _send_container(
         Gs2RealtimeWireModels.HELLO_REQUEST,
         Gs2RealtimeWireModels.encode_hello_request(_access_token, profile)
     )
     if send_error != OK:
+        var send_failure = _fail(_transport_error("realtime.hello.send.failed"))
         await close()
-        return Gs2AsyncResult.new(null, _transport_error("realtime.hello.send.failed"))
+        return Gs2AsyncResult.new(null, send_failure)
     var hello_deadline = Time.get_ticks_msec() + HELLO_TIMEOUT_MSEC
-    while not _hello_done and Time.get_ticks_msec() < hello_deadline:
+    # The pump stops when the socket closes: a room that closes before answering fails at once.
+    while not _hello_done and _pumping and Time.get_ticks_msec() < hello_deadline:
         await Engine.get_main_loop().process_frame
     if not _hello_done or _hello_error != null or not connected:
         var error = _hello_error
         if error == null:
-            error = _transport_error("realtime.hello.timeout")
+            error = _transport_error("realtime.hello.timeout" if _pumping else "realtime.hello.closed")
+        _fail(error)
         await close()
         return Gs2AsyncResult.new(null, error)
     return Gs2AsyncResult.new(true, null)
@@ -127,10 +173,24 @@ func send_message(value: PackedByteArray) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(true, null)
 
 
+## Whether a message of byte_count payload bytes fits in the socket's outbound buffer now
+## (Godot's send fails rather than queueing once the buffer is full).
+func can_send(byte_count: int = 0) -> bool:
+    if not connected or _socket == null or _socket.get_ready_state() != WebSocketPeer.STATE_OPEN:
+        return false
+    var room = _socket.outbound_buffer_size - _socket.get_current_outbound_buffered_amount()
+    return room >= byte_count + Gs2RealtimeMessenger.OVERHEAD_BYTES
+
+
+## Closes the connection. Like Unity's RealtimeSession, this also stops dispatch: the closed
+## signal is raised only when the room or the network closes the connection.
 func close() -> void:
     _dispatching = false
+    if state == State.CONNECTED or state == State.OPENING or state == State.GREETING:
+        state = State.CLOSING
     if _socket == null:
         connected = false
+        _settle_closed()
         return
     _socket.close()
     var deadline = Time.get_ticks_msec() + 30 * 1000
@@ -143,6 +203,7 @@ func close() -> void:
         await Engine.get_main_loop().process_frame
     _socket = null
     connected = false
+    _settle_closed()
 
 
 func dispose() -> void:
@@ -165,6 +226,8 @@ func _pump() -> void:
     var was_connected = connected
     connected = false
     _pumping = false
+    if state == State.CONNECTED or state == State.CLOSING:
+        state = State.CLOSED
     if was_connected:
         _events.append({"type": "closed"})
 
@@ -182,17 +245,32 @@ func _handle_packet(packet: PackedByteArray) -> void:
     if container == null:
         _events.append({"type": "general_error", "value": _transport_error("realtime.invalid_packet")})
         return
+    if (
+        not _hello_done
+        and container.message_type != Gs2RealtimeWireModels.HELLO_RESULT
+        and container.message_type != Gs2RealtimeWireModels.ERROR
+    ):
+        _early.append(packet)
+        return
     var metadata = Gs2RealtimeMessageMetadata.new()
     metadata.sequence_number = container.sequence_number
     metadata.life_time_milli_seconds = container.life_time_milli_seconds
     match container.message_type:
         Gs2RealtimeWireModels.HELLO_RESULT:
+            if _hello_done:
+                return
             var hello = Gs2RealtimeWireModels.decode_hello_result(container.payload)
             my_connection_id = hello.my_profile.connection_id
+            udp_secret = hello.secret
             for player in hello.players:
                 _events.append({"type": "join", "value": player, "metadata": metadata})
             connected = true
+            state = State.CONNECTED
             _hello_done = true
+            var early = _early
+            _early = []
+            for early_packet in early:
+                _handle_packet(early_packet)
         Gs2RealtimeWireModels.JOIN_NOTIFICATION:
             _events.append({
                 "type": "join",
@@ -248,6 +326,23 @@ func _emit_event(event: Dictionary) -> void:
             general_error.emit(event.value)
         "closed":
             closed.emit()
+
+
+# Settles an attempt or a close that ended without the room: FAILED before CONNECTED,
+# CLOSED after it.
+func _settle_closed() -> void:
+    if state == State.OPENING or state == State.GREETING:
+        _fail(_transport_error("realtime.connect.failed"))
+    elif state == State.CLOSING:
+        state = State.CLOSED
+
+
+func _fail(error):
+    if state != State.FAILED:
+        state = State.FAILED
+        connection_error = error
+        _early.clear()
+    return connection_error
 
 
 func _transport_error(message, status_code: int = 0):
