@@ -300,6 +300,32 @@ func update_cache_from_stamp_task(
             if callback is Callable and callback.is_valid():
                 callback.call(task_id, request_model, result_model)
         return
+    if method == "VerifyTriggerByUserId":
+        if result == null:
+            return
+        var request_model = Gs2ScheduleVerifyTriggerByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2ScheduleVerifyTriggerByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2ScheduleVerifyTriggerByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyEventByUserId":
+        if result == null:
+            return
+        var request_model = Gs2ScheduleVerifyEventByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2ScheduleVerifyEventByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2ScheduleVerifyEventByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

@@ -266,6 +266,19 @@ func update_cache_from_stamp_task(
     request,
     result
 ) -> void:
+    if method == "VerifyIncludeParticipantByUserId":
+        if result == null:
+            return
+        var request_model = Gs2MatchmakingVerifyIncludeParticipantByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2MatchmakingVerifyIncludeParticipantByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2MatchmakingVerifyIncludeParticipantByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

@@ -61,3 +61,28 @@ func enhance(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)
+func unleash(
+    rate_name,
+    target_item_set_id,
+    materials = null,
+    recipe_name = null,
+    recipe_materials = null,
+    config = null,
+    speculative_execute: bool = true
+) -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        _game_session,
+        func(): return await _domain.unleash(
+            Gs2EnhanceUnleashRequest.new()
+                .with_rate_name(rate_name)
+                .with_target_item_set_id(target_item_set_id)
+                .with_materials(materials)
+                .with_recipe_name(recipe_name)
+                .with_recipe_materials(null if recipe_materials == null else recipe_materials.map(func(v): return null if v == null else v.to_model()))
+                .with_config(null if config == null else config.map(func(v): return null if v == null else v.to_model())),
+            speculative_execute
+        )
+    )
+    if async_result.error != null:
+        return async_result
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2EzTransactionDomain.new(async_result.result), null)

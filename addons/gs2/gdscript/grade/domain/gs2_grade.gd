@@ -317,6 +317,32 @@ func update_cache_from_stamp_task(
             if callback is Callable and callback.is_valid():
                 callback.call(task_id, request_model, result_model)
         return
+    if method == "VerifyGradeByUserId":
+        if result == null:
+            return
+        var request_model = Gs2GradeVerifyGradeByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2GradeVerifyGradeByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2GradeVerifyGradeByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyGradeUpMaterialByUserId":
+        if result == null:
+            return
+        var request_model = Gs2GradeVerifyGradeUpMaterialByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2GradeVerifyGradeUpMaterialByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2GradeVerifyGradeUpMaterialByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

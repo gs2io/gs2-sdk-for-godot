@@ -334,6 +334,19 @@ func update_cache_from_stamp_task(
     request,
     result
 ) -> void:
+    if method == "VerifyRarityParameterStatusByUserId":
+        if result == null:
+            return
+        var request_model = Gs2EnchantVerifyRarityParameterStatusByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2EnchantVerifyRarityParameterStatusByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2EnchantVerifyRarityParameterStatusByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

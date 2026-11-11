@@ -44,6 +44,7 @@ func model() -> Gs2AsyncResult:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            null,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(
@@ -61,6 +62,7 @@ func invalidate() -> void:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            null,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(
@@ -75,6 +77,7 @@ func subscribe_model(callback: Callable) -> int:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            null,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(
@@ -91,6 +94,7 @@ func unsubscribe_model(callback_id: int) -> void:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            null,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(

@@ -51,7 +51,7 @@ func _handle_result(result) -> Gs2AsyncResult:
             if result.verify_task_results != null and i < result.verify_task_results.size():
                 var code = result.verify_task_result_codes[i] if result.verify_task_result_codes != null and i < result.verify_task_result_codes.size() and result.verify_task_result_codes[i] != null else 999
                 if int(code / 100.0) != 2:
-                    return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(verify_task.action, result.verify_task_results[i], code))
+                    return Gs2AsyncResult.new(null, gs2.transaction_configuration.extract_verify_error(gs2.cache, "%s[%d]" % [str(transaction_id), i], time_offset, verify_task.action, verify_task.request, result.verify_task_results[i], code, not skip_callback))
                 if not skip_callback:
                     gs2.transaction_configuration.consume_action_event_handler.call(
                         gs2.cache,

@@ -44,6 +44,14 @@ static func invoke(
 ) -> Gs2AsyncResult:
     var async_result = await invoke_impl.call()
     if async_result.error != null:
+        if async_result.error.result != null:
+            put_cache(
+                Gs2StaminaVerifyStaminaValueByStampTaskResult.from_dict(JSON.parse_string(async_result.error.result)),
+                cache,
+                user_id,
+                time_offset,
+                request
+            )
         return async_result
     put_cache(
         async_result.result,

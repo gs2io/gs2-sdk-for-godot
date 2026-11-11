@@ -192,6 +192,7 @@ func subscribe_send_requests(
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         ),
         callback
@@ -207,6 +208,7 @@ func unsubscribe_send_requests(
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         ),
         callback_id
@@ -221,6 +223,7 @@ func invalidate_send_requests(
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         )
     )
@@ -258,6 +261,7 @@ func subscribe_receive_requests(
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         ),
         callback
@@ -273,6 +277,7 @@ func unsubscribe_receive_requests(
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         ),
         callback_id
@@ -287,6 +292,7 @@ func invalidate_receive_requests(
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         )
     )

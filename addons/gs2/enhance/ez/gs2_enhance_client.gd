@@ -138,3 +138,21 @@ func enhance(game_session, namespace_name, rate_name, target_item_set_id, materi
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2EnhanceEzEnhanceResult.from_model(async_result.result), null)
+
+
+func unleash(game_session, namespace_name, rate_name, target_item_set_id, materials = null, recipe_name = null, recipe_materials = null, config = null) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2EnhanceUnleashRequest.new()
+        request.namespace_name = namespace_name
+        request.rate_name = rate_name
+        request.access_token = game_session.access_token.token
+        request.target_item_set_id = target_item_set_id
+        request.materials = null if materials == null else materials.map(func(v): return v)
+        request.recipe_name = recipe_name
+        request.recipe_materials = null if recipe_materials == null else recipe_materials.map(func(v): return null if v == null else v.to_model())
+        request.config = null if config == null else config.map(func(v): return null if v == null else v.to_model())
+        return await _rest_client.unleash(request)
+    var async_result = await _connection.run(game_session, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2EnhanceEzUnleashResult.from_model(async_result.result), null)

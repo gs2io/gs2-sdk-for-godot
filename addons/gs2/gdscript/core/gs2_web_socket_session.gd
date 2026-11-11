@@ -188,6 +188,9 @@ func _handle_message(packet: String):
         response.error = Gs2Exception.extract_error(message, status)
         if response.error != null:
             response.error.metadata = metadata
+            var result = Gs2Exception.extract_result(parsed.get("body"))
+            if result != null:
+                response.error.result = result
     _results[request_id] = response
 
 

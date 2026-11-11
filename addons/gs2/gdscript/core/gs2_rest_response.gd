@@ -46,6 +46,9 @@ static func from_response(status_code_: int, body_text: String) -> Gs2RestRespon
         ret.error = Gs2Exception.extract_error(message, status_code_)
         if ret.error != null:
             ret.error.metadata = metadata
+            var result = Gs2Exception.extract_result(parsed)
+            if result != null:
+                ret.error.result = result
     return ret
 
 

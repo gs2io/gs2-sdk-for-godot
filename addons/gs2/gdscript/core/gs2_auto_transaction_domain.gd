@@ -43,10 +43,11 @@ func _skip_callback() -> bool:
 func _handle_result(result) -> Gs2AsyncResult:
     var skip_callback = _skip_callback()
     var time_offset = _time_offset()
-    for action_result in (result.verify_results if result.verify_results != null else []):
+    for i in (result.verify_results.size() if result.verify_results != null else 0):
+        var action_result = result.verify_results[i]
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:
-            return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(action_result.action, action_result.verify_result, code))
+            return Gs2AsyncResult.new(null, gs2.transaction_configuration.extract_verify_error(gs2.cache, "%s[%d]" % [str(transaction_id), i], time_offset, action_result.action, action_result.verify_request, action_result.verify_result, code, not skip_callback))
     for action_result in (result.consume_results if result.consume_results != null else []):
         var code = action_result.status_code if action_result.status_code != null else 999
         if int(code / 100.0) != 2:

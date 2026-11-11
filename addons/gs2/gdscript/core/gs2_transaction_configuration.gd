@@ -21,3 +21,11 @@ var auto_transaction_result_timeout_msec: int = 3 * 60 * 1000
 var verify_action_event_handler: Callable
 var consume_action_event_handler: Callable
 var acquire_action_event_handler: Callable
+
+
+# 検証が失敗しても、サーバーは検証した時点の状態を result に入れて返す。成功したときと同じくハンドラに渡してから失敗を返す
+func extract_verify_error(cache, task_id, time_offset, action, request, body, status_code_, call_handler: bool = true) -> Gs2Exception:
+    var error = Gs2Exception.extract_error_for_action(action, body, status_code_)
+    if call_handler and error != null and error.result != null and verify_action_event_handler.is_valid():
+        verify_action_event_handler.call(cache, task_id, time_offset, action, request, error.result)
+    return error

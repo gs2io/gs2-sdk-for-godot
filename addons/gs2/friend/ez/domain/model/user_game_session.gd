@@ -39,13 +39,15 @@ func _init(
     _game_session = game_session
     _connection = connection
 func send_request(
-    target_user_id
+    target_user_id,
+    with_profile = null
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,
         func(): return await _domain.send_request(
             Gs2FriendSendRequestRequest.new()
                 .with_target_user_id(target_user_id)
+                .with_with_profile(with_profile)
         )
     )
     if async_result.error != null:

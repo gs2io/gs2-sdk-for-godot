@@ -173,11 +173,12 @@ func delete_request(game_session, namespace_name, target_user_id) -> Gs2AsyncRes
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2FriendEzDeleteRequestResult.from_model(async_result.result), null)
 
 
-func describe_send_requests(game_session, namespace_name) -> Gs2AsyncResult:
+func describe_send_requests(game_session, namespace_name, with_profile = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2FriendDescribeSendRequestsRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
+        request.with_profile = with_profile
         return await _rest_client.describe_send_requests(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
@@ -185,12 +186,13 @@ func describe_send_requests(game_session, namespace_name) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2FriendEzDescribeSendRequestsResult.from_model(async_result.result), null)
 
 
-func get_send_request(game_session, namespace_name, target_user_id) -> Gs2AsyncResult:
+func get_send_request(game_session, namespace_name, target_user_id, with_profile = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2FriendGetSendRequestRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
+        request.with_profile = with_profile
         return await _rest_client.get_send_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
@@ -198,12 +200,13 @@ func get_send_request(game_session, namespace_name, target_user_id) -> Gs2AsyncR
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2FriendEzGetSendRequestResult.from_model(async_result.result), null)
 
 
-func send_request(game_session, namespace_name, target_user_id) -> Gs2AsyncResult:
+func send_request(game_session, namespace_name, target_user_id, with_profile = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2FriendSendRequestRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.target_user_id = target_user_id
+        request.with_profile = with_profile
         return await _rest_client.send_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
@@ -224,11 +227,12 @@ func accept(game_session, namespace_name, from_user_id) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2FriendEzAcceptResult.from_model(async_result.result), null)
 
 
-func describe_receive_requests(game_session, namespace_name) -> Gs2AsyncResult:
+func describe_receive_requests(game_session, namespace_name, with_profile = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2FriendDescribeReceiveRequestsRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
+        request.with_profile = with_profile
         return await _rest_client.describe_receive_requests(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
@@ -236,12 +240,13 @@ func describe_receive_requests(game_session, namespace_name) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2FriendEzDescribeReceiveRequestsResult.from_model(async_result.result), null)
 
 
-func get_receive_request(game_session, namespace_name, from_user_id) -> Gs2AsyncResult:
+func get_receive_request(game_session, namespace_name, from_user_id, with_profile = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2FriendGetReceiveRequestRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.from_user_id = from_user_id
+        request.with_profile = with_profile
         return await _rest_client.get_receive_request(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:

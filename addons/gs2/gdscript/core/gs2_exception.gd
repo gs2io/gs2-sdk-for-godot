@@ -31,6 +31,8 @@ const SCRIPT_MAP = {
 var status_code: int = 0
 var errors: Array[Gs2RequestError] = []
 var metadata: Variant = null
+# 失敗の本文の最上位にある result（JSON 文字列）。検証 API は失敗しても検証した時点の状態をここに入れて返す
+var result: Variant = null
 
 
 static func extract_error(message, status_code_) -> Gs2Exception:
@@ -42,6 +44,7 @@ static func extract_error(message, status_code_) -> Gs2Exception:
     var ret = load(script_path).new() as Gs2Exception
     ret.status_code = status_code_
     var parsed = _parse_json(message)
+    ret.result = extract_result(parsed)
     if parsed is Dictionary:
         if parsed.get("metadata") is Dictionary:
             ret.metadata = parsed.get("metadata")
@@ -63,6 +66,14 @@ static func extract_error(message, status_code_) -> Gs2Exception:
         request_error.message = message
         ret.errors.append(request_error)
     return ret
+
+
+# トランザクションの失敗（{"errors":…,"result":…}）と REST の失敗（{"message":…,"result":…}）のどちらも最上位に result を持つ
+static func extract_result(body) -> Variant:
+    var parsed = _parse_json(body)
+    if not (parsed is Dictionary) or not (parsed.get("result") is Dictionary) or parsed.get("result").is_empty():
+        return null
+    return JSON.stringify(parsed.get("result"))
 
 
 static func extract_error_for_action(action, message, status_code_) -> Gs2Exception:
@@ -145,6 +156,7 @@ func copy_from(source: Gs2Exception) -> Gs2Exception:
     status_code = source.status_code
     errors = source.errors.duplicate()
     metadata = source.metadata
+    result = source.result
     return self
 
 

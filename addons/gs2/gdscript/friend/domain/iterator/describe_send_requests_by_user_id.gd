@@ -55,6 +55,7 @@ func load() -> Gs2AsyncResult:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         )
     )
@@ -93,6 +94,7 @@ func load() -> Gs2AsyncResult:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             null
         )
     )

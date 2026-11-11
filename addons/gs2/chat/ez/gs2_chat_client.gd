@@ -80,7 +80,7 @@ func get_message(game_session, namespace_name, room_name, message_name = null, p
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2ChatEzGetMessageResult.from_model(async_result.result), null)
 
 
-func list_latest_messages(game_session, namespace_name, room_name = null, limit = null, password = null) -> Gs2AsyncResult:
+func list_latest_messages(game_session, namespace_name, room_name = null, limit = null, password = null, category = null, page_token = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2ChatDescribeLatestMessagesRequest.new()
         request.namespace_name = namespace_name
@@ -88,6 +88,8 @@ func list_latest_messages(game_session, namespace_name, room_name = null, limit 
         request.access_token = game_session.access_token.token
         request.limit = limit
         request.password = password
+        request.category = category
+        request.page_token = page_token
         return await _rest_client.describe_latest_messages(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
@@ -95,7 +97,7 @@ func list_latest_messages(game_session, namespace_name, room_name = null, limit 
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2ChatEzListLatestMessagesResult.from_model(async_result.result), null)
 
 
-func list_messages(game_session, namespace_name, room_name = null, start_at = null, limit = null, password = null) -> Gs2AsyncResult:
+func list_messages(game_session, namespace_name, room_name = null, start_at = null, limit = null, password = null, category = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2ChatDescribeMessagesRequest.new()
         request.namespace_name = namespace_name
@@ -104,6 +106,7 @@ func list_messages(game_session, namespace_name, room_name = null, start_at = nu
         request.start_at = start_at
         request.limit = limit
         request.password = password
+        request.category = category
         return await _rest_client.describe_messages(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:
@@ -127,13 +130,14 @@ func post(game_session, namespace_name, room_name, metadata, category = null, pa
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2ChatEzPostResult.from_model(async_result.result), null)
 
 
-func list_subscribe_rooms(game_session, namespace_name, page_token = null, limit = null) -> Gs2AsyncResult:
+func list_subscribe_rooms(game_session, namespace_name, page_token = null, limit = null, room_name_prefix = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2ChatDescribeSubscribesRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.page_token = page_token
         request.limit = limit
+        request.room_name_prefix = room_name_prefix
         return await _rest_client.describe_subscribes(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:

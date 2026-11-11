@@ -470,6 +470,71 @@ func update_cache_from_stamp_task(
             if callback is Callable and callback.is_valid():
                 callback.call(task_id, request_model, result_model)
         return
+    if method == "VerifyInventoryCurrentMaxCapacityByUserId":
+        if result == null:
+            return
+        var request_model = Gs2InventoryVerifyInventoryCurrentMaxCapacityByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2InventoryVerifyInventoryCurrentMaxCapacityByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2InventoryVerifyInventoryCurrentMaxCapacityByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyItemSetByUserId":
+        if result == null:
+            return
+        var request_model = Gs2InventoryVerifyItemSetByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2InventoryVerifyItemSetByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2InventoryVerifyItemSetByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyReferenceOfByUserId":
+        if result == null:
+            return
+        var request_model = Gs2InventoryVerifyReferenceOfByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2InventoryVerifyReferenceOfByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2InventoryVerifyReferenceOfByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifySimpleItemByUserId":
+        if result == null:
+            return
+        var request_model = Gs2InventoryVerifySimpleItemByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2InventoryVerifySimpleItemByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2InventoryVerifySimpleItemByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyBigItemByUserId":
+        if result == null:
+            return
+        var request_model = Gs2InventoryVerifyBigItemByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2InventoryVerifyBigItemByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2InventoryVerifyBigItemByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

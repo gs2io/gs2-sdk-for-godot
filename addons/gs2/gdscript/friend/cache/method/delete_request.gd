@@ -25,17 +25,19 @@ static func put_cache(
     if result == null:
         return
     assert(user_id != null)
-    cache.delete(
-        "Gs2FriendFriendRequest",
-        Gs2FriendSendFriendRequestCache.cache_parent_key(
-            request.namespace_name,
-            user_id,
-            time_offset
-        ),
-        Gs2FriendSendFriendRequestCache.cache_key(
-            (result.item.target_user_id if result.item != null else null)
+    for with_profile in [false, true, null]:
+        cache.delete(
+            "Gs2FriendFriendRequest",
+            Gs2FriendSendFriendRequestCache.cache_parent_key(
+                request.namespace_name,
+                user_id,
+                with_profile,
+                time_offset
+            ),
+            Gs2FriendSendFriendRequestCache.cache_key(
+                (result.item.target_user_id if result.item != null else null)
+            )
         )
-    )
 
 
 static func invoke(
@@ -48,25 +50,28 @@ static func invoke(
     var async_result = await invoke_impl.call()
     if async_result.error != null:
         if async_result.error is Gs2NotFoundException:
-            cache.delete(
-                "Gs2FriendFriendRequest",
-                Gs2FriendSendFriendRequestCache.cache_parent_key(
-                    request.namespace_name,
-                    user_id,
-                    time_offset
-                ),
-                Gs2FriendSendFriendRequestCache.cache_key(
-                    request.target_user_id
+            for with_profile in [false, true, null]:
+                cache.delete(
+                    "Gs2FriendFriendRequest",
+                    Gs2FriendSendFriendRequestCache.cache_parent_key(
+                        request.namespace_name,
+                        user_id,
+                        with_profile,
+                        time_offset
+                    ),
+                    Gs2FriendSendFriendRequestCache.cache_key(
+                        request.target_user_id
+                    )
                 )
-            )
-            cache.clear_list_cache(
-                "Gs2FriendFriendRequest",
-                Gs2FriendSendFriendRequestCache.cache_parent_key(
-                    request.namespace_name,
-                    user_id,
-                    time_offset
+                cache.clear_list_cache(
+                    "Gs2FriendFriendRequest",
+                    Gs2FriendSendFriendRequestCache.cache_parent_key(
+                        request.namespace_name,
+                        user_id,
+                        with_profile,
+                        time_offset
+                    )
                 )
-            )
         return async_result
     put_cache(
         async_result.result,

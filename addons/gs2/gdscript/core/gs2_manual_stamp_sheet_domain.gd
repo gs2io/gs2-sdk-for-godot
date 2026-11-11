@@ -90,7 +90,9 @@ func _run() -> Gs2AsyncResult:
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
             if int(code / 100.0) != 2:
-                return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(_task_action(verify_tasks[i]), async_result.result.result, code))
+                return Gs2AsyncResult.new(null, gs2.transaction_configuration.extract_verify_error(gs2.cache, "%s[%d]" % [str(stamp_sheet_payload_json.get("transactionId")), i], time_offset, _task_action(verify_tasks[i]), _task_args(verify_tasks[i]), async_result.result.result, code))
+            if gs2.transaction_configuration.verify_action_event_handler.is_valid():
+                gs2.transaction_configuration.verify_action_event_handler.call(gs2.cache, "%s[%d]" % [str(stamp_sheet_payload_json.get("transactionId")), i], time_offset, _task_action(verify_tasks[i]), _task_args(verify_tasks[i]), async_result.result.result)
         else:
             var async_result = await client.run_verify_task(
                 Gs2DistributorRunVerifyTaskRequest.new()
@@ -107,7 +109,9 @@ func _run() -> Gs2AsyncResult:
             context_stack = async_result.result.context_stack
             var code = async_result.result.status_code if async_result.result.status_code != null else 999
             if int(code / 100.0) != 2:
-                return Gs2AsyncResult.new(null, Gs2Exception.extract_error_for_action(_task_action(verify_tasks[i]), async_result.result.result, code))
+                return Gs2AsyncResult.new(null, gs2.transaction_configuration.extract_verify_error(gs2.cache, "%s[%d]" % [str(stamp_sheet_payload_json.get("transactionId")), i], time_offset, _task_action(verify_tasks[i]), _task_args(verify_tasks[i]), async_result.result.result, code))
+            if gs2.transaction_configuration.verify_action_event_handler.is_valid():
+                gs2.transaction_configuration.verify_action_event_handler.call(gs2.cache, "%s[%d]" % [str(stamp_sheet_payload_json.get("transactionId")), i], time_offset, _task_action(verify_tasks[i]), _task_args(verify_tasks[i]), async_result.result.result)
     for i in stamp_tasks.size():
         var stamp_task_json = JSON.parse_string(stamp_tasks[i])
         var stamp_task_payload_json = JSON.parse_string(stamp_task_json["body"])
@@ -206,6 +210,14 @@ func _run() -> Gs2AsyncResult:
         )
         result_payload = async_result.result.result if async_result.result.result != null and async_result.result.result != "" else "{}"
     return _handle_result(action_name, result_payload)
+
+
+static func _task_args(task):
+    var task_json = JSON.parse_string(task) if task is String else null
+    if not (task_json is Dictionary) or not (task_json.get("body") is String):
+        return null
+    var payload = JSON.parse_string(task_json.get("body"))
+    return payload.get("args") if payload is Dictionary else null
 
 
 static func _task_action(task):

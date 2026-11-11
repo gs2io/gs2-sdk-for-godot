@@ -26,13 +26,14 @@ func _init(connection: Gs2Connection):
     _rest_client = Gs2GatewayRestClient.new(connection.rest_session)
 
 
-func set_user_id(game_session, namespace_name, allow_concurrent_access = null, session_id = null) -> Gs2AsyncResult:
+func set_user_id(game_session, namespace_name, allow_concurrent_access = null, session_id = null, force = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2GatewaySetUserIdRequest.new()
         request.namespace_name = namespace_name
         request.access_token = game_session.access_token.token
         request.allow_concurrent_access = allow_concurrent_access
         request.session_id = session_id
+        request.force = force
         return await _web_socket_client.set_user_id(request)
     var async_result = await _connection.run(game_session, request_action)
     if async_result.error != null:

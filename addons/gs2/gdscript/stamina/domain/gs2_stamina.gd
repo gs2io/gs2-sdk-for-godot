@@ -368,6 +368,71 @@ func update_cache_from_stamp_task(
             if callback is Callable and callback.is_valid():
                 callback.call(task_id, request_model, result_model)
         return
+    if method == "VerifyStaminaValueByUserId":
+        if result == null:
+            return
+        var request_model = Gs2StaminaVerifyStaminaValueByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2StaminaVerifyStaminaValueByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2StaminaVerifyStaminaValueByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyStaminaMaxValueByUserId":
+        if result == null:
+            return
+        var request_model = Gs2StaminaVerifyStaminaMaxValueByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2StaminaVerifyStaminaMaxValueByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2StaminaVerifyStaminaMaxValueByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyStaminaRecoverIntervalMinutesByUserId":
+        if result == null:
+            return
+        var request_model = Gs2StaminaVerifyStaminaRecoverIntervalMinutesByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2StaminaVerifyStaminaRecoverIntervalMinutesByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2StaminaVerifyStaminaRecoverIntervalMinutesByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyStaminaRecoverValueByUserId":
+        if result == null:
+            return
+        var request_model = Gs2StaminaVerifyStaminaRecoverValueByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2StaminaVerifyStaminaRecoverValueByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2StaminaVerifyStaminaRecoverValueByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyStaminaOverflowValueByUserId":
+        if result == null:
+            return
+        var request_model = Gs2StaminaVerifyStaminaOverflowValueByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2StaminaVerifyStaminaOverflowValueByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2StaminaVerifyStaminaOverflowValueByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

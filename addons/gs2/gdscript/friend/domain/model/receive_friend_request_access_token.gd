@@ -25,19 +25,22 @@ var target_user_id: Variant:
     get:
         return null if access_token == null else access_token.user_id
 var from_user_id: Variant = null
+var with_profile: Variant = null
 
 
 func _init(
     gs2: Gs2Domain,
     namespace_name_,
     access_token_,
-    from_user_id_
+    from_user_id_,
+    with_profile_ = null
 ):
     _gs2 = gs2
     _client = Gs2FriendRestClient.new(gs2.rest_session)
     namespace_name = namespace_name_
     access_token = access_token_
     from_user_id = from_user_id_
+    with_profile = with_profile_
 
 
 func get_(
@@ -78,23 +81,25 @@ func accept(
         return async_result
     var result = async_result.result
     if async_result.error == null:
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriendRequest",
-            Gs2FriendSendFriendRequestCache.cache_parent_key(
-                namespace_name,
-                from_user_id,
-                (null if access_token == null else access_token.time_offset)
-            )
-        )
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriendRequest",
-            Gs2FriendReceiveFriendRequestCache.cache_parent_key(
-                namespace_name,
-                user_id,
-                (null if access_token == null else access_token.time_offset)
-            )
-        )
         for with_profile in [false, true, null]:
+            _gs2.cache.clear_list_cache(
+                "Gs2FriendFriendRequest",
+                Gs2FriendSendFriendRequestCache.cache_parent_key(
+                    namespace_name,
+                    from_user_id,
+                    with_profile,
+                    (null if access_token == null else access_token.time_offset)
+                )
+            )
+            _gs2.cache.clear_list_cache(
+                "Gs2FriendFriendRequest",
+                Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                    namespace_name,
+                    user_id,
+                    with_profile,
+                    (null if access_token == null else access_token.time_offset)
+                )
+            )
             _gs2.cache.clear_list_cache(
                 "Gs2FriendFriendUser",
                 Gs2FriendFriendUserCache.cache_parent_key(
@@ -141,23 +146,25 @@ func reject(
         return async_result
     var result = async_result.result
     if async_result.error == null:
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriendRequest",
-            Gs2FriendSendFriendRequestCache.cache_parent_key(
-                namespace_name,
-                from_user_id,
-                (null if access_token == null else access_token.time_offset)
-            )
-        )
-        _gs2.cache.clear_list_cache(
-            "Gs2FriendFriendRequest",
-            Gs2FriendReceiveFriendRequestCache.cache_parent_key(
-                namespace_name,
-                user_id,
-                (null if access_token == null else access_token.time_offset)
-            )
-        )
         for with_profile in [false, true, null]:
+            _gs2.cache.clear_list_cache(
+                "Gs2FriendFriendRequest",
+                Gs2FriendSendFriendRequestCache.cache_parent_key(
+                    namespace_name,
+                    from_user_id,
+                    with_profile,
+                    (null if access_token == null else access_token.time_offset)
+                )
+            )
+            _gs2.cache.clear_list_cache(
+                "Gs2FriendFriendRequest",
+                Gs2FriendReceiveFriendRequestCache.cache_parent_key(
+                    namespace_name,
+                    user_id,
+                    with_profile,
+                    (null if access_token == null else access_token.time_offset)
+                )
+            )
             _gs2.cache.clear_list_cache(
                 "Gs2FriendFriendUser",
                 Gs2FriendFriendUserCache.cache_parent_key(
@@ -193,6 +200,7 @@ func model() -> Gs2AsyncResult:
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendReceiveFriendRequestCache.cache_key(
@@ -201,7 +209,7 @@ func model() -> Gs2AsyncResult:
     )
     if pair[1]:
         return Gs2AsyncResult.new(pair[0], null)
-    var get_result = await get_(Gs2FriendGetReceiveRequestRequest.new())
+    var get_result = await get_(Gs2FriendGetReceiveRequestRequest.new().with_with_profile(with_profile))
     if get_result.error != null:
         if get_result.error is Gs2NotFoundException and get_result.error.errors.size() != 0 and get_result.error.errors[0].component in ["fromUserId", "inbox"]:
             _gs2.cache.put(
@@ -209,6 +217,7 @@ func model() -> Gs2AsyncResult:
                 Gs2FriendReceiveFriendRequestCache.cache_parent_key(
                     namespace_name,
                     user_id,
+                    with_profile,
                     (null if access_token == null else access_token.time_offset)
                 ),
                 Gs2FriendReceiveFriendRequestCache.cache_key(
@@ -228,6 +237,7 @@ func invalidate() -> void:
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendReceiveFriendRequestCache.cache_key(
@@ -242,6 +252,7 @@ func subscribe_model(callback: Callable) -> int:
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendReceiveFriendRequestCache.cache_key(
@@ -258,6 +269,7 @@ func unsubscribe_model(callback_id: int) -> void:
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendReceiveFriendRequestCache.cache_key(

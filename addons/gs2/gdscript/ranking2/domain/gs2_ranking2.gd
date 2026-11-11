@@ -283,6 +283,45 @@ func update_cache_from_stamp_task(
             if callback is Callable and callback.is_valid():
                 callback.call(task_id, request_model, result_model)
         return
+    if method == "VerifyGlobalRankingScoreByUserId":
+        if result == null:
+            return
+        var request_model = Gs2Ranking2VerifyGlobalRankingScoreByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2Ranking2VerifyGlobalRankingScoreByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2Ranking2VerifyGlobalRankingScoreByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyClusterRankingScoreByUserId":
+        if result == null:
+            return
+        var request_model = Gs2Ranking2VerifyClusterRankingScoreByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2Ranking2VerifyClusterRankingScoreByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2Ranking2VerifyClusterRankingScoreByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifySubscribeRankingScoreByUserId":
+        if result == null:
+            return
+        var request_model = Gs2Ranking2VerifySubscribeRankingScoreByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2Ranking2VerifySubscribeRankingScoreByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2Ranking2VerifySubscribeRankingScoreByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 

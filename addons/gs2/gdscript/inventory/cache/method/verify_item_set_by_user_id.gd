@@ -35,15 +35,16 @@ static func put_cache(
             item.name,
             time_offset
         )
-    Gs2InventoryItemSetCache.put_cache_list(
-        result.items,
-        cache,
-        request.namespace_name,
-        request.user_id,
-        request.inventory_name,
-        request.item_name,
-        time_offset
-    )
+    if request.item_set_name == null:
+        Gs2InventoryItemSetCache.put_cache_list(
+            result.items,
+            cache,
+            request.namespace_name,
+            request.user_id,
+            request.inventory_name,
+            request.item_name,
+            time_offset
+        )
 
 
 static func invoke(
@@ -55,6 +56,14 @@ static func invoke(
 ) -> Gs2AsyncResult:
     var async_result = await invoke_impl.call()
     if async_result.error != null:
+        if async_result.error.result != null:
+            put_cache(
+                Gs2InventoryVerifyItemSetByUserIdResult.from_dict(JSON.parse_string(async_result.error.result)),
+                cache,
+                user_id,
+                time_offset,
+                request
+            )
         return async_result
     put_cache(
         async_result.result,

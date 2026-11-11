@@ -42,7 +42,8 @@ func _init(
     _connection = connection
 func set_user_id(
     allow_concurrent_access = null,
-    session_id = null
+    session_id = null,
+    force = null
 ) -> Gs2AsyncResult:
     var async_result = await _connection.run(
         _game_session,
@@ -50,6 +51,7 @@ func set_user_id(
             Gs2GatewaySetUserIdRequest.new()
                 .with_allow_concurrent_access(allow_concurrent_access)
                 .with_session_id(session_id)
+                .with_force(force)
         )
     )
     if async_result.error != null:

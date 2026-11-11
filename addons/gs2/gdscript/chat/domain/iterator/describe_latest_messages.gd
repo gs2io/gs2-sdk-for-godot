@@ -28,7 +28,7 @@ var access_token: Gs2AuthAccessToken
 var user_id: Variant:
     get:
         return null if access_token == null else access_token.user_id
-var _start_at: Variant = null
+var _page_token: Variant = null
 var _last: bool = false
 
 
@@ -53,35 +53,8 @@ func _init(
 
 func load() -> Gs2AsyncResult:
     var result = []
-    _start_at = null
+    _page_token = null
     _last = false
-    var cached = _gs2.cache.try_get_list(
-        "Gs2ChatMessage",
-        
-        Gs2ChatMessageCache.cache_parent_key(
-            namespace_name,
-            user_id,
-            room_name,
-            null if access_token == null else access_token.time_offset
-        )
-    )
-    if cached[1]:
-        if cached[2] == null:
-            return Gs2AsyncResult.new(cached[0], null)
-        _start_at = cached[2]
-        for item in cached[0]:
-            if item.created_at < _start_at:
-                result.append(item)
-        _gs2.cache.clear_list_cache(
-            "Gs2ChatMessage",
-            
-            Gs2ChatMessageCache.cache_parent_key(
-                namespace_name,
-                user_id,
-                room_name,
-                null if access_token == null else access_token.time_offset
-            )
-        )
     while not _last:
         var request = Gs2ChatDescribeLatestMessagesRequest.new()
         request = request.with_context_stack(_gs2.default_context_stack)
@@ -89,21 +62,18 @@ func load() -> Gs2AsyncResult:
         request = request.with_room_name(room_name)
         request = request.with_password(password)
         request = request.with_access_token(null if access_token == null else access_token.token)
-        request = request.with_start_at(_start_at)
+        request = request.with_category(category)
+        request = request.with_page_token(_page_token)
         request = request.with_limit(fetch_size)
         var r = await _client.describe_latest_messages(request)
         if r.error != null:
             return r
         var page = []
         for item in (r.result.items if r.result.items != null else []):
-            if not (category == null or item.category == category):
-                continue
             page.append(item)
         result.append_array(page)
-        if page.size() > 0:
-            _start_at = page[page.size() - 1].created_at + 1
-        else:
-            _last = true
+        _page_token = r.result.next_page_token
+        _last = _page_token == null
         Gs2ChatDescribeLatestMessagesMethodCache.put_cache(
             r.result,
             _gs2.cache,
@@ -111,15 +81,4 @@ func load() -> Gs2AsyncResult:
             null if access_token == null else access_token.time_offset,
             request
         )
-    _gs2.cache.set_list_cached(
-        "Gs2ChatMessage",
-        
-        Gs2ChatMessageCache.cache_parent_key(
-            namespace_name,
-            user_id,
-            room_name,
-            null if access_token == null else access_token.time_offset
-        ),
-        _start_at
-    )
     return Gs2AsyncResult.new(result, null)

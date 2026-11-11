@@ -1096,6 +1096,8 @@ func send_request(request: Gs2FriendSendRequestRequest) -> Gs2AsyncResult:
     var body = {}
     if request.context_stack != null:
         body["contextStack"] = request.context_stack
+    if request.with_profile != null:
+        body["withProfile"] = request.with_profile
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.access_token != null:
@@ -1119,6 +1121,8 @@ func send_request_by_user_id(request: Gs2FriendSendRequestByUserIdRequest) -> Gs
     var body = {}
     if request.context_stack != null:
         body["contextStack"] = request.context_stack
+    if request.with_profile != null:
+        body["withProfile"] = request.with_profile
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:

@@ -22,19 +22,22 @@ var user_id: Variant:
     get:
         return null if access_token == null else access_token.user_id
 var target_user_id: Variant = null
+var with_profile: Variant = null
 
 
 func _init(
     gs2: Gs2Domain,
     namespace_name_,
     access_token_,
-    target_user_id_
+    target_user_id_,
+    with_profile_ = null
 ):
     _gs2 = gs2
     _client = Gs2FriendRestClient.new(gs2.rest_session)
     namespace_name = namespace_name_
     access_token = access_token_
     target_user_id = target_user_id_
+    with_profile = with_profile_
 
 
 func get_(
@@ -91,6 +94,7 @@ func model() -> Gs2AsyncResult:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(
@@ -99,7 +103,7 @@ func model() -> Gs2AsyncResult:
     )
     if pair[1]:
         return Gs2AsyncResult.new(pair[0], null)
-    var get_result = await get_(Gs2FriendGetSendRequestRequest.new())
+    var get_result = await get_(Gs2FriendGetSendRequestRequest.new().with_with_profile(with_profile))
     if get_result.error != null:
         if get_result.error is Gs2NotFoundException and get_result.error.errors.size() != 0 and get_result.error.errors[0].component in ["targetUserId", "sendBox"]:
             _gs2.cache.put(
@@ -107,6 +111,7 @@ func model() -> Gs2AsyncResult:
                 Gs2FriendSendFriendRequestCache.cache_parent_key(
                     namespace_name,
                     user_id,
+                    with_profile,
                     (null if access_token == null else access_token.time_offset)
                 ),
                 Gs2FriendSendFriendRequestCache.cache_key(
@@ -126,6 +131,7 @@ func invalidate() -> void:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(
@@ -140,6 +146,7 @@ func subscribe_model(callback: Callable) -> int:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(
@@ -156,6 +163,7 @@ func unsubscribe_model(callback_id: int) -> void:
         Gs2FriendSendFriendRequestCache.cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             (null if access_token == null else access_token.time_offset)
         ),
         Gs2FriendSendFriendRequestCache.cache_key(

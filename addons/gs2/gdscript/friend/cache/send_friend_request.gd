@@ -18,12 +18,14 @@ extends RefCounted
 static func cache_parent_key(
     namespace_name,
     user_id,
+    with_profile,
     time_offset
 ) -> String:
     return ":".join([
         "friend",
         Gs2CacheDatabase.stringify(namespace_name),
         Gs2CacheDatabase.stringify(user_id),
+        Gs2CacheDatabase.stringify(with_profile),
         "0" if time_offset == null else str(time_offset),
         "SendFriendRequest",
     ])
@@ -41,6 +43,7 @@ static func fetch(
     cache: Gs2CacheDatabase,
     namespace_name,
     user_id,
+    with_profile,
     target_user_id,
     time_offset,
     fetch_impl: Callable
@@ -53,6 +56,7 @@ static func fetch(
                 cache,
                 namespace_name,
                 user_id,
+                with_profile,
                 target_user_id,
                 time_offset
             )
@@ -64,6 +68,7 @@ static func fetch(
         cache,
         namespace_name,
         user_id,
+        with_profile,
         target_user_id,
         time_offset
     )
@@ -74,6 +79,7 @@ static func get_cache(
     cache: Gs2CacheDatabase,
     namespace_name,
     user_id,
+    with_profile,
     target_user_id,
     time_offset
 ) -> Array:
@@ -83,6 +89,7 @@ static func get_cache(
         cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             time_offset
         ),
         cache_key(
@@ -96,6 +103,7 @@ static func put_cache(
     cache: Gs2CacheDatabase,
     namespace_name,
     user_id,
+    with_profile,
     target_user_id,
     time_offset
 ) -> void:
@@ -106,6 +114,7 @@ static func put_cache(
         cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             time_offset
         ),
         cache_key(
@@ -128,12 +137,14 @@ static func put_user_data(
         cache,
         namespace_name,
         user_id,
+        null,
         item.target_user_id,
         time_offset
     )
     return cache_parent_key(
         namespace_name,
         user_id,
+        null,
         time_offset
     )
 
@@ -142,6 +153,7 @@ static func delete_cache(
     cache: Gs2CacheDatabase,
     namespace_name,
     user_id,
+    with_profile,
     target_user_id,
     time_offset
 ) -> void:
@@ -151,6 +163,7 @@ static func delete_cache(
         cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             time_offset
         ),
         cache_key(
@@ -163,6 +176,7 @@ static func list_subscribe(
     cache: Gs2CacheDatabase,
     namespace_name,
     user_id,
+    with_profile,
     time_offset,
     callback: Callable
 ) -> int:
@@ -171,6 +185,7 @@ static func list_subscribe(
         cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             time_offset
         ),
         callback
@@ -181,6 +196,7 @@ static func list_unsubscribe(
     cache: Gs2CacheDatabase,
     namespace_name,
     user_id,
+    with_profile,
     time_offset,
     callback_id: int
 ) -> void:
@@ -189,6 +205,7 @@ static func list_unsubscribe(
         cache_parent_key(
             namespace_name,
             user_id,
+            with_profile,
             time_offset
         ),
         callback_id

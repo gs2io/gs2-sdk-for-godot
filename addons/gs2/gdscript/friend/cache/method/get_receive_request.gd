@@ -30,6 +30,7 @@ static func put_cache(
         Gs2FriendReceiveFriendRequestCache.cache_parent_key(
             request.namespace_name,
             user_id,
+            request.with_profile,
             time_offset
         ),
         Gs2FriendReceiveFriendRequestCache.cache_key(

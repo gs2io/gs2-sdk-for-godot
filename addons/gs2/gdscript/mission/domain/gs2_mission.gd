@@ -373,6 +373,32 @@ func update_cache_from_stamp_task(
             if callback is Callable and callback.is_valid():
                 callback.call(task_id, request_model, result_model)
         return
+    if method == "VerifyCompleteByUserId":
+        if result == null:
+            return
+        var request_model = Gs2MissionVerifyCompleteByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2MissionVerifyCompleteByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2MissionVerifyCompleteByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
+    if method == "VerifyCounterValueByUserId":
+        if result == null:
+            return
+        var request_model = Gs2MissionVerifyCounterValueByUserIdRequest.from_dict(JSON.parse_string(request))
+        var result_model = Gs2MissionVerifyCounterValueByUserIdResult.from_dict(JSON.parse_string(result))
+        Gs2MissionVerifyCounterValueByUserIdMethodCache.put_cache(
+            result_model,
+            _gs2.cache,
+            request_model.user_id,
+            time_offset,
+            request_model
+        )
+        return
     pass
 
 
