@@ -23,6 +23,7 @@ var server_type = null
 var server_spec = null
 var sync_setting = null
 var state_machine_setting = null
+var participant_setting = null
 var create_notification = null
 var log_setting = null
 
@@ -67,6 +68,11 @@ func with_state_machine_setting(v) -> Gs2RealtimeUpdateNamespaceRequest:
     return self
 
 
+func with_participant_setting(v) -> Gs2RealtimeUpdateNamespaceRequest:
+    participant_setting = v
+    return self
+
+
 func with_create_notification(v) -> Gs2RealtimeUpdateNamespaceRequest:
     create_notification = v
     return self
@@ -89,6 +95,7 @@ static func from_dict(data) -> Gs2RealtimeUpdateNamespaceRequest:
     ret.server_spec = null if data.get("serverSpec") == null else str(data.get("serverSpec"))
     ret.sync_setting = null if data.get("syncSetting") == null else Gs2RealtimeSyncSetting.from_dict(data.get("syncSetting"))
     ret.state_machine_setting = null if data.get("stateMachineSetting") == null else Gs2RealtimeStateMachineSetting.from_dict(data.get("stateMachineSetting"))
+    ret.participant_setting = null if data.get("participantSetting") == null else Gs2RealtimeParticipantSetting.from_dict(data.get("participantSetting"))
     ret.create_notification = null if data.get("createNotification") == null else Gs2RealtimeNotificationSetting.from_dict(data.get("createNotification"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2RealtimeLogSetting.from_dict(data.get("logSetting"))
     return ret
@@ -104,6 +111,7 @@ func to_dict() -> Dictionary:
     ret["serverSpec"] = server_spec
     ret["syncSetting"] = null if sync_setting == null else sync_setting.to_dict()
     ret["stateMachineSetting"] = null if state_machine_setting == null else state_machine_setting.to_dict()
+    ret["participantSetting"] = null if participant_setting == null else participant_setting.to_dict()
     ret["createNotification"] = null if create_notification == null else create_notification.to_dict()
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     return ret

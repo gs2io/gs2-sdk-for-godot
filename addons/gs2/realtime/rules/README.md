@@ -65,7 +65,7 @@ static func _move(id: int, step: int) -> void:
 |---|---|
 | ルール | `class_name <名前>`、`extends Gs2RoomRules`。1 つのスクリプトに 1 つ |
 | 状態・結果・エラー | `const STATE := <レコード>`、`const RESULT := <レコード>`、`const ERROR := <enum>` |
-| レコード | `class <名前> extends Gs2Record:` に型付きのフィールド（`var steps: int`）だけを書く。値を書き換えることはできない。`<名前>.new({field = value, ...})` で全フィールドを指定して作り、`record.with({field = value})` でコピーする |
+| レコード | `class <名前> extends Gs2Record:` に型付きのフィールド（`var steps: int`）だけを書く。フィールドは int・bool・String・enum とほかのレコード（`var gear: Gear`。自分自身を含むものは不可）。値を書き換えることはできない。`<名前>.new({field = value, ...})` で全フィールドを指定して作り、`record.with({field = value})` でコピーする |
 | 開始 | `static func start() -> Gs2Step` |
 | ハンドラ | `static func on_interact(state, object_id: int, method: int)`、`on_timer(state, object_id: int, event_id: int)`、`on_tick(state, tick: int)`、`on_spawned(state, object_id: int)`。引数名はルームが渡す名前なので、変えられない（使わない引数は `_object_id` のように `_` を付けてよい） |
 | ヘルパー | `static func _name(...)`（非公開）。値を返すか `-> void` |
@@ -125,6 +125,9 @@ C# の `Room` と同じ API です。GDScript にはジェネリクスとオー�
 - オブジェクト: `object_count` / `object_at`、`is_prefab` / `prefab_of` / `owner_of` / `exists` / `find_owned`、`despawn`
 - タイマー: `after` / `cancel_timer`
 - 送り手: `sender_connection_id` / `sender_user_id`
+- 乱数: `random(min, max)`（min 以上 max 以下の整数。`@predict` の関数では使えない）
+- 配列: `Array[int]`・`Array[Hero]` のフィールドや変数。`array.size()`、`array[i]`、`[a, b]` で作る（空の `[]` は型の分かる場所で）。値は書き換えず、`list_with(array, i, value)`・`list_append(array, value)`・`list_remove_at(array, i)` で変えた配列を受け取る。配列どうしの `==` は不可
+- 参加者のデータ: `participant(Hero, connection_id)`（ネームスペースの参加者のスクリプトが返した record。`@predict` の関数では使えない）
 - 定義: `define_hitbox` / `define_relevance`
 
 `Gs2RoomMath` には次の関数があります。

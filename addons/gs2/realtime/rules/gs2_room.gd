@@ -159,6 +159,29 @@ static func find_owned(_schema: Dictionary, _connection_id: int) -> int:
 static func find_owned_raw(_prefab: int, _connection_id: int) -> int:
     return 0
 
+## Room.Random(min, max): a random integer of [min, max], every value equally likely. The room
+## draws it; a refused or failing event gives its draws back. Not in @predict functions.
+static func random(_min: int, _max: int) -> int:
+    return 0
+
+## RoomList.With(array, index, value): a copy of the array with the element at index replaced
+## (room arrays never change in place; an index outside the array fails the event).
+static func list_with(_array: Array, _index: int, _value) -> Array:
+    return []
+
+## RoomList.Append(array, value): a copy of the array with value added at its end.
+static func list_append(_array: Array, _value) -> Array:
+    return []
+
+## RoomList.RemoveAt(array, index): a copy of the array without the element at index.
+static func list_remove_at(_array: Array, _index: int) -> Array:
+    return []
+
+## Room.Participant<T>(connectionId): the record (an instance of record_class) the namespace's
+## participant script returned for the member's user when it joined. Not in @predict functions.
+static func participant(_record_class, _connection_id: int) -> Gs2Record:
+    return null
+
 # Simulation
 
 ## Room.Input(id, field) / Input<T>(id, T.Slot). An @input_range slot of a @room_input enum reads clamped.
