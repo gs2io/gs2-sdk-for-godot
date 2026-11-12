@@ -21,7 +21,7 @@ static func action() -> String:
 
 
 static func execute(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     access_token,
     request: Gs2ShowcaseRandomShowcaseBuyByUserIdRequest
 ) -> Gs2AsyncResult:

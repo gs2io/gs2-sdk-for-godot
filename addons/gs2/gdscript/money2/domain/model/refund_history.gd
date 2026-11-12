@@ -14,14 +14,14 @@
 class_name Gs2Money2RefundHistoryDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2Money2RestClient
 var namespace_name: Variant = null
 var transaction_id: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     transaction_id_
 ):

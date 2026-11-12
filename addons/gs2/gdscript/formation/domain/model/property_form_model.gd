@@ -14,14 +14,14 @@
 class_name Gs2FormationPropertyFormModelDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2FormationRestClient
 var namespace_name: Variant = null
 var property_form_model_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     property_form_model_name_
 ):

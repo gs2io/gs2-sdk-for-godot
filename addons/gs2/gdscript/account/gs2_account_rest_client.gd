@@ -540,6 +540,48 @@ func authentication(request: Gs2AccountAuthenticationRequest) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(Gs2AccountAuthenticationResult.from_dict(response.body), null)
 
 
+func preview_take_over(request: Gs2AccountPreviewTakeOverRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/takeover/type/{type}/preview"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{type}", "null" if (request.type == null or str(request.type) == "") else str(request.type))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.user_identifier != null:
+        body["userIdentifier"] = request.user_identifier
+    if request.password != null:
+        body["password"] = request.password
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("PreviewTakeOver", response.error))
+    return Gs2AsyncResult.new(Gs2AccountPreviewTakeOverResult.from_dict(response.body), null)
+
+
+func preview_take_over_open_id_connect(request: Gs2AccountPreviewTakeOverOpenIdConnectRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/takeover/type/{type}/openIdConnect/preview"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{type}", "null" if (request.type == null or str(request.type) == "") else str(request.type))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.id_token != null:
+        body["idToken"] = request.id_token
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("PreviewTakeOverOpenIdConnect", response.error))
+    return Gs2AsyncResult.new(Gs2AccountPreviewTakeOverOpenIdConnectResult.from_dict(response.body), null)
+
+
 func request_deletion(request: Gs2AccountRequestDeletionRequest) -> Gs2AsyncResult:
     var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/me/deletion"
     url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))

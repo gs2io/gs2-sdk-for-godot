@@ -19,10 +19,13 @@ static func resolve(method: String, error: Gs2Exception) -> Gs2Exception:
     if error == null:
         return null
     match method:
-        "Authentication":
+        "Authentication", "PreviewTakeOver":
             if error.has_error_code("account.password.invalid"):
                 return Gs2AccountPasswordIncorrectException.new(error)
             elif error.has_error_code("account.banned.infinity"):
+                return Gs2AccountBannedInfinityException.new(error)
+        "PreviewTakeOverOpenIdConnect":
+            if error.has_error_code("account.banned.infinity"):
                 return Gs2AccountBannedInfinityException.new(error)
         "CancelDeletion", "UpdateTakeOver", "UpdateTakeOverByUserId", "DoTakeOver":
             if error.has_error_code("account.password.invalid"):

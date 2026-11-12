@@ -15,7 +15,7 @@
 class_name Gs2ScheduleEventAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2ScheduleRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -31,7 +31,7 @@ var is_global_schedule: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
 # diff --- start

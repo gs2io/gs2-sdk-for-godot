@@ -15,7 +15,7 @@
 class_name Gs2DistributorUserAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2DistributorRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -30,7 +30,7 @@ var gs2: Variant:
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_
 ):
@@ -56,7 +56,7 @@ func freeze_master_data(
         return async_result
     var result = async_result.result
     var domain = self
-    var new_gs2 = Gs2Domain.new(
+    var new_gs2 = _gs2.get_script().new(
         _gs2.rest_session,
         _gs2.web_socket_session,
         _gs2.transaction_configuration.namespace_name
@@ -82,7 +82,7 @@ func freeze_master_data_by_signed_timestamp(
         return async_result
     var result = async_result.result
     var domain = self
-    var new_gs2 = Gs2Domain.new(
+    var new_gs2 = _gs2.get_script().new(
         _gs2.rest_session,
         _gs2.web_socket_session,
         _gs2.transaction_configuration.namespace_name

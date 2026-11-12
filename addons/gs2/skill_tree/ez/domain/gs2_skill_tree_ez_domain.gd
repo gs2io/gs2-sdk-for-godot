@@ -19,7 +19,7 @@ var _domain: Gs2SkillTree
 var _connection: Gs2Connection
 
 func _init(
-    ez: Gs2EzDomain
+    ez: Gs2EzDomainCore
 ):
     _domain = ez.gs2.skill_tree
     _connection = ez.connection

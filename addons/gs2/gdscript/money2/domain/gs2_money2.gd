@@ -20,7 +20,7 @@ signal change_subscription_status(
 
 
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2Money2RestClient
 var url: Variant = null
 var upload_token: Variant = null
@@ -28,7 +28,7 @@ var upload_url: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain
+    gs2: Gs2DomainCore
 ):
     _gs2 = gs2
     _client = Gs2Money2RestClient.new(gs2.rest_session)

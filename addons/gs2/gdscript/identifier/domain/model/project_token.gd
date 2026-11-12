@@ -14,7 +14,7 @@
 class_name Gs2IdentifierProjectTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2IdentifierRestClient
 var access_token: Variant = null
 var token_type: Variant = null
@@ -23,7 +23,7 @@ var owner_id: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain
+    gs2: Gs2DomainCore
 ):
     _gs2 = gs2
     _client = Gs2IdentifierRestClient.new(gs2.rest_session)

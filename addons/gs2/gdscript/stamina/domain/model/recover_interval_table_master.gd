@@ -14,14 +14,14 @@
 class_name Gs2StaminaRecoverIntervalTableMasterDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2StaminaRestClient
 var namespace_name: Variant = null
 var recover_interval_table_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     recover_interval_table_name_
 ):

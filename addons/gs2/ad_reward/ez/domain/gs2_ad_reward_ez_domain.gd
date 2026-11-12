@@ -23,7 +23,7 @@ var _domain: Gs2AdReward
 var _connection: Gs2Connection
 
 func _init(
-    ez: Gs2EzDomain
+    ez: Gs2EzDomainCore
 ):
     _domain = ez.gs2.ad_reward
     _connection = ez.connection

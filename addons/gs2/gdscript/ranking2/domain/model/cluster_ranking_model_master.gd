@@ -14,14 +14,14 @@
 class_name Gs2Ranking2ClusterRankingModelMasterDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2Ranking2RestClient
 var namespace_name: Variant = null
 var ranking_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     ranking_name_
 ):

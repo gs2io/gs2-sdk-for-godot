@@ -14,7 +14,7 @@
 class_name Gs2NewsCurrentNewsMasterDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2NewsRestClient
 var namespace_name: Variant = null
 var upload_token: Variant = null
@@ -22,7 +22,7 @@ var template_upload_url: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_
 ):
     _gs2 = gs2

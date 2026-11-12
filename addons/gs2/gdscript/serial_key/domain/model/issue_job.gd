@@ -14,7 +14,7 @@
 class_name Gs2SerialKeyIssueJobDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2SerialKeyRestClient
 var namespace_name: Variant = null
 var campaign_model_name: Variant = null
@@ -23,7 +23,7 @@ var serial_codes: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     campaign_model_name_,
     issue_job_name_

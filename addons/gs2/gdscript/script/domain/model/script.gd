@@ -15,7 +15,7 @@
 class_name Gs2ScriptScriptDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2ScriptRestClient
 var namespace_name: Variant = null
 var script_name: Variant = null
@@ -27,7 +27,7 @@ var output: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     script_name_
 ):

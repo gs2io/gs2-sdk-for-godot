@@ -3,11 +3,11 @@
 class_name Gs2LotteryDescribeDrawnPrizesIterator
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var namespace_name: String
 
 
-func _init(gs2: Gs2Domain, namespace_name_: String):
+func _init(gs2: Gs2DomainCore, namespace_name_: String):
     _gs2 = gs2
     namespace_name = namespace_name_
 

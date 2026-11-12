@@ -14,7 +14,7 @@
 class_name Gs2MoneyWalletAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2MoneyRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -26,7 +26,7 @@ var price: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
     slot_

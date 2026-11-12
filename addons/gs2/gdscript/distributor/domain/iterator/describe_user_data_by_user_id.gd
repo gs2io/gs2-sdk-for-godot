@@ -18,7 +18,7 @@ extends RefCounted
 
 static var fetch_size: Variant = null
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2DistributorRestClient
 var user_id: Variant = null
 var time_offset_token: Variant = null
@@ -28,7 +28,7 @@ var _list_cached: Dictionary = {}  # "service\nkind\nparent_key" -> [service, ki
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     client,
     user_id_,
     time_offset_token_ = null

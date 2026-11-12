@@ -19,7 +19,7 @@ var _domain: Gs2Buff
 var _connection: Gs2Connection
 
 func _init(
-    ez: Gs2EzDomain
+    ez: Gs2EzDomainCore
 ):
     _domain = ez.gs2.buff
     _connection = ez.connection

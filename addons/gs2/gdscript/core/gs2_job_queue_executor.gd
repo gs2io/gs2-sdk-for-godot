@@ -18,11 +18,11 @@ extends RefCounted
 
 const RUN_RETRY_TIMEOUT_MS = 15 * 1000
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _tasks: Array = []
 
 
-func _init(gs2: Gs2Domain):
+func _init(gs2: Gs2DomainCore):
     _gs2 = gs2
 
 
@@ -41,7 +41,7 @@ static func _run_with_retry(run_impl: Callable) -> Gs2AsyncResult:
             return run_result
         if Gs2CacheDatabase.now_ms() - begin > RUN_RETRY_TIMEOUT_MS:
             return run_result
-        await Gs2Domain.wait_ms(Gs2Constant.RETRY_WAIT)
+        await Gs2DomainCore.wait_ms(Gs2Constant.RETRY_WAIT)
     return Gs2AsyncResult.new(null, null)
 
 

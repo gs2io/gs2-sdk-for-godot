@@ -26,6 +26,12 @@ var body: Variant:
 var signature: Variant:
     get:
         return _domain.signature
+var token: Variant:
+    get:
+        return _domain.token
+var expire: Variant:
+    get:
+        return _domain.expire
 var authorization_url: Variant:
     get:
         return _domain.authorization_url

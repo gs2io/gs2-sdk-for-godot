@@ -14,7 +14,7 @@
 class_name Gs2MatchmakingSeasonAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2MatchmakingRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -28,7 +28,7 @@ var matchmaking_context_token: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
     season_name_,

@@ -14,14 +14,14 @@
 class_name Gs2IdentifierPasswordDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2IdentifierRestClient
 var user_name: Variant = null
 var challenge_token: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     user_name_
 ):
     _gs2 = gs2

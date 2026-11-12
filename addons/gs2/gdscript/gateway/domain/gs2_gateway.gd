@@ -16,7 +16,7 @@ extends RefCounted
 
 
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2GatewayRestClient
 var _wsclient: Gs2GatewayWebSocketClient
 var url: Variant = null
@@ -25,7 +25,7 @@ var upload_url: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain
+    gs2: Gs2DomainCore
 ):
     _gs2 = gs2
     _client = Gs2GatewayRestClient.new(gs2.rest_session)

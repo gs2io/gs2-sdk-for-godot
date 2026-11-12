@@ -14,19 +14,21 @@
 class_name Gs2AccountAccountDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2AccountRestClient
 var namespace_name: Variant = null
 var user_id: Variant = null
 var ban_statuses: Variant = null
 var body: Variant = null
 var signature: Variant = null
+var token: Variant = null
+var expire: Variant = null
 var authorization_url: Variant = null
 var next_page_token: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     user_id_
 ):

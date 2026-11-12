@@ -259,6 +259,24 @@ static func put_cache(
             Gs2AccountAuthenticationRequest.from_dict(_parse(request_payload))
         )
         return
+    if method == "previewTakeOver":
+        Gs2AccountPreviewTakeOverMethodCache.put_cache(
+            Gs2AccountPreviewTakeOverResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountPreviewTakeOverRequest.from_dict(_parse(request_payload))
+        )
+        return
+    if method == "previewTakeOverOpenIdConnect":
+        Gs2AccountPreviewTakeOverOpenIdConnectMethodCache.put_cache(
+            Gs2AccountPreviewTakeOverOpenIdConnectResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountPreviewTakeOverOpenIdConnectRequest.from_dict(_parse(request_payload))
+        )
+        return
     if method == "requestDeletion":
         Gs2AccountRequestDeletionMethodCache.put_cache(
             Gs2AccountRequestDeletionResult.from_dict(_parse(result_payload)),

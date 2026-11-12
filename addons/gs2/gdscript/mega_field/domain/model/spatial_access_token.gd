@@ -14,7 +14,7 @@
 class_name Gs2MegaFieldSpatialAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2MegaFieldRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -26,7 +26,7 @@ var layer_model_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
     area_model_name_,

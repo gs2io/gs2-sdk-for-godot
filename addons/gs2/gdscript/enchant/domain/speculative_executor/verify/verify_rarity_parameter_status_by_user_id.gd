@@ -32,7 +32,7 @@ static func _bad_request() -> Gs2Exception:
 
 
 static func transform(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     access_token,
     request: Gs2EnchantVerifyRarityParameterStatusByUserIdRequest,
     item

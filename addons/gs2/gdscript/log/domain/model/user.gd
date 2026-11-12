@@ -14,7 +14,7 @@
 class_name Gs2LogUserDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2LogRestClient
 var namespace_name: Variant = null
 var user_id: Variant = null
@@ -24,7 +24,7 @@ var scan_size: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     user_id_
 ):

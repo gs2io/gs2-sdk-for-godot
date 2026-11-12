@@ -23,7 +23,7 @@ var _domain: Gs2Money2
 var _connection: Gs2Connection
 
 func _init(
-    ez: Gs2EzDomain
+    ez: Gs2EzDomainCore
 ):
     _domain = ez.gs2.money2
     _connection = ez.connection

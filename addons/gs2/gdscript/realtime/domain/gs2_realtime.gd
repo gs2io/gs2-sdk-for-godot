@@ -20,13 +20,13 @@ signal create_notification(
 
 
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2RealtimeRestClient
 var timestamp: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain
+    gs2: Gs2DomainCore
 ):
     _gs2 = gs2
     _client = Gs2RealtimeRestClient.new(gs2.rest_session)

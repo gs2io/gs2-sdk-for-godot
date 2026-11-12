@@ -14,7 +14,7 @@
 class_name Gs2DatastoreDataObjectAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2DatastoreRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -29,7 +29,7 @@ var next_page_token: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
     data_object_name_

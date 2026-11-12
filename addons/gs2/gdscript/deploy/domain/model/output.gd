@@ -14,14 +14,14 @@
 class_name Gs2DeployOutputDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2DeployRestClient
 var stack_name: Variant = null
 var output_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     stack_name_,
     output_name_
 ):

@@ -14,7 +14,7 @@
 class_name Gs2LotteryBoxItemsAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2LotteryRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -25,7 +25,7 @@ var prize_table_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
     prize_table_name_

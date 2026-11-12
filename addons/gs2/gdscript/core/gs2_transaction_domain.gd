@@ -16,7 +16,7 @@ class_name Gs2TransactionDomain
 extends RefCounted
 
 
-var gs2: Gs2Domain
+var gs2: Gs2DomainCore
 var access_token: Gs2AuthAccessToken
 var transaction_id: Variant = null
 var job_name: Variant = null
@@ -28,7 +28,7 @@ var user_id: Variant:
 
 
 func _init(
-    gs2_: Gs2Domain,
+    gs2_: Gs2DomainCore,
     access_token_: Gs2AuthAccessToken,
     user_id_: Variant,
     actions_: Variant = null

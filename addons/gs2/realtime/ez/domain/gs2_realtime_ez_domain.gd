@@ -26,7 +26,7 @@ var timestamp: Variant:
         return _domain.timestamp
 
 func _init(
-    ez: Gs2EzDomain
+    ez: Gs2EzDomainCore
 ):
     _domain = ez.gs2.realtime
     _connection = ez.connection

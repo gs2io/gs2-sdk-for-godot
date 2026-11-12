@@ -14,14 +14,14 @@
 class_name Gs2AccountTakeOverTypeModelDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2AccountRestClient
 var namespace_name: Variant = null
 var type: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     type_
 ):

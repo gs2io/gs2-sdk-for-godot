@@ -120,11 +120,11 @@ func wait(all: bool = false) -> Gs2AsyncResult:
             domain.invalidate()
             if not Gs2TransactionDomainFactory.recommend_auto_retry(model_result.error):
                 return model_result
-            await Gs2Domain.yield_frame()
+            await Gs2DomainCore.yield_frame()
             continue
         if model_result.result == null:
             domain.invalidate()
-            await Gs2Domain.wait_ms(Gs2Constant.RETRY_WAIT)
+            await Gs2DomainCore.wait_ms(Gs2Constant.RETRY_WAIT)
             if access_token != null:
                 var dispatch_result = await Gs2Distributor.dispatch(gs2, access_token)
                 if dispatch_result.error != null:

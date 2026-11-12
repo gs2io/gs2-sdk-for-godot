@@ -14,14 +14,14 @@
 class_name Gs2SkillTreeNodeModelDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2SkillTreeRestClient
 var namespace_name: Variant = null
 var node_model_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     node_model_name_
 ):

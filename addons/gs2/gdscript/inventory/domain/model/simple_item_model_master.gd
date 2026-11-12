@@ -14,7 +14,7 @@
 class_name Gs2InventorySimpleItemModelMasterDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2InventoryRestClient
 var namespace_name: Variant = null
 var inventory_name: Variant = null
@@ -22,7 +22,7 @@ var item_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     inventory_name_,
     item_name_

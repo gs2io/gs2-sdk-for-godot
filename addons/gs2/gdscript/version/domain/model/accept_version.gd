@@ -14,7 +14,7 @@
 class_name Gs2VersionAcceptVersionDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2VersionRestClient
 var namespace_name: Variant = null
 var user_id: Variant = null
@@ -22,7 +22,7 @@ var version_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     user_id_,
     version_name_

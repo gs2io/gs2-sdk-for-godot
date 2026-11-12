@@ -62,6 +62,33 @@ func create(namespace_name) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzCreateResult.from_model(async_result.result), null)
 
 
+func preview_take_over(namespace_name, type, user_identifier, password) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2AccountPreviewTakeOverRequest.new()
+        request.namespace_name = namespace_name
+        request.type = type
+        request.user_identifier = user_identifier
+        request.password = password
+        return await _rest_client.preview_take_over(request)
+    var async_result = await _connection.run(null, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzPreviewTakeOverResult.from_model(async_result.result), null)
+
+
+func preview_take_over_open_id_connect(namespace_name, type, id_token) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2AccountPreviewTakeOverOpenIdConnectRequest.new()
+        request.namespace_name = namespace_name
+        request.type = type
+        request.id_token = id_token
+        return await _rest_client.preview_take_over_open_id_connect(request)
+    var async_result = await _connection.run(null, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzPreviewTakeOverOpenIdConnectResult.from_model(async_result.result), null)
+
+
 func request_deletion(game_session, namespace_name) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2AccountRequestDeletionRequest.new()

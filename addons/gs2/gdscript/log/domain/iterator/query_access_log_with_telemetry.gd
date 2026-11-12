@@ -18,7 +18,7 @@ extends RefCounted
 
 static var fetch_size: Variant = null
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2LogRestClient
 var _response_cache: Variant = null
 var namespace_name: Variant = null
@@ -32,7 +32,7 @@ var _last: bool = false
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     client,
     namespace_name_,
     user_id_ = null,

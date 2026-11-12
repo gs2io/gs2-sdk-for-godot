@@ -14,7 +14,7 @@
 class_name Gs2IdleStatusAccessTokenDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2IdleRestClient
 var namespace_name: Variant = null
 var access_token: Gs2AuthAccessToken
@@ -25,7 +25,7 @@ var category_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     access_token_,
     category_name_

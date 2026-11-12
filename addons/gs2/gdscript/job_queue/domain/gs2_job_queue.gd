@@ -27,7 +27,7 @@ signal run_notification(
 static var _completed_jobs: Array = []
 
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2JobQueueRestClient
 var url: Variant = null
 var upload_token: Variant = null
@@ -35,7 +35,7 @@ var upload_url: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain
+    gs2: Gs2DomainCore
 ):
     _gs2 = gs2
     _client = Gs2JobQueueRestClient.new(gs2.rest_session)
@@ -342,7 +342,7 @@ func handle_notification(
 
 
 static func dispatch(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     access_token
 ) -> Gs2AsyncResult:
     if _completed_jobs.size() == 0:
@@ -411,7 +411,7 @@ static func dispatch(
 
 # diff +++ start
 static func dispatch_by_user_id(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     user_id
 ) -> Gs2AsyncResult:
     if _completed_jobs.size() == 0:

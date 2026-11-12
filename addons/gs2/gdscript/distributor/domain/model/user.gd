@@ -15,14 +15,14 @@
 class_name Gs2DistributorUserDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2DistributorRestClient
 var namespace_name: Variant = null
 var user_id: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     user_id_
 ):
@@ -48,7 +48,7 @@ func freeze_master_data(
         return async_result
     var result = async_result.result
     var domain = self
-    var new_gs2 = Gs2Domain.new(
+    var new_gs2 = _gs2.get_script().new(
         _gs2.rest_session,
         _gs2.web_socket_session,
         _gs2.transaction_configuration.namespace_name

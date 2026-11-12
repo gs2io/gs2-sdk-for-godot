@@ -14,18 +14,21 @@
 class_name Gs2AccountNamespaceDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2AccountRestClient
 var namespace_name: Variant = null
 var status: Variant = null
 var url: Variant = null
 var upload_token: Variant = null
 var upload_url: Variant = null
+var ban_statuses: Variant = null
+var token: Variant = null
+var expire: Variant = null
 var next_page_token: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_
 ):
     _gs2 = gs2
@@ -131,6 +134,60 @@ func create_account(
         namespace_name,
         (null if ref == null else ref.user_id)
     )
+    return Gs2AsyncResult.new(domain, null)
+
+
+func preview_take_over(
+    request: Gs2AccountPreviewTakeOverRequest
+) -> Gs2AsyncResult:
+    request = request.with_context_stack(_gs2.default_context_stack if request.context_stack == null or request.context_stack == "" else request.context_stack)
+    request = request.with_namespace_name(namespace_name)
+    var async_result = await Gs2AccountPreviewTakeOverMethodCache.invoke(
+        _gs2.cache,
+        null,
+        null,
+        request,
+        func(): return await _client.preview_take_over(request)
+    )
+    if async_result.error != null:
+        return async_result
+    var result = async_result.result
+    var ref = null if result == null else result.item
+    var domain = Gs2AccountAccountDomain.new(
+        _gs2,
+        namespace_name,
+        (null if ref == null else ref.user_id)
+    )
+    domain.ban_statuses = null if result == null else result.ban_statuses
+    domain.token = null if result == null else result.token
+    domain.expire = null if result == null else result.expire
+    return Gs2AsyncResult.new(domain, null)
+
+
+func preview_take_over_open_id_connect(
+    request: Gs2AccountPreviewTakeOverOpenIdConnectRequest
+) -> Gs2AsyncResult:
+    request = request.with_context_stack(_gs2.default_context_stack if request.context_stack == null or request.context_stack == "" else request.context_stack)
+    request = request.with_namespace_name(namespace_name)
+    var async_result = await Gs2AccountPreviewTakeOverOpenIdConnectMethodCache.invoke(
+        _gs2.cache,
+        null,
+        null,
+        request,
+        func(): return await _client.preview_take_over_open_id_connect(request)
+    )
+    if async_result.error != null:
+        return async_result
+    var result = async_result.result
+    var ref = null if result == null else result.item
+    var domain = Gs2AccountAccountDomain.new(
+        _gs2,
+        namespace_name,
+        (null if ref == null else ref.user_id)
+    )
+    domain.ban_statuses = null if result == null else result.ban_statuses
+    domain.token = null if result == null else result.token
+    domain.expire = null if result == null else result.expire
     return Gs2AsyncResult.new(domain, null)
 
 

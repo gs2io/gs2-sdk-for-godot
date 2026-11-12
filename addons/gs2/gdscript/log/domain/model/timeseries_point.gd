@@ -14,12 +14,12 @@
 class_name Gs2LogTimeseriesPointDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2LogRestClient
 
 
 func _init(
-    gs2: Gs2Domain
+    gs2: Gs2DomainCore
 ):
     _gs2 = gs2
     _client = Gs2LogRestClient.new(gs2.rest_session)

@@ -14,14 +14,14 @@
 class_name Gs2ScheduleEventMasterDomain
 extends RefCounted
 
-var _gs2: Gs2Domain
+var _gs2: Gs2DomainCore
 var _client: Gs2ScheduleRestClient
 var namespace_name: Variant = null
 var event_name: Variant = null
 
 
 func _init(
-    gs2: Gs2Domain,
+    gs2: Gs2DomainCore,
     namespace_name_,
     event_name_
 ):
