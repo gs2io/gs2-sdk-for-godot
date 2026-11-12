@@ -59,8 +59,11 @@ func authentication(connection: Gs2Connection, user_id: String, password: String
 
     var body = authentication_result.result.body
     var signature = authentication_result.result.signature
-    if body == null or signature == null:
-        return Gs2AsyncResult.new(null, Gs2Exception.extract_error("account.authentication.error.failed", 401))
+    if body == null or body == "" or signature == null or signature == "":
+        return Gs2AsyncResult.new(null, Gs2AccountAuthenticationRefusedException.new(
+            authentication_result.result.item,
+            authentication_result.result.ban_statuses
+        ))
 
     var auth_client = Gs2AuthRestClient.new(connection.rest_session)
     var login_request = Gs2AuthLoginBySignatureRequest.new()
