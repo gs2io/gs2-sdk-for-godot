@@ -523,6 +523,8 @@ func wait_clean_user_data(request: Gs2ProjectWaitCleanUserDataRequest) -> Gs2Asy
         body["transactionId"] = request.transaction_id
     if request.user_id != null:
         body["userId"] = request.user_id
+    if request.exclude_microservices != null:
+        body["excludeMicroservices"] = request.exclude_microservices
     if request.time_offset_token != null:
         body["timeOffsetToken"] = request.time_offset_token
     if request.context_stack != null:
@@ -541,6 +543,8 @@ func clean_user_data(request: Gs2ProjectCleanUserDataRequest) -> Gs2AsyncResult:
     var body = {}
     if request.user_id != null:
         body["userId"] = request.user_id
+    if request.exclude_microservices != null:
+        body["excludeMicroservices"] = request.exclude_microservices
     if request.time_offset_token != null:
         body["timeOffsetToken"] = request.time_offset_token
     if request.context_stack != null:

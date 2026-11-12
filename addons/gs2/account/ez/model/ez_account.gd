@@ -18,6 +18,7 @@ extends RefCounted
 var user_id = null
 var password = null
 var created_at = 0
+var deletion_scheduled_at = 0
 
 
 func with_user_id(v) -> Gs2AccountEzAccount:
@@ -35,11 +36,17 @@ func with_created_at(v) -> Gs2AccountEzAccount:
     return self
 
 
+func with_deletion_scheduled_at(v) -> Gs2AccountEzAccount:
+    deletion_scheduled_at = v
+    return self
+
+
 func to_model() -> Gs2AccountAccount:
     var ret = Gs2AccountAccount.new()
     ret.user_id = user_id
     ret.password = password
     ret.created_at = created_at
+    ret.deletion_scheduled_at = deletion_scheduled_at
     return ret
 
 
@@ -48,4 +55,5 @@ static func from_model(model) -> Gs2AccountEzAccount:
     ret.user_id = model.user_id
     ret.password = model.password
     ret.created_at = 0 if model.created_at == null else model.created_at
+    ret.deletion_scheduled_at = 0 if model.deletion_scheduled_at == null else model.deletion_scheduled_at
     return ret

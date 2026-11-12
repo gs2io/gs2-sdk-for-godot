@@ -67,6 +67,14 @@ func create_namespace(request: Gs2AccountCreateNamespaceRequest) -> Gs2AsyncResu
         body["banScript"] = request.ban_script.to_dict()
     if request.un_ban_script != null:
         body["unBanScript"] = request.un_ban_script.to_dict()
+    if request.account_deletion_setting != null:
+        body["accountDeletionSetting"] = request.account_deletion_setting.to_dict()
+    if request.request_deletion_script != null:
+        body["requestDeletionScript"] = request.request_deletion_script.to_dict()
+    if request.cancel_deletion_script != null:
+        body["cancelDeletionScript"] = request.cancel_deletion_script.to_dict()
+    if request.execute_deletion_script != null:
+        body["executeDeletionScript"] = request.execute_deletion_script.to_dict()
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.request_id != null:
@@ -140,6 +148,14 @@ func update_namespace(request: Gs2AccountUpdateNamespaceRequest) -> Gs2AsyncResu
         body["banScript"] = request.ban_script.to_dict()
     if request.un_ban_script != null:
         body["unBanScript"] = request.un_ban_script.to_dict()
+    if request.account_deletion_setting != null:
+        body["accountDeletionSetting"] = request.account_deletion_setting.to_dict()
+    if request.request_deletion_script != null:
+        body["requestDeletionScript"] = request.request_deletion_script.to_dict()
+    if request.cancel_deletion_script != null:
+        body["cancelDeletionScript"] = request.cancel_deletion_script.to_dict()
+    if request.execute_deletion_script != null:
+        body["executeDeletionScript"] = request.execute_deletion_script.to_dict()
     if request.log_setting != null:
         body["logSetting"] = request.log_setting.to_dict()
     if request.request_id != null:
@@ -522,6 +538,117 @@ func authentication(request: Gs2AccountAuthenticationRequest) -> Gs2AsyncResult:
     if response.error != null:
         return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("Authentication", response.error))
     return Gs2AsyncResult.new(Gs2AccountAuthenticationResult.from_dict(response.body), null)
+
+
+func request_deletion(request: Gs2AccountRequestDeletionRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/me/deletion"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.access_token != null:
+        headers["X-GS2-ACCESS-TOKEN"] = request.access_token
+    if request.duplication_avoider != null:
+        headers["X-GS2-DUPLICATION-AVOIDER"] = request.duplication_avoider
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountRequestDeletionResult.from_dict(response.body), null)
+
+
+func request_deletion_by_user_id(request: Gs2AccountRequestDeletionByUserIdRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/{userId}/deletion"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{userId}", "null" if (request.user_id == null or str(request.user_id) == "") else str(request.user_id))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.duplication_avoider != null:
+        headers["X-GS2-DUPLICATION-AVOIDER"] = request.duplication_avoider
+    if request.time_offset_token != null:
+        headers["X-GS2-TIME-OFFSET-TOKEN"] = request.time_offset_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountRequestDeletionByUserIdResult.from_dict(response.body), null)
+
+
+func cancel_deletion(request: Gs2AccountCancelDeletionRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/{userId}/deletion/cancel"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{userId}", "null" if (request.user_id == null or str(request.user_id) == "") else str(request.user_id))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.password != null:
+        body["password"] = request.password
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.duplication_avoider != null:
+        headers["X-GS2-DUPLICATION-AVOIDER"] = request.duplication_avoider
+    if request.time_offset_token != null:
+        headers["X-GS2-TIME-OFFSET-TOKEN"] = request.time_offset_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("CancelDeletion", response.error))
+    return Gs2AsyncResult.new(Gs2AccountCancelDeletionResult.from_dict(response.body), null)
+
+
+func cancel_deletion_by_user_id(request: Gs2AccountCancelDeletionByUserIdRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/{userId}/deletion"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{userId}", "null" if (request.user_id == null or str(request.user_id) == "") else str(request.user_id))
+    var headers = create_authorized_headers()
+    var query_strings = {}
+    if request.context_stack != null:
+        query_strings["contextStack"] = request.context_stack
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.duplication_avoider != null:
+        headers["X-GS2-DUPLICATION-AVOIDER"] = request.duplication_avoider
+    if request.time_offset_token != null:
+        headers["X-GS2-TIME-OFFSET-TOKEN"] = request.time_offset_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("DELETE", url, headers, query_strings, null)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountCancelDeletionByUserIdResult.from_dict(response.body), null)
+
+
+func execute_deletion_by_user_id(request: Gs2AccountExecuteDeletionByUserIdRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/{userId}/deletion/execute"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{userId}", "null" if (request.user_id == null or str(request.user_id) == "") else str(request.user_id))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.duplication_avoider != null:
+        headers["X-GS2-DUPLICATION-AVOIDER"] = request.duplication_avoider
+    if request.time_offset_token != null:
+        headers["X-GS2-TIME-OFFSET-TOKEN"] = request.time_offset_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountExecuteDeletionByUserIdResult.from_dict(response.body), null)
 
 
 func describe_take_overs(request: Gs2AccountDescribeTakeOversRequest) -> Gs2AsyncResult:

@@ -15,44 +15,6 @@ class_name Gs2AccountWebSocketClient
 extends Gs2AbstractWebSocketClient
 
 
-func create_namespace(request: Gs2AccountCreateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.name != null:
-        body["name"] = request.name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.transaction_setting_v2 != null:
-        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
-    if request.change_password_if_take_over != null:
-        body["changePasswordIfTakeOver"] = request.change_password_if_take_over
-    if request.different_user_id_for_login_and_data_retention != null:
-        body["differentUserIdForLoginAndDataRetention"] = request.different_user_id_for_login_and_data_retention
-    if request.create_account_script != null:
-        body["createAccountScript"] = request.create_account_script.to_dict()
-    if request.authentication_script != null:
-        body["authenticationScript"] = request.authentication_script.to_dict()
-    if request.create_take_over_script != null:
-        body["createTakeOverScript"] = request.create_take_over_script.to_dict()
-    if request.do_take_over_script != null:
-        body["doTakeOverScript"] = request.do_take_over_script.to_dict()
-    if request.ban_script != null:
-        body["banScript"] = request.ban_script.to_dict()
-    if request.un_ban_script != null:
-        body["unBanScript"] = request.un_ban_script.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("account", "namespace", "createNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AccountCreateNamespaceResult.from_dict(response.body), null)
-
-
 func get_namespace_status(request: Gs2AccountGetNamespaceStatusRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:
@@ -65,70 +27,6 @@ func get_namespace_status(request: Gs2AccountGetNamespaceStatusRequest) -> Gs2As
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2AccountGetNamespaceStatusResult.from_dict(response.body), null)
-
-
-func get_namespace(request: Gs2AccountGetNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("account", "namespace", "getNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AccountGetNamespaceResult.from_dict(response.body), null)
-
-
-func update_namespace(request: Gs2AccountUpdateNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.description != null:
-        body["description"] = request.description
-    if request.transaction_setting != null:
-        body["transactionSetting"] = request.transaction_setting.to_dict()
-    if request.transaction_setting_v2 != null:
-        body["transactionSettingV2"] = request.transaction_setting_v2.to_dict()
-    if request.change_password_if_take_over != null:
-        body["changePasswordIfTakeOver"] = request.change_password_if_take_over
-    if request.create_account_script != null:
-        body["createAccountScript"] = request.create_account_script.to_dict()
-    if request.authentication_script != null:
-        body["authenticationScript"] = request.authentication_script.to_dict()
-    if request.create_take_over_script != null:
-        body["createTakeOverScript"] = request.create_take_over_script.to_dict()
-    if request.do_take_over_script != null:
-        body["doTakeOverScript"] = request.do_take_over_script.to_dict()
-    if request.ban_script != null:
-        body["banScript"] = request.ban_script.to_dict()
-    if request.un_ban_script != null:
-        body["unBanScript"] = request.un_ban_script.to_dict()
-    if request.log_setting != null:
-        body["logSetting"] = request.log_setting.to_dict()
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("account", "namespace", "updateNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AccountUpdateNamespaceResult.from_dict(response.body), null)
-
-
-func delete_namespace(request: Gs2AccountDeleteNamespaceRequest) -> Gs2AsyncResult:
-    var body = {}
-    if request.namespace_name != null:
-        body["namespaceName"] = request.namespace_name
-    if request.context_stack != null:
-        body["contextStack"] = request.context_stack
-    if request.dry_run:
-        body["xGs2DryRun"] = "true"
-    var response = await session.send("account", "namespace", "deleteNamespace", body)
-    if response.error != null:
-        return Gs2AsyncResult.new(null, response.error)
-    return Gs2AsyncResult.new(Gs2AccountDeleteNamespaceResult.from_dict(response.body), null)
 
 
 func get_service_version(request: Gs2AccountGetServiceVersionRequest) -> Gs2AsyncResult:
@@ -399,6 +297,108 @@ func delete_account(request: Gs2AccountDeleteAccountRequest) -> Gs2AsyncResult:
     if response.error != null:
         return Gs2AsyncResult.new(null, response.error)
     return Gs2AsyncResult.new(Gs2AccountDeleteAccountResult.from_dict(response.body), null)
+
+
+func request_deletion(request: Gs2AccountRequestDeletionRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.access_token != null:
+        body["accessToken"] = request.access_token
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.access_token != null:
+        body["xGs2AccessToken"] = request.access_token
+    if request.duplication_avoider != null:
+        body["xGs2DuplicationAvoider"] = request.duplication_avoider
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "account", "requestDeletion", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountRequestDeletionResult.from_dict(response.body), null)
+
+
+func request_deletion_by_user_id(request: Gs2AccountRequestDeletionByUserIdRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.user_id != null:
+        body["userId"] = request.user_id
+    if request.time_offset_token != null:
+        body["timeOffsetToken"] = request.time_offset_token
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.duplication_avoider != null:
+        body["xGs2DuplicationAvoider"] = request.duplication_avoider
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "account", "requestDeletionByUserId", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountRequestDeletionByUserIdResult.from_dict(response.body), null)
+
+
+func cancel_deletion(request: Gs2AccountCancelDeletionRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.user_id != null:
+        body["userId"] = request.user_id
+    if request.password != null:
+        body["password"] = request.password
+    if request.time_offset_token != null:
+        body["timeOffsetToken"] = request.time_offset_token
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.duplication_avoider != null:
+        body["xGs2DuplicationAvoider"] = request.duplication_avoider
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "account", "cancelDeletion", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, Gs2AccountErrorResolver.resolve("CancelDeletion", response.error))
+    return Gs2AsyncResult.new(Gs2AccountCancelDeletionResult.from_dict(response.body), null)
+
+
+func cancel_deletion_by_user_id(request: Gs2AccountCancelDeletionByUserIdRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.user_id != null:
+        body["userId"] = request.user_id
+    if request.time_offset_token != null:
+        body["timeOffsetToken"] = request.time_offset_token
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.duplication_avoider != null:
+        body["xGs2DuplicationAvoider"] = request.duplication_avoider
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "account", "cancelDeletionByUserId", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountCancelDeletionByUserIdResult.from_dict(response.body), null)
+
+
+func execute_deletion_by_user_id(request: Gs2AccountExecuteDeletionByUserIdRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.user_id != null:
+        body["userId"] = request.user_id
+    if request.time_offset_token != null:
+        body["timeOffsetToken"] = request.time_offset_token
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.duplication_avoider != null:
+        body["xGs2DuplicationAvoider"] = request.duplication_avoider
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "account", "executeDeletionByUserId", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountExecuteDeletionByUserIdResult.from_dict(response.body), null)
 
 
 func create_take_over(request: Gs2AccountCreateTakeOverRequest) -> Gs2AsyncResult:

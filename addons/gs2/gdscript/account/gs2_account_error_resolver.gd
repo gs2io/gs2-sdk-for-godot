@@ -24,12 +24,12 @@ static func resolve(method: String, error: Gs2Exception) -> Gs2Exception:
                 return Gs2AccountPasswordIncorrectException.new(error)
             elif error.has_error_code("account.banned.infinity"):
                 return Gs2AccountBannedInfinityException.new(error)
+        "CancelDeletion", "UpdateTakeOver", "UpdateTakeOverByUserId", "DoTakeOver":
+            if error.has_error_code("account.password.invalid"):
+                return Gs2AccountPasswordIncorrectException.new(error)
         "CreateTakeOver", "CreateTakeOverByUserId", "CreateTakeOverOpenIdConnect", "CreateTakeOverOpenIdConnectAndByUserId":
             if error.has_error_code("account.takeOver.alreadyExists"):
                 return Gs2AccountTakeOverAlreadyExistsException.new(error)
             elif error.has_error_code("account.takeOver.userIdentifier.duplicate"):
                 return Gs2AccountTakeOverIdentifierAlreadyUsedException.new(error)
-        "UpdateTakeOver", "UpdateTakeOverByUserId", "DoTakeOver":
-            if error.has_error_code("account.password.invalid"):
-                return Gs2AccountPasswordIncorrectException.new(error)
     return error

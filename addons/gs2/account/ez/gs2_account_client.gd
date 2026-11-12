@@ -38,6 +38,19 @@ func authentication(namespace_name, user_id, password, key_id = null) -> Gs2Asyn
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzAuthenticationResult.from_model(async_result.result), null)
 
 
+func cancel_deletion(namespace_name, user_id, password) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2AccountCancelDeletionRequest.new()
+        request.namespace_name = namespace_name
+        request.user_id = user_id
+        request.password = password
+        return await _rest_client.cancel_deletion(request)
+    var async_result = await _connection.run(null, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzCancelDeletionResult.from_model(async_result.result), null)
+
+
 func create(namespace_name) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2AccountCreateAccountRequest.new()
@@ -47,6 +60,18 @@ func create(namespace_name) -> Gs2AsyncResult:
     if async_result.error != null:
         return Gs2AsyncResult.new(null, async_result.error)
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzCreateResult.from_model(async_result.result), null)
+
+
+func request_deletion(game_session, namespace_name) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2AccountRequestDeletionRequest.new()
+        request.namespace_name = namespace_name
+        request.access_token = game_session.access_token.token
+        return await _rest_client.request_deletion(request)
+    var async_result = await _connection.run(game_session, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzRequestDeletionResult.from_model(async_result.result), null)
 
 
 func add_take_over_setting(game_session, namespace_name, type, user_identifier, password) -> Gs2AsyncResult:

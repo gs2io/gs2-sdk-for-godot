@@ -259,6 +259,51 @@ static func put_cache(
             Gs2AccountAuthenticationRequest.from_dict(_parse(request_payload))
         )
         return
+    if method == "requestDeletion":
+        Gs2AccountRequestDeletionMethodCache.put_cache(
+            Gs2AccountRequestDeletionResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountRequestDeletionRequest.from_dict(_parse(request_payload))
+        )
+        return
+    if method == "requestDeletionByUserId":
+        Gs2AccountRequestDeletionByUserIdMethodCache.put_cache(
+            Gs2AccountRequestDeletionByUserIdResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountRequestDeletionByUserIdRequest.from_dict(_parse(request_payload))
+        )
+        return
+    if method == "cancelDeletion":
+        Gs2AccountCancelDeletionMethodCache.put_cache(
+            Gs2AccountCancelDeletionResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountCancelDeletionRequest.from_dict(_parse(request_payload))
+        )
+        return
+    if method == "cancelDeletionByUserId":
+        Gs2AccountCancelDeletionByUserIdMethodCache.put_cache(
+            Gs2AccountCancelDeletionByUserIdResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountCancelDeletionByUserIdRequest.from_dict(_parse(request_payload))
+        )
+        return
+    if method == "executeDeletionByUserId":
+        Gs2AccountExecuteDeletionByUserIdMethodCache.put_cache(
+            Gs2AccountExecuteDeletionByUserIdResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountExecuteDeletionByUserIdRequest.from_dict(_parse(request_payload))
+        )
+        return
     if method == "describeTakeOvers":
         Gs2AccountDescribeTakeOversMethodCache.put_cache(
             Gs2AccountDescribeTakeOversResult.from_dict(_parse(result_payload)),

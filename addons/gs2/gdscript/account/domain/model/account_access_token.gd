@@ -39,6 +39,26 @@ func _init(
     access_token = access_token_
 
 
+func request_deletion(
+    request: Gs2AccountRequestDeletionRequest
+) -> Gs2AsyncResult:
+    request = request.with_context_stack(_gs2.default_context_stack if request.context_stack == null or request.context_stack == "" else request.context_stack)
+    request = request.with_namespace_name(namespace_name)
+    request = request.with_access_token(null if access_token == null else access_token.token)
+    var async_result = await Gs2AccountRequestDeletionMethodCache.invoke(
+        _gs2.cache,
+        user_id,
+        (null if access_token == null else access_token.time_offset),
+        request,
+        func(): return await _client.request_deletion(request)
+    )
+    if async_result.error != null:
+        return async_result
+    var result = async_result.result
+    var domain = self
+    return Gs2AsyncResult.new(domain, null)
+
+
 func delete_take_over(
     request: Gs2AccountDeleteTakeOverRequest
 ) -> Gs2AsyncResult:

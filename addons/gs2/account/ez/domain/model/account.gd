@@ -64,6 +64,22 @@ func authentication(
         async_result.result,
         _connection
     ), null)
+func cancel_deletion(
+    password
+) -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        null,
+        func(): return await _domain.cancel_deletion(
+            Gs2AccountCancelDeletionRequest.new()
+                .with_password(password)
+        )
+    )
+    if async_result.error != null:
+        return async_result
+    return Gs2AsyncResult.new(Gs2AccountEzAccountDomain.new(
+        async_result.result,
+        _connection
+    ), null)
 func get_authorization_url(
     type
 ) -> Gs2AsyncResult:

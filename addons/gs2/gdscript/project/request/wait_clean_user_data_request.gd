@@ -18,6 +18,7 @@ extends Gs2Request
 var owner_id = null
 var transaction_id = null
 var user_id = null
+var exclude_microservices = null
 var time_offset_token = null
 var duplication_avoider = null
 
@@ -34,6 +35,11 @@ func with_transaction_id(v) -> Gs2ProjectWaitCleanUserDataRequest:
 
 func with_user_id(v) -> Gs2ProjectWaitCleanUserDataRequest:
     user_id = v
+    return self
+
+
+func with_exclude_microservices(v) -> Gs2ProjectWaitCleanUserDataRequest:
+    exclude_microservices = v
     return self
 
 
@@ -54,6 +60,7 @@ static func from_dict(data) -> Gs2ProjectWaitCleanUserDataRequest:
     ret.owner_id = null if data.get("ownerId") == null else str(data.get("ownerId"))
     ret.transaction_id = null if data.get("transactionId") == null else str(data.get("transactionId"))
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
+    ret.exclude_microservices = null if data.get("excludeMicroservices") == null else data.get("excludeMicroservices").map(func(v): return str(v))
     ret.time_offset_token = null if data.get("timeOffsetToken") == null else str(data.get("timeOffsetToken"))
     return ret
 
@@ -63,5 +70,6 @@ func to_dict() -> Dictionary:
     ret["ownerId"] = owner_id
     ret["transactionId"] = transaction_id
     ret["userId"] = user_id
+    ret["excludeMicroservices"] = exclude_microservices
     ret["timeOffsetToken"] = time_offset_token
     return ret

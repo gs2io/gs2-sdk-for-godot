@@ -49,6 +49,21 @@ func _init(
     _domain = domain
     _game_session = game_session
     _connection = connection
+func request_deletion(
+) -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        _game_session,
+        func(): return await _domain.request_deletion(
+            Gs2AccountRequestDeletionRequest.new()
+        )
+    )
+    if async_result.error != null:
+        return async_result
+    return Gs2AsyncResult.new(Gs2AccountEzAccountGameSessionDomain.new(
+        async_result.result,
+        _game_session,
+        _connection
+    ), null)
 func delete_take_over_setting(
     type
 ) -> Gs2AsyncResult:
@@ -140,3 +155,38 @@ func platform_id(
         _game_session,
         _connection
     )
+
+
+func model() -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        _game_session,
+        func(): return await _domain.model()
+    )
+    if async_result.error != null:
+        return async_result
+    if async_result.result == null:
+        return Gs2AsyncResult.new(null, null)
+    return Gs2AsyncResult.new(Gs2AccountEzAccount.from_model(async_result.result), null)
+
+
+func invalidate() -> void:
+    _domain.invalidate()
+
+
+func subscribe_model(callback: Callable) -> int:
+    return _domain.subscribe_model(
+        func(item): callback.call(null if item == null else Gs2AccountEzAccount.from_model(item))
+    )
+
+
+func unsubscribe_model(callback_id: int) -> void:
+    _domain.unsubscribe_model(callback_id)
+
+
+func subscribe_model_with_initial_call(callback: Callable) -> Gs2AsyncResult:
+    var model_result = await model()
+    if model_result.error != null:
+        return model_result
+    var callback_id = subscribe_model(callback)
+    callback.call(model_result.result)
+    return Gs2AsyncResult.new(callback_id, null)

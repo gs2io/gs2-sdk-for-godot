@@ -783,6 +783,8 @@ func wait_clean_user_data(request: Gs2ProjectWaitCleanUserDataRequest) -> Gs2Asy
         body["contextStack"] = request.context_stack
     if request.user_id != null:
         body["userId"] = request.user_id
+    if request.exclude_microservices != null:
+        body["excludeMicroservices"] = request.exclude_microservices
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:
@@ -804,6 +806,8 @@ func clean_user_data(request: Gs2ProjectCleanUserDataRequest) -> Gs2AsyncResult:
     var body = {}
     if request.context_stack != null:
         body["contextStack"] = request.context_stack
+    if request.exclude_microservices != null:
+        body["excludeMicroservices"] = request.exclude_microservices
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.duplication_avoider != null:

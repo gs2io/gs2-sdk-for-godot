@@ -22,6 +22,8 @@ var time_offset = null
 var ban_statuses = null
 var banned = null
 var last_authenticated_at = null
+var deletion_requested_at = null
+var deletion_scheduled_at = null
 var created_at = null
 var revision = null
 
@@ -58,6 +60,16 @@ func with_banned(v) -> Gs2AccountAccount:
 
 func with_last_authenticated_at(v) -> Gs2AccountAccount:
     last_authenticated_at = v
+    return self
+
+
+func with_deletion_requested_at(v) -> Gs2AccountAccount:
+    deletion_requested_at = v
+    return self
+
+
+func with_deletion_scheduled_at(v) -> Gs2AccountAccount:
+    deletion_scheduled_at = v
     return self
 
 
@@ -126,6 +138,8 @@ static func from_dict(data) -> Gs2AccountAccount:
     ret.ban_statuses = null if data.get("banStatuses") == null else data.get("banStatuses").map(func(v): return Gs2AccountBanStatus.from_dict(v))
     ret.banned = null if data.get("banned") == null else bool(data.get("banned"))
     ret.last_authenticated_at = null if data.get("lastAuthenticatedAt") == null else int(data.get("lastAuthenticatedAt"))
+    ret.deletion_requested_at = null if data.get("deletionRequestedAt") == null else int(data.get("deletionRequestedAt"))
+    ret.deletion_scheduled_at = null if data.get("deletionScheduledAt") == null else int(data.get("deletionScheduledAt"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
     ret.revision = null if data.get("revision") == null else int(data.get("revision"))
     return ret
@@ -140,6 +154,8 @@ func to_dict() -> Dictionary:
     ret["banStatuses"] = null if ban_statuses == null else ban_statuses.map(func(v): return null if v == null else v.to_dict())
     ret["banned"] = banned
     ret["lastAuthenticatedAt"] = last_authenticated_at
+    ret["deletionRequestedAt"] = deletion_requested_at
+    ret["deletionScheduledAt"] = deletion_scheduled_at
     ret["createdAt"] = created_at
     ret["revision"] = revision
     return ret

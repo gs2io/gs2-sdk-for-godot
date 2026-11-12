@@ -16,12 +16,18 @@ extends Gs2Request
 
 
 var user_id = null
+var exclude_microservices = null
 var time_offset_token = null
 var duplication_avoider = null
 
 
 func with_user_id(v) -> Gs2ProjectCleanUserDataRequest:
     user_id = v
+    return self
+
+
+func with_exclude_microservices(v) -> Gs2ProjectCleanUserDataRequest:
+    exclude_microservices = v
     return self
 
 
@@ -40,6 +46,7 @@ static func from_dict(data) -> Gs2ProjectCleanUserDataRequest:
         return null
     var ret = Gs2ProjectCleanUserDataRequest.new()
     ret.user_id = null if data.get("userId") == null else str(data.get("userId"))
+    ret.exclude_microservices = null if data.get("excludeMicroservices") == null else data.get("excludeMicroservices").map(func(v): return str(v))
     ret.time_offset_token = null if data.get("timeOffsetToken") == null else str(data.get("timeOffsetToken"))
     return ret
 
@@ -47,5 +54,6 @@ static func from_dict(data) -> Gs2ProjectCleanUserDataRequest:
 func to_dict() -> Dictionary:
     var ret = {}
     ret["userId"] = user_id
+    ret["excludeMicroservices"] = exclude_microservices
     ret["timeOffsetToken"] = time_offset_token
     return ret

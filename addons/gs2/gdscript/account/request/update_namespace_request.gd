@@ -26,6 +26,10 @@ var create_take_over_script = null
 var do_take_over_script = null
 var ban_script = null
 var un_ban_script = null
+var account_deletion_setting = null
+var request_deletion_script = null
+var cancel_deletion_script = null
+var execute_deletion_script = null
 var log_setting = null
 
 
@@ -84,6 +88,26 @@ func with_un_ban_script(v) -> Gs2AccountUpdateNamespaceRequest:
     return self
 
 
+func with_account_deletion_setting(v) -> Gs2AccountUpdateNamespaceRequest:
+    account_deletion_setting = v
+    return self
+
+
+func with_request_deletion_script(v) -> Gs2AccountUpdateNamespaceRequest:
+    request_deletion_script = v
+    return self
+
+
+func with_cancel_deletion_script(v) -> Gs2AccountUpdateNamespaceRequest:
+    cancel_deletion_script = v
+    return self
+
+
+func with_execute_deletion_script(v) -> Gs2AccountUpdateNamespaceRequest:
+    execute_deletion_script = v
+    return self
+
+
 func with_log_setting(v) -> Gs2AccountUpdateNamespaceRequest:
     log_setting = v
     return self
@@ -104,6 +128,10 @@ static func from_dict(data) -> Gs2AccountUpdateNamespaceRequest:
     ret.do_take_over_script = null if data.get("doTakeOverScript") == null else Gs2AccountScriptSetting.from_dict(data.get("doTakeOverScript"))
     ret.ban_script = null if data.get("banScript") == null else Gs2AccountScriptSetting.from_dict(data.get("banScript"))
     ret.un_ban_script = null if data.get("unBanScript") == null else Gs2AccountScriptSetting.from_dict(data.get("unBanScript"))
+    ret.account_deletion_setting = null if data.get("accountDeletionSetting") == null else Gs2AccountAccountDeletionSetting.from_dict(data.get("accountDeletionSetting"))
+    ret.request_deletion_script = null if data.get("requestDeletionScript") == null else Gs2AccountScriptSetting.from_dict(data.get("requestDeletionScript"))
+    ret.cancel_deletion_script = null if data.get("cancelDeletionScript") == null else Gs2AccountScriptSetting.from_dict(data.get("cancelDeletionScript"))
+    ret.execute_deletion_script = null if data.get("executeDeletionScript") == null else Gs2AccountScriptSetting.from_dict(data.get("executeDeletionScript"))
     ret.log_setting = null if data.get("logSetting") == null else Gs2AccountLogSetting.from_dict(data.get("logSetting"))
     return ret
 
@@ -121,5 +149,9 @@ func to_dict() -> Dictionary:
     ret["doTakeOverScript"] = null if do_take_over_script == null else do_take_over_script.to_dict()
     ret["banScript"] = null if ban_script == null else ban_script.to_dict()
     ret["unBanScript"] = null if un_ban_script == null else un_ban_script.to_dict()
+    ret["accountDeletionSetting"] = null if account_deletion_setting == null else account_deletion_setting.to_dict()
+    ret["requestDeletionScript"] = null if request_deletion_script == null else request_deletion_script.to_dict()
+    ret["cancelDeletionScript"] = null if cancel_deletion_script == null else cancel_deletion_script.to_dict()
+    ret["executeDeletionScript"] = null if execute_deletion_script == null else execute_deletion_script.to_dict()
     ret["logSetting"] = null if log_setting == null else log_setting.to_dict()
     return ret
