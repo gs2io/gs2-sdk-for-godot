@@ -159,3 +159,16 @@ func subscribe_model_with_initial_call(callback: Callable) -> Gs2AsyncResult:
     var callback_id = subscribe_model(callback)
     callback.call(model_result.result)
     return Gs2AsyncResult.new(callback_id, null)
+
+
+# A game session that reads the account returned by preview_take_over / preview_take_over_open_id_connect.
+# Read the profile or progress to show in the confirmation dialog with it, then call do_take_over
+# once the user agrees. Its access token can only call Describe / Get APIs, expires in 10 minutes
+# and is never refreshed (the session has no authenticator).
+# Returns null when no token was issued (the account is banned, or has no data to read yet).
+func preview_game_session() -> Gs2GameSession:
+    if token == null or str(token).is_empty() or user_id == null:
+        return null
+    var game_session = Gs2GameSession.new(null, _connection, user_id, "")
+    game_session.access_token = Gs2AuthAccessToken.new().with_token(token).with_user_id(user_id).with_expire(expire)
+    return game_session

@@ -30,6 +30,15 @@ var upload_token: Variant:
 var upload_url: Variant:
     get:
         return _domain.upload_url
+var ban_statuses: Variant:
+    get:
+        return null if _domain.ban_statuses == null else _domain.ban_statuses.map(func(v): return Gs2AccountEzBanStatus.from_model(v))
+var token: Variant:
+    get:
+        return _domain.token
+var expire: Variant:
+    get:
+        return _domain.expire
 var next_page_token: Variant:
     get:
         return _domain.next_page_token
@@ -75,6 +84,44 @@ func get_authorization_url(
     authorization_url = null if async_result.result == null else async_result.result.authorization_url
     return Gs2AsyncResult.new(self, null)
 # diff +++ end
+func preview_take_over(
+    type,
+    user_identifier,
+    password
+) -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        null,
+        func(): return await _domain.preview_take_over(
+            Gs2AccountPreviewTakeOverRequest.new()
+                .with_type(type)
+                .with_user_identifier(user_identifier)
+                .with_password(password)
+        )
+    )
+    if async_result.error != null:
+        return async_result
+    return Gs2AsyncResult.new(Gs2AccountEzAccountDomain.new(
+        async_result.result,
+        _connection
+    ), null)
+func preview_take_over_open_id_connect(
+    type,
+    id_token
+) -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        null,
+        func(): return await _domain.preview_take_over_open_id_connect(
+            Gs2AccountPreviewTakeOverOpenIdConnectRequest.new()
+                .with_type(type)
+                .with_id_token(id_token)
+        )
+    )
+    if async_result.error != null:
+        return async_result
+    return Gs2AsyncResult.new(Gs2AccountEzAccountDomain.new(
+        async_result.result,
+        _connection
+    ), null)
 func do_take_over(
     type,
     user_identifier,
