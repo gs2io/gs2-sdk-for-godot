@@ -121,6 +121,11 @@ static func put_cache(
     )
     var value = pair[0]
     var find = pair[1]
+    if find and value != null and item != null and value.created_at != null and item.created_at != null and value.revision != null and item.revision != null and value.created_at != item.created_at:
+        if value.created_at > item.created_at:
+            return
+        # A recreated model starts a separate revision sequence.
+        find = false
     var value_revision = value.revision if value != null and value.revision != null else -1
     var item_revision = item.revision if item != null and item.revision != null else -1
     if find and value_revision > item_revision and item_revision > 1:
