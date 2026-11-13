@@ -195,6 +195,19 @@ func get_authorization_url(namespace_name, type) -> Gs2AsyncResult:
     return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzGetAuthorizationUrlResult.from_model(async_result.result), null)
 
 
+func issue_take_over_code(game_session, namespace_name, type) -> Gs2AsyncResult:
+    var request_action = func():
+        var request = Gs2AccountIssueTakeOverCodeRequest.new()
+        request.namespace_name = namespace_name
+        request.access_token = game_session.access_token.token
+        request.type = type
+        return await _rest_client.issue_take_over_code(request)
+    var async_result = await _connection.run(game_session, request_action)
+    if async_result.error != null:
+        return Gs2AsyncResult.new(null, async_result.error)
+    return Gs2AsyncResult.new(null if async_result.result == null else Gs2AccountEzIssueTakeOverCodeResult.from_model(async_result.result), null)
+
+
 func list_take_over_settings(game_session, namespace_name, page_token = null, limit = null) -> Gs2AsyncResult:
     var request_action = func():
         var request = Gs2AccountDescribeTakeOversRequest.new()

@@ -19,6 +19,9 @@ extends RefCounted
 var _domain: Gs2AccountTakeOverAccessTokenDomain
 var _game_session: Variant
 var _connection: Gs2Connection
+var password: Variant:
+    get:
+        return _domain.password
 var authorization_url: Variant:
     get:
         return _domain.authorization_url

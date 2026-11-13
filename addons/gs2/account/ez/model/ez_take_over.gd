@@ -19,6 +19,7 @@ var user_id = null
 var type = 0
 var user_identifier = null
 var created_at = 0
+var expires_at = 0
 
 
 func with_user_id(v) -> Gs2AccountEzTakeOver:
@@ -41,12 +42,18 @@ func with_created_at(v) -> Gs2AccountEzTakeOver:
     return self
 
 
+func with_expires_at(v) -> Gs2AccountEzTakeOver:
+    expires_at = v
+    return self
+
+
 func to_model() -> Gs2AccountTakeOver:
     var ret = Gs2AccountTakeOver.new()
     ret.user_id = user_id
     ret.type = type
     ret.user_identifier = user_identifier
     ret.created_at = created_at
+    ret.expires_at = expires_at
     return ret
 
 
@@ -56,4 +63,5 @@ static func from_model(model) -> Gs2AccountEzTakeOver:
     ret.type = 0 if model.type == null else model.type
     ret.user_identifier = model.user_identifier
     ret.created_at = 0 if model.created_at == null else model.created_at
+    ret.expires_at = 0 if model.expires_at == null else model.expires_at
     return ret

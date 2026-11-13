@@ -32,6 +32,9 @@ var token: Variant:
 var expire: Variant:
     get:
         return _domain.expire
+var password: Variant:
+    get:
+        return _domain.password
 var authorization_url: Variant:
     get:
         return _domain.authorization_url

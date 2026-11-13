@@ -23,6 +23,7 @@ var user_id: Variant:
         return null if access_token == null else access_token.user_id
 var type: Variant = null
 var user_identifier: Variant = null
+var password: Variant = null
 var authorization_url: Variant = null
 var payload: Variant = null
 

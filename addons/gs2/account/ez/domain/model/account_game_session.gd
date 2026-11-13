@@ -33,6 +33,9 @@ var token: Variant:
 var expire: Variant:
     get:
         return _domain.expire
+var password: Variant:
+    get:
+        return _domain.password
 var authorization_url: Variant:
     get:
         return _domain.authorization_url
@@ -66,6 +69,23 @@ func request_deletion(
     if async_result.error != null:
         return async_result
     return Gs2AsyncResult.new(Gs2AccountEzAccountGameSessionDomain.new(
+        async_result.result,
+        _game_session,
+        _connection
+    ), null)
+func issue_take_over_code(
+    type
+) -> Gs2AsyncResult:
+    var async_result = await _connection.run(
+        _game_session,
+        func(): return await _domain.issue_take_over_code(
+            Gs2AccountIssueTakeOverCodeRequest.new()
+                .with_type(type)
+        )
+    )
+    if async_result.error != null:
+        return async_result
+    return Gs2AsyncResult.new(Gs2AccountEzTakeOverGameSessionDomain.new(
         async_result.result,
         _game_session,
         _connection

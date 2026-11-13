@@ -116,6 +116,8 @@ static func put_cache(
     if find and value_revision == item_revision:
         return
     var ttl = 0
+    if item != null and item.expires_at != null and item.expires_at != 0:
+        ttl = item.expires_at
     cache.put(
         "Gs2AccountTakeOver",
         cache_parent_key(

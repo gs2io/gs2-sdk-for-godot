@@ -19,7 +19,9 @@ var take_over_type_model_id = null
 var type = null
 var description = null
 var metadata = null
+var take_over_method = null
 var open_id_connect_setting = null
+var issued_code_setting = null
 var created_at = null
 var updated_at = null
 var revision = null
@@ -45,8 +47,18 @@ func with_metadata(v) -> Gs2AccountTakeOverTypeModelMaster:
     return self
 
 
+func with_take_over_method(v) -> Gs2AccountTakeOverTypeModelMaster:
+    take_over_method = v
+    return self
+
+
 func with_open_id_connect_setting(v) -> Gs2AccountTakeOverTypeModelMaster:
     open_id_connect_setting = v
+    return self
+
+
+func with_issued_code_setting(v) -> Gs2AccountTakeOverTypeModelMaster:
+    issued_code_setting = v
     return self
 
 
@@ -117,7 +129,9 @@ static func from_dict(data) -> Gs2AccountTakeOverTypeModelMaster:
     ret.type = null if data.get("type") == null else int(data.get("type"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.metadata = null if data.get("metadata") == null else str(data.get("metadata"))
+    ret.take_over_method = null if data.get("takeOverMethod") == null else str(data.get("takeOverMethod"))
     ret.open_id_connect_setting = null if data.get("openIdConnectSetting") == null else Gs2AccountOpenIdConnectSetting.from_dict(data.get("openIdConnectSetting"))
+    ret.issued_code_setting = null if data.get("issuedCodeSetting") == null else Gs2AccountIssuedCodeSetting.from_dict(data.get("issuedCodeSetting"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
     ret.updated_at = null if data.get("updatedAt") == null else int(data.get("updatedAt"))
     ret.revision = null if data.get("revision") == null else int(data.get("revision"))
@@ -130,7 +144,9 @@ func to_dict() -> Dictionary:
     ret["type"] = type
     ret["description"] = description
     ret["metadata"] = metadata
+    ret["takeOverMethod"] = take_over_method
     ret["openIdConnectSetting"] = null if open_id_connect_setting == null else open_id_connect_setting.to_dict()
+    ret["issuedCodeSetting"] = null if issued_code_setting == null else issued_code_setting.to_dict()
     ret["createdAt"] = created_at
     ret["updatedAt"] = updated_at
     ret["revision"] = revision

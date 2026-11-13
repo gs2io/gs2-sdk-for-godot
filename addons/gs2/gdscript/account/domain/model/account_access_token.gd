@@ -26,6 +26,7 @@ var body: Variant = null
 var signature: Variant = null
 var token: Variant = null
 var expire: Variant = null
+var password: Variant = null
 var authorization_url: Variant = null
 var next_page_token: Variant = null
 
@@ -58,6 +59,33 @@ func request_deletion(
         return async_result
     var result = async_result.result
     var domain = self
+    return Gs2AsyncResult.new(domain, null)
+
+
+func issue_take_over_code(
+    request: Gs2AccountIssueTakeOverCodeRequest
+) -> Gs2AsyncResult:
+    request = request.with_context_stack(_gs2.default_context_stack if request.context_stack == null or request.context_stack == "" else request.context_stack)
+    request = request.with_namespace_name(namespace_name)
+    request = request.with_access_token(null if access_token == null else access_token.token)
+    var async_result = await Gs2AccountIssueTakeOverCodeMethodCache.invoke(
+        _gs2.cache,
+        user_id,
+        (null if access_token == null else access_token.time_offset),
+        request,
+        func(): return await _client.issue_take_over_code(request)
+    )
+    if async_result.error != null:
+        return async_result
+    var result = async_result.result
+    var ref = null if result == null else result.item
+    var domain = Gs2AccountTakeOverAccessTokenDomain.new(
+        _gs2,
+        namespace_name,
+        access_token,
+        (null if ref == null else ref.type)
+    )
+    domain.password = null if result == null else result.password
     return Gs2AsyncResult.new(domain, null)
 
 

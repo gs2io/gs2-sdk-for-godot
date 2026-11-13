@@ -18,7 +18,9 @@ extends RefCounted
 var take_over_type_model_id = null
 var type = null
 var metadata = null
+var take_over_method = null
 var open_id_connect_setting = null
+var issued_code_setting = null
 
 
 func with_take_over_type_model_id(v) -> Gs2AccountTakeOverTypeModel:
@@ -36,8 +38,18 @@ func with_metadata(v) -> Gs2AccountTakeOverTypeModel:
     return self
 
 
+func with_take_over_method(v) -> Gs2AccountTakeOverTypeModel:
+    take_over_method = v
+    return self
+
+
 func with_open_id_connect_setting(v) -> Gs2AccountTakeOverTypeModel:
     open_id_connect_setting = v
+    return self
+
+
+func with_issued_code_setting(v) -> Gs2AccountTakeOverTypeModel:
+    issued_code_setting = v
     return self
 
 
@@ -92,7 +104,9 @@ static func from_dict(data) -> Gs2AccountTakeOverTypeModel:
     ret.take_over_type_model_id = null if data.get("takeOverTypeModelId") == null else str(data.get("takeOverTypeModelId"))
     ret.type = null if data.get("type") == null else int(data.get("type"))
     ret.metadata = null if data.get("metadata") == null else str(data.get("metadata"))
+    ret.take_over_method = null if data.get("takeOverMethod") == null else str(data.get("takeOverMethod"))
     ret.open_id_connect_setting = null if data.get("openIdConnectSetting") == null else Gs2AccountOpenIdConnectSetting.from_dict(data.get("openIdConnectSetting"))
+    ret.issued_code_setting = null if data.get("issuedCodeSetting") == null else Gs2AccountIssuedCodeSetting.from_dict(data.get("issuedCodeSetting"))
     return ret
 
 
@@ -101,5 +115,7 @@ func to_dict() -> Dictionary:
     ret["takeOverTypeModelId"] = take_over_type_model_id
     ret["type"] = type
     ret["metadata"] = metadata
+    ret["takeOverMethod"] = take_over_method
     ret["openIdConnectSetting"] = null if open_id_connect_setting == null else open_id_connect_setting.to_dict()
+    ret["issuedCodeSetting"] = null if issued_code_setting == null else issued_code_setting.to_dict()
     return ret

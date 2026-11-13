@@ -19,7 +19,9 @@ var namespace_name = null
 var type = null
 var description = null
 var metadata = null
+var take_over_method = null
 var open_id_connect_setting = null
+var issued_code_setting = null
 
 
 func with_namespace_name(v) -> Gs2AccountCreateTakeOverTypeModelMasterRequest:
@@ -42,8 +44,18 @@ func with_metadata(v) -> Gs2AccountCreateTakeOverTypeModelMasterRequest:
     return self
 
 
+func with_take_over_method(v) -> Gs2AccountCreateTakeOverTypeModelMasterRequest:
+    take_over_method = v
+    return self
+
+
 func with_open_id_connect_setting(v) -> Gs2AccountCreateTakeOverTypeModelMasterRequest:
     open_id_connect_setting = v
+    return self
+
+
+func with_issued_code_setting(v) -> Gs2AccountCreateTakeOverTypeModelMasterRequest:
+    issued_code_setting = v
     return self
 
 
@@ -55,7 +67,9 @@ static func from_dict(data) -> Gs2AccountCreateTakeOverTypeModelMasterRequest:
     ret.type = null if data.get("type") == null else int(data.get("type"))
     ret.description = null if data.get("description") == null else str(data.get("description"))
     ret.metadata = null if data.get("metadata") == null else str(data.get("metadata"))
+    ret.take_over_method = null if data.get("takeOverMethod") == null else str(data.get("takeOverMethod"))
     ret.open_id_connect_setting = null if data.get("openIdConnectSetting") == null else Gs2AccountOpenIdConnectSetting.from_dict(data.get("openIdConnectSetting"))
+    ret.issued_code_setting = null if data.get("issuedCodeSetting") == null else Gs2AccountIssuedCodeSetting.from_dict(data.get("issuedCodeSetting"))
     return ret
 
 
@@ -65,5 +79,7 @@ func to_dict() -> Dictionary:
     ret["type"] = type
     ret["description"] = description
     ret["metadata"] = metadata
+    ret["takeOverMethod"] = take_over_method
     ret["openIdConnectSetting"] = null if open_id_connect_setting == null else open_id_connect_setting.to_dict()
+    ret["issuedCodeSetting"] = null if issued_code_setting == null else issued_code_setting.to_dict()
     return ret

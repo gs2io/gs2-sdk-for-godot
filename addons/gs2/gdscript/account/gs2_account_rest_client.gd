@@ -795,6 +795,47 @@ func create_take_over_by_user_id(request: Gs2AccountCreateTakeOverByUserIdReques
     return Gs2AsyncResult.new(Gs2AccountCreateTakeOverByUserIdResult.from_dict(response.body), null)
 
 
+func issue_take_over_code(request: Gs2AccountIssueTakeOverCodeRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/me/takeover/type/{type}/issue"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{type}", "null" if (request.type == null or str(request.type) == "") else str(request.type))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.access_token != null:
+        headers["X-GS2-ACCESS-TOKEN"] = request.access_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountIssueTakeOverCodeResult.from_dict(response.body), null)
+
+
+func issue_take_over_code_by_user_id(request: Gs2AccountIssueTakeOverCodeByUserIdRequest) -> Gs2AsyncResult:
+    var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/{userId}/takeover/type/{type}/issue"
+    url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
+    url = url.replace("{userId}", "null" if (request.user_id == null or str(request.user_id) == "") else str(request.user_id))
+    url = url.replace("{type}", "null" if (request.type == null or str(request.type) == "") else str(request.type))
+    var headers = create_authorized_headers()
+    var body = {}
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.request_id != null:
+        headers["X-GS2-REQUEST-ID"] = request.request_id
+    if request.time_offset_token != null:
+        headers["X-GS2-TIME-OFFSET-TOKEN"] = request.time_offset_token
+    if request.dry_run:
+        headers["X-GS2-DRY-RUN"] = "true"
+    var response = await session.send("POST", url, headers, {}, body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountIssueTakeOverCodeByUserIdResult.from_dict(response.body), null)
+
+
 func create_take_over_open_id_connect(request: Gs2AccountCreateTakeOverOpenIdConnectRequest) -> Gs2AsyncResult:
     var url = Gs2Constant.ENDPOINT_HOST.replace("{service}", "account").replace("{region}", session.region) + "/{namespaceName}/account/me/takeover/openIdConnect"
     url = url.replace("{namespaceName}", "null" if (request.namespace_name == null or str(request.namespace_name) == "") else str(request.namespace_name))
@@ -1453,8 +1494,12 @@ func create_take_over_type_model_master(request: Gs2AccountCreateTakeOverTypeMod
         body["description"] = request.description
     if request.metadata != null:
         body["metadata"] = request.metadata
+    if request.take_over_method != null:
+        body["takeOverMethod"] = request.take_over_method
     if request.open_id_connect_setting != null:
         body["openIdConnectSetting"] = request.open_id_connect_setting.to_dict()
+    if request.issued_code_setting != null:
+        body["issuedCodeSetting"] = request.issued_code_setting.to_dict()
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.dry_run:
@@ -1495,8 +1540,12 @@ func update_take_over_type_model_master(request: Gs2AccountUpdateTakeOverTypeMod
         body["description"] = request.description
     if request.metadata != null:
         body["metadata"] = request.metadata
+    if request.take_over_method != null:
+        body["takeOverMethod"] = request.take_over_method
     if request.open_id_connect_setting != null:
         body["openIdConnectSetting"] = request.open_id_connect_setting.to_dict()
+    if request.issued_code_setting != null:
+        body["issuedCodeSetting"] = request.issued_code_setting.to_dict()
     if request.request_id != null:
         headers["X-GS2-REQUEST-ID"] = request.request_id
     if request.dry_run:

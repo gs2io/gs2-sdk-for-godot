@@ -20,6 +20,7 @@ var namespace_name: Variant = null
 var user_id: Variant = null
 var type: Variant = null
 var user_identifier: Variant = null
+var password: Variant = null
 var authorization_url: Variant = null
 var payload: Variant = null
 

@@ -21,6 +21,8 @@ var type = null
 var user_identifier = null
 var password = null
 var created_at = null
+var expires_at = null
+var failed_attempts = null
 var revision = null
 
 
@@ -51,6 +53,16 @@ func with_password(v) -> Gs2AccountTakeOver:
 
 func with_created_at(v) -> Gs2AccountTakeOver:
     created_at = v
+    return self
+
+
+func with_expires_at(v) -> Gs2AccountTakeOver:
+    expires_at = v
+    return self
+
+
+func with_failed_attempts(v) -> Gs2AccountTakeOver:
+    failed_attempts = v
     return self
 
 
@@ -124,6 +136,8 @@ static func from_dict(data) -> Gs2AccountTakeOver:
     ret.user_identifier = null if data.get("userIdentifier") == null else str(data.get("userIdentifier"))
     ret.password = null if data.get("password") == null else str(data.get("password"))
     ret.created_at = null if data.get("createdAt") == null else int(data.get("createdAt"))
+    ret.expires_at = null if data.get("expiresAt") == null else int(data.get("expiresAt"))
+    ret.failed_attempts = null if data.get("failedAttempts") == null else int(data.get("failedAttempts"))
     ret.revision = null if data.get("revision") == null else int(data.get("revision"))
     return ret
 
@@ -136,5 +150,7 @@ func to_dict() -> Dictionary:
     ret["userIdentifier"] = user_identifier
     ret["password"] = password
     ret["createdAt"] = created_at
+    ret["expiresAt"] = expires_at
+    ret["failedAttempts"] = failed_attempts
     ret["revision"] = revision
     return ret

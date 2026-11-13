@@ -453,6 +453,46 @@ func create_take_over_by_user_id(request: Gs2AccountCreateTakeOverByUserIdReques
     return Gs2AsyncResult.new(Gs2AccountCreateTakeOverByUserIdResult.from_dict(response.body), null)
 
 
+func issue_take_over_code(request: Gs2AccountIssueTakeOverCodeRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.access_token != null:
+        body["accessToken"] = request.access_token
+    if request.type != null:
+        body["type"] = request.type
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.access_token != null:
+        body["xGs2AccessToken"] = request.access_token
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "takeOver", "issueTakeOverCode", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountIssueTakeOverCodeResult.from_dict(response.body), null)
+
+
+func issue_take_over_code_by_user_id(request: Gs2AccountIssueTakeOverCodeByUserIdRequest) -> Gs2AsyncResult:
+    var body = {}
+    if request.namespace_name != null:
+        body["namespaceName"] = request.namespace_name
+    if request.user_id != null:
+        body["userId"] = request.user_id
+    if request.type != null:
+        body["type"] = request.type
+    if request.time_offset_token != null:
+        body["timeOffsetToken"] = request.time_offset_token
+    if request.context_stack != null:
+        body["contextStack"] = request.context_stack
+    if request.dry_run:
+        body["xGs2DryRun"] = "true"
+    var response = await session.send("account", "takeOver", "issueTakeOverCodeByUserId", body)
+    if response.error != null:
+        return Gs2AsyncResult.new(null, response.error)
+    return Gs2AsyncResult.new(Gs2AccountIssueTakeOverCodeByUserIdResult.from_dict(response.body), null)
+
+
 func create_take_over_open_id_connect(request: Gs2AccountCreateTakeOverOpenIdConnectRequest) -> Gs2AsyncResult:
     var body = {}
     if request.namespace_name != null:

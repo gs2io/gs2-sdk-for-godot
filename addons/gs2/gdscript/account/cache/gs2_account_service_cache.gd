@@ -358,6 +358,24 @@ static func put_cache(
             Gs2AccountCreateTakeOverByUserIdRequest.from_dict(_parse(request_payload))
         )
         return
+    if method == "issueTakeOverCode":
+        Gs2AccountIssueTakeOverCodeMethodCache.put_cache(
+            Gs2AccountIssueTakeOverCodeResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountIssueTakeOverCodeRequest.from_dict(_parse(request_payload))
+        )
+        return
+    if method == "issueTakeOverCodeByUserId":
+        Gs2AccountIssueTakeOverCodeByUserIdMethodCache.put_cache(
+            Gs2AccountIssueTakeOverCodeByUserIdResult.from_dict(_parse(result_payload)),
+            cache,
+            user_id,
+            null,
+            Gs2AccountIssueTakeOverCodeByUserIdRequest.from_dict(_parse(request_payload))
+        )
+        return
     if method == "createTakeOverOpenIdConnect":
         Gs2AccountCreateTakeOverOpenIdConnectMethodCache.put_cache(
             Gs2AccountCreateTakeOverOpenIdConnectResult.from_dict(_parse(result_payload)),
